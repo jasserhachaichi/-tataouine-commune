@@ -1,0 +1,45 @@
+<script src="assets/static/js/components/dark.js"></script>
+<script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+
+<script src="assets/compiled/js/app.js"></script>
+
+
+<script src="assets/extensions/jquery/jquery.min.js"></script>
+
+<script src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+<script>
+    // Function to create and show the alert
+    function showAlert(message, Hclass, iconclass) {
+
+        // Create the alert element
+        var alertDiv = document.createElement('div');
+        alertDiv.classList.add('alert', Hclass, 'alert-dismissible', 'fade', 'show');
+        alertDiv.setAttribute('role', 'alert');
+
+        // Create the icon element
+        var icon = document.createElement('i');
+        icon.classList.add('bi', iconclass);
+
+        // Create the button for closing the alert
+        var closeButton = document.createElement('button');
+        closeButton.setAttribute('type', 'button');
+        closeButton.classList.add('btn-close');
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+
+        // Append icon and button to the alert element
+        alertDiv.appendChild(icon);
+        alertDiv.appendChild(document.createTextNode(' ' + message));
+        alertDiv.appendChild(closeButton);
+
+
+        // Clear any previous alert messages
+        $('#allalerts').empty();
+
+        // Append the alert element to the container div
+        document.getElementById('allalerts').appendChild(alertDiv);
+    }
+
+</script>

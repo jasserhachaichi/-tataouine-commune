@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./commun/head') %>
+
+
+<!-- 	<style>
+		#galleryIMG .gallery {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			grid-auto-rows: auto;
+			grid-auto-flow: dense;
+			gap: 6px;
+		}
+
+		#galleryIMG img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		#galleryIMG img.four-grid-cells {
+			grid-row: span 2 / auto;
+			grid-column: span 2 / auto;
+		}
+
+		#galleryIMG img.wide-image {
+			grid-column: span 2 / auto;
+		}
+	</style>
+ -->
+
+<body class="overflow-x-hidden">
+  <%- include('./partials/navbar') %>
+  <section class="section-3 bg-dark">
+    jjjj
+  </section>
+  <!-- 		<section >
+			<div class="container">
+				<div class="pictures">
+					<img class="picture" src="./images/exemple/1.jpg" />
+					<img class="picture" src="./images/exemple/2.jpg" />
+					<img class="picture" src="./images/exemple/3.jpg" />
+					<img class="picture" src="./images/exemple/4.jpeg" />
+					<img class="picture" src="./images/exemple/5.jpg" />
+					<img class="picture" src="./images/exemple/6.jpeg" />
+					<img class="picture" src="./images/exemple/7.jpg" />
+					<img class="picture" src="./images/exemple/8.jpg" />
+					<img class="picture" src="./images/exemple/9.jpg" />
+					<img class="picture" src="./images/exemple/10.jpg" />
+					<img class="picture" src="./images/exemple/11.jpg" />
+					<img class="picture" src="./images/exemple/12.jpg" />
+					<img class="picture" src="./images/exemple/13.jpeg" />
+					<img class="picture" src="./images/exemple/16.jpg" />
+					<img class="picture" src="./images/exemple/17.jpeg" />
+					<img class="picture" src="./images/exemple/18.jpg" />
+					<img class="picture" src="./images/exemple/19.jpg" />
+					<img class="picture" src="./images/exemple/20.jpg" />
+					<img class="picture" src="./images/exemple/21.jpg" />
+					<img class="picture" src="./images/exemple/33.jpg" />
+					<img class="picture" src="./images/exemple/22.jpg" />
+					<img class="picture" src="./images/exemple/23.jpg" />
+					<img class="picture" src="./images/exemple/24.jpg" />
+					<img class="picture" src="./images/exemple/25.jpg" />
+					<img class="picture" src="./images/exemple/26.jpg" />
+					<img class="picture" src="./images/exemple/27.jpg" />
+					<img class="picture" src="./images/exemple/29.jpeg" />
+					<img class="picture" src="./images/exemple/30.jpg" />
+					<img class="picture" src="./images/exemple/31.jpg" />
+					<img class="picture" src="./images/exemple/32.jpg" />
+					<img class="picture" src="./images/exemple/33.jpg" />
+				</div>
+			
+				
+			</div>
+		</section> -->
+  <section>
+    <div class="container">
+
+		<div id="lightgallery" class="pictures">
+			<% images.forEach(image => { %>
+			  <a href="<%= image.path.replace('attachments\\', '') %>">
+				<img class="picture" src="<%= image.path.replace('attachments\\', '') %>" loading="lazy"/>
+			  </a>
+			<% }); %>
+		  </div>
+
+			<% if (images.length === 20) { %>
+				<a  class="btn btn-primary" href="/galleryimages?skip=<%= skip %>">Show More</a>
+			  <% } %>
+
+		  
+    </div>
+  </section>
+
+  <!-- <section>
+	<div class="container">
+		<div id="galleryIMG">
+			<div class="gallery">
+
+				<img class="four-grid-cells"
+					src="https://images/exemple.pexels.com/photos/3408744/pexels-photo-3408744.jpeg"
+					alt="Northern Winter Sky Image" />
+
+				<img src="https://images/exemple.pexels.com/photos/1142950/pexels-photo-1142950.jpeg"
+					alt="Shining Stars Image" />
+
+				<img class="wide-image" src="https://images/exemple.pexels.com/photos/3933881/pexels-photo-3933881.jpeg"
+					alt="A River Flowing Image" />
+
+				<img src="https://images/exemple.pexels.com/photos/5409751/pexels-photo-5409751.jpeg"
+					alt="A cloudy Mountain Image" />
+
+				<img src="https://images/exemple.pexels.com/photos/4101555/pexels-photo-4101555.jpeg"
+					alt="A Winter Rainbow Image" />
+
+				<img class="wide-image" src="https://images/exemple.pexels.com/photos/443446/pexels-photo-443446.jpeg"
+					alt="A Clean Mountain Lake" />
+
+				<img src="https://images/exemple.pexels.com/photos/1142950/pexels-photo-1142950.jpeg"
+					alt="Shining Stars Image" />
+
+			</div>
+		</div>
+	</div>
+</section> -->
+
+  <!-- 			<script>
+				const images = document.querySelectorAll('#galleryIMG img');
+
+				images.forEach(image => {
+					const dimensions = `Dimensions: ${image.naturalWidth}px x ${image.naturalHeight}px`;
+					const className = `Class Name: ${image.className}`;
+					console.log(dimensions);
+					console.log(className);
+				});
+			</script> -->
+
+
+
+
+
+  <%- include('./commun/footer') %>
+  <!-- lightgallery -->
+  <!-- 			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+				  var imagPopList = document.getElementsByClassName("col");
+				  for (var i = 0; i < imagPopList.length; i++) {
+					lightGallery(imagPopList[i]);
+				  }
+				});
+				
+			  </script> -->
+
+
+  <script src="plugin/jquery-tjgallery.min.js"></script>
+  <script>
+    // waiting for loading page
+    $(window).on('load', function() {
+      $('.pictures').tjGallery();
+    })
+  </script>
+  <script type="text/javascript">
+    lightGallery(document.getElementById('lightgallery'));
+  </script>
+  
+
+</body>
+
+</html>

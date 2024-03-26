@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./commun/head') %>
+<style>
+  #gallery .play-icon-container {
+    background-color: white;
+    color: red;
+    border-radius: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  #gallery .play-icon-container i {
+    font-size: 5rem;
+
+  }
+
+  #gallery .play-icon-container:hover {
+    background-color: red;
+    color: white;
+
+  }
+
+  #gallery .card-body {
+    cursor: pointer;
+  }
+
+  #gallery .card-body:hover {
+    background-color: rgb(235, 235, 235);
+  }
+
+  #gallery .card-title {
+    min-height: 2.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  #gallery .card-title {
+    min-height: 2.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  #gallery .card-text {
+
+    min-height: 4.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* number of lines to show */
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+</style>
+
+<body>
+  <%- include('./partials/navbar') %>
+  <section class="section-3 bg-dark">
+    jjjj
+  </section>
+
+
+
+
+
+  <section>
+
+    <!-- 				<div class="container">
+					<div class="row">
+						<div class="col-lg-4 col-md-6">
+							<div class="card shadow-costum p-3 mb-5 bg-body rounded">
+								<video src="https://www.youtube.com/watch?v=LN82-W61ez0"
+									data-src="https://www.youtube.com/watch?v=LN82-W61ez0"
+									class="bs-card-video rounded"></video>
+								<div class="card-body">
+									<h5 class="card-title">Bootstrap video card autoplay loop</h5>
+									<p class="card-text">
+										Some quick example text to build on the card title and make up
+										the bulk of the card’s content.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-6">
+							<div class="card shadow-costum p-3 mb-5 bg-body rounded">
+								<video src="https://www.youtube.com/watch?v=ipeIvjsAzQ0"
+									data-src="https://www.youtube.com/watch?v=ipeIvjsAzQ0"
+									class="bs-card-video rounded"></video>
+								<div class="card-body">
+									<h5 class="card-title">Bootstrap video card autoplay loop</h5>
+									<p class="card-text">
+										Some quick example text to build on the card title and make up
+										the bulk of the card’s content.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-6">
+							<div class="card shadow-costum p-3 mb-5 bg-body rounded">
+								<video src="https://cdn-0.codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4"
+									data-src="https://cdn-0.codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4"
+									class="bs-card-video rounded"></video>
+								<div class="card-body">
+									<h5 class="card-title">Bootstrap video card autoplay loop</h5>
+									<p class="card-text">
+										Some quick example text to build on the card title and make up
+										the bulk of the card’s content.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6">
+							<div class="card shadow-costum p-3 mb-5 bg-body rounded">
+								<video src="https://www.youtube.com/watch?v=yrXcs4jFLz4"
+									data-src="https://www.youtube.com/watch?v=yrXcs4jFLz4"
+									class="bs-card-video rounded"></video>
+								<div class="card-body">
+									<h5 class="card-title">Bootstrap video card autoplay loop</h5>
+									<p class="card-text">
+										Some quick example text to build on the card title and make up
+										the bulk of the card’s content.
+									</p>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					</div>
+				</div>
+ -->
+
+    <form action="/galleryvideos" method="GET" class="container mb-5">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="input-group">
+            <input class="form-control border-end-0 border" name="search" type="search" placeholder="Search..." id="search-input">
+            <span class="input-group-append">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="container">
+      <div id="gallery" class="row">
+        <% videos.forEach(video => { %>
+        <div class="col-lg-4 col-md-6">
+          <div class="card shadow-costum p-3 mb-5 bg-body rounded">
+            <a href="<%= video.url %>" class="mfp-iframe position-relative">
+              <img class="card-img-top rounded" src="<%= video.thumbnail %>">
+              <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
+                <i class="fa-solid fa-circle-play"></i>
+              </div>
+            </a>
+            <div class="card-body rounded">
+              <h5 class="card-title"><%= video.title %></h5>
+              <p class="card-text"><%= video.description %></p>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="row">
+        <!-- Pagination Links -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-primary  justify-content-center">
+            <% if (currentPage > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+            </li>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+            </li>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
+      </div>
+  </section>
+  <!-- Modal -->
+  <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cardModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="cardCaption"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <%- include('./commun/footer') %>
+  <script>
+    /* 					// Initialize Magnific Popup
+										$('.popup-video').magnificPopup({
+											type: 'iframe',
+											iframe: {
+												patterns: {
+													youtube: {
+														index: 'youtube.com/',
+														src: 'https://www.youtube.com/embed/%id%?autoplay=1'
+													}
+												}
+											}
+										});
+					
+										// Add click event listener to each card
+										$('.card').on('click', function () {
+											var videoSrc = $(this).find('video').attr('data-src');
+											$.magnificPopup.open({
+												items: {
+													src: videoSrc
+												},
+												type: 'iframe'
+											});
+										});
+					 */
+
+    $('#gallery').each(function() { // the containers for all your galleries
+      $(this).magnificPopup({
+        delegate: 'a', // the selector for gallery item
+        type: 'image',
+        gallery: {
+          enabled: true
+        }
+
+      });
+
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const cardBodies = document.querySelectorAll('.card-body');
+
+      cardBodies.forEach(function(cardBody) {
+        cardBody.addEventListener('click', function() {
+          const cardTitle = cardBody.querySelector('.card-title').textContent;
+          const cardText = cardBody.querySelector('.card-text').textContent;
+
+          const modalTitle = document.querySelector('#cardModalLabel');
+          const modalCaption = document.querySelector('#cardCaption');
+
+          modalTitle.textContent = cardTitle;
+          modalCaption.textContent = cardText;
+
+          const modal = new bootstrap.Modal(document.getElementById('cardModal'), {
+            keyboard: false
+          });
+          modal.show();
+        });
+      });
+    });
+  </script>
+
+
+
+
+
+</body>
+
+</html>

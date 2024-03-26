@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+<style>
+  #allvids .elm  .play-icon-container {
+    color: red;
+    border-radius: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+  }
+  #allvids .elm  .play-icon-container .bi {
+    font-size: 5rem;
+    width: 100%;
+    height: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  #allvids .elm  .play-icon-container .bi:hover {
+    color: white;
+  }
+
+  #allvids .elm  .card-body{
+    cursor: pointer;
+  }
+  #allvids .elm  .card-body:hover{
+    background-color: rgb(235, 235, 235);
+  }
+
+  #allvids .elm  .card-text {
+    
+    min-height: 4.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* number of lines to show */
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+</style>
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Add Video</h3>
+              <p class="text-subtitle text-muted">The default layout.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Layout Default
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+          <div class="card">
+            <div class="card-body">
+              <div class="container">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="youtube-tab" data-bs-toggle="tab" href="#youtube-form">YouTube</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="local-tab" data-bs-toggle="tab" href="#local-form">Local</a>
+                  </li>
+                </ul>
+                <div class="tab-content mt-3">
+                  <div class="tab-pane fade show active" id="youtube-form">
+                    <form class="form formy" action="/youtube">
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="title-column">Title</label>
+                            <input type="text" id="title-column" class="form-control" placeholder="Video Title" name="title-column">
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group has-icon-left">
+                            <label for="url-column">URL</label>
+                            <div class="position-relative">
+                              <input type="text" class="form-control" placeholder="URL Youtube here" id="url-column" name="url-column">
+                              <div class="form-control-icon">
+                                <i class="bi bi-link-45deg"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="form-group">
+                            <label for="description-column" class="form-label">Description</label>
+                            <textarea class="form-control" id="description-column" name="description-column" rows="3" placeholder="Description of video..."></textarea>
+                          </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                          <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                          <button id="reset-button" type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="tab-pane fade" id="local-form">
+                    <form class="form forml" action="/addvideo/local" enctype="multipart/form-data" method="POST">
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="title-column" class="form-label">Title</label>
+                            <input type="text" id="title-column" class="form-control" placeholder="Video Title" name="title-column">
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="video-column" class="form-label">Local video location</label>
+                            <input class="form-control" type="file" id="video-column" name="video-column" accept="video/*">
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="thumbnail-column" class="form-label">Thumbnail</label>
+                            <input class="form-control" type="file" id="thumbnail-column" name="thumbnail-column" accept="image/*">
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-md-12 col-12">
+                          <div class="form-group">
+                            <label for="description-column" class="form-label">Description</label>
+                            <textarea class="form-control" id="description-column" name="description-column" rows="3" placeholder="Description of video..."></textarea>
+                          </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                          <button type="submit" class="btn btn-primary me-1 mb-1" id="submit-button">Submit</button>
+                          <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                        </div>
+                      </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script>
+    document.getElementById('youtube-tab').addEventListener('click', function() {
+      document.getElementById('local-tab').classList.remove('active');
+      document.getElementById('youtube-tab').classList.add('active');
+    });
+
+    document.getElementById('local-tab').addEventListener('click', function() {
+      document.getElementById('youtube-tab').classList.remove('active');
+      document.getElementById('local-tab').classList.add('active');
+    });
+  </script>
+
+  <script>
+    // client-side JavaScript
+    document.querySelector('.formy').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      // Disable the submit button and show loading text
+      $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
+      const formData = new FormData(this);
+      const requestData = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/addvideo/youtube', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          $('.formy').trigger('reset');
+          Toastify({
+            text: data.message,
+            duration: 3000,
+            close: true,
+            gravity: "bottom",
+            position: "right",
+            backgroundColor: "#198754",
+          }).showToast()
+        } else {
+          const errorData = await response.json();
+          errorData.errors.forEach(error => {
+            //console.error(`${error.msg} for ${error.path}`); 
+            Toastify({
+              text: error.msg,
+              duration: 5000,
+              close: true,
+              gravity: "bottom",
+              position: "right",
+              backgroundColor: "#dc3545",
+            }).showToast() // Log each error separately
+          });
+        }
+      } catch (error) {
+        Toastify({
+          text: error,
+          duration: 5000,
+          close: true,
+          gravity: "bottom",
+          position: "right",
+          backgroundColor: "#dc3545",
+        }).showToast()
+        console.error('An error occurred:', error);
+      }
+
+      $('#submit-button').prop('disabled', false).html('Submit');
+    });
+
+    // JavaScript to handle form submission via AJAX
+    document.querySelector('.forml').addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Create FormData object to store form data including files
+      var formData = new FormData(this);
+
+      // Send AJAX request
+      $.ajax({
+        url: '/addvideo/local',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          // Handle success response
+          $('.forml').trigger('reset');
+          Toastify({
+            text: response.message,
+            duration: 3000,
+            close: true,
+            gravity: "bottom",
+            position: "right",
+            backgroundColor: "#198754",
+          }).showToast()
+        },
+        error: function(xhr, status, error) {
+          // Handle error
+          if (xhr.status === 400) {
+            // Specific error returned by the server (validation errors)
+            var errors = xhr.responseJSON.errors;
+            console.log("Validation errors:");
+            errors.forEach(function(error) {
+              Toastify({
+                text: error,
+                duration: 5000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#dc3545",
+              }).showToast()
+            });
+          } else {
+            // If server returns generic error
+            // console.error("Server error:", xhr.status, error);
+            Toastify({
+              text: error,
+              duration: 5000,
+              close: true,
+              gravity: "bottom",
+              position: "right",
+              backgroundColor: "#dc3545",
+            }).showToast()
+          }
+        }
+      });
+
+
+
+    });
+  </script>
+
+
+
+</body>
+
+</html>

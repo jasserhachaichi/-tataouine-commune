@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+      <div class="page-title">
+        <div class="row">
+          <div class="col-12 col-md-6 order-md-1 order-last">
+            <h3>Add company</h3>
+            <p class="text-subtitle text-muted">Multiple form layouts, you can use.</p>
+          </div>
+          <div class="col-12 col-md-6 order-md-2 order-first">
+            <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Form Layout</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <section>
+        <div class="col-md-6 col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Horizontal Form with Icons</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <form class="form form-horizontal" id="companyInfoForm" action="/addcompany" method="POST">
+                  <div class="form-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label for="name">Name</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Name" id="name" name="name">
+                            <div class="form-control-icon">
+                              <i class="bi bi-person"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="email">Email</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+                            <div class="form-control-icon">
+                              <i class="bi bi-envelope"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="mobile">Mobile</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="number" class="form-control" placeholder="Mobile" id="mobile" name="mobile">
+                            <div class="form-control-icon">
+                              <i class="bi bi-phone"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label for="Ttd">Link text to display</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Text to display" id="Ttd" name="Ttd">
+                            <div class="form-control-icon">
+                              <i class="bi bi-fonts"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="linkc">Website link</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Website link" id="linkc" name="linkc">
+                            <div class="form-control-icon">
+                              <i class="bi bi-link-45deg"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="location">Location</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Location" id="location" name="location">
+                            <div class="form-control-icon">
+                              <i class="bi bi-geo-alt"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label for="domain">Domain</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group has-icon-left">
+                          <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Domain" id="domain" name="domain">
+                            <div class="form-control-icon">
+                              <i class="bi bi-briefcase"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-1 mb-1" id="submit-button">Submit</button>
+                        <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+
+  <script>
+    document.getElementById('companyInfoForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      // Disable the submit button and show loading text
+      $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+  
+      const formData = new FormData(this);
+      const requestData = Object.fromEntries(formData.entries());
+  
+      try {
+        const response = await fetch('/addcompany', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          //$('.formy').trigger('reset');
+          Toastify({
+            text: data.message,
+            duration: 3000,
+            close: true,
+            gravity: "bottom",
+            position: "right",
+            backgroundColor: "#198754",
+          }).showToast();
+        } else {
+          const errorData = await response.json();
+          errorData.errors.forEach(error => {
+            Toastify({
+              text: error.msg,
+              duration: 5000,
+              close: true,
+              gravity: "bottom",
+              position: "right",
+              backgroundColor: "#dc3545",
+            }).showToast(); // Log each error separately
+          });
+        }
+      } catch (error) {
+        Toastify({
+          text: error,
+          duration: 5000,
+          close: true,
+          gravity: "bottom",
+          position: "right",
+          backgroundColor: "#dc3545",
+        }).showToast();
+        console.error('An error occurred:', error);
+      }
+  
+      $('#submit-button').prop('disabled', false).html('Submit');
+    });
+  </script>
+  
+
+
+
+
+</body>
+
+</html>

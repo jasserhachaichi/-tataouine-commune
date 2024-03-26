@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Email Details</h3>
+              <p class="text-subtitle text-muted">The default layout.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Layout Default
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h1 class="card-title"><code><strong>SUBJECT: </strong></code><%= email.subject %></h1>
+                </div>
+                <div class="card-body">
+                  <div class="divider">
+                    <div class="divider-text">Email informations</div>
+                  </div>
+
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-12">
+                        <h5><code><strong>Full Name: </strong></code><%= email.fullname %></h5>
+                      </div>
+                      <div class="col-6">
+                        <h5><code><strong>Email: </strong></code><%= email.email %></h5>
+                      </div>
+                      <div class="col-6">
+                        <h5><code><strong>Phone Number: </strong></code><%= email.country %> <%= email.tel %></h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="divider">
+                    <div class="divider-text">Email Message</div>
+                  </div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-12 p-4" style="background-color: white;color:black">
+                        <%= email.message %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="divider">
+                    <div class="divider-text">Attachments</div>
+                  </div>
+                  <div class="container">
+                    <div class="row">
+
+                        <% email.attachments.forEach(attachment => { %>
+                          <div class="col-4">
+                            <a href="<%- attachment.path.replace('Attachments\\', '') %> " download="<%= attachment.filename %>">
+                              <div class="row">
+                                <div class="col-1 fs-5 ">
+                                  <% if (attachment.filename.endsWith('.eps')) { %>
+                                    <i class="bi bi-bezier"></i> 
+                                  <% } else if (attachment.filename.endsWith('.jpg') || attachment.filename.endsWith('.jpeg') || attachment.filename.endsWith('.png')) { %>
+                                    <i class="bi bi-card-image"></i>
+                                  <% } else if (attachment.filename.endsWith('.pptx')) { %>
+                                    <i class="bi bi-filetype-pptx"></i> 
+                                  <% } else if (attachment.filename.endsWith('.svg')) { %>
+                                    <i class="bi bi-filetype-svg"></i>
+                                  <% } else if (attachment.filename.endsWith('.docx') || attachment.filename.endsWith('.doc')) { %>
+                                    <i class="bi bi-file-earmark-word"></i>
+                                  <% } else { %>
+                                    <i class="bi bi-file-earmark"></i>
+                                  <% } %>
+                                </div>
+                                <div class="col-11">
+                                  <p><%= attachment.filename %></p>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        <% }); %>
+                    </div>
+                  </div>
+
+
+
+
+
+                  <!-- Pagination Links -->
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+
+
+
+</body>
+
+</html>

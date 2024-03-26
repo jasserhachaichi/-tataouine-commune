@@ -1,0 +1,37 @@
+:root {
+  --color-white: rgb(255, 255, 255);
+  --primary-color-1: #bc2026;
+  --primary-color-2: #246834;
+
+
+
+
+  /* --second-color-1: #f99b86; */
+  --second-color-1 :#439bbb;
+  --third-color-1 : #2e7d99;
+  --fourth-color-1 : #278db3;
+  
+
+  --primary-color-2-with-opacity-1:rgb(218, 107, 82,0.5);
+}
+
+.primary-color-1{
+  color: var(--primary-color-1) !important;
+}
+.primary-color-2{
+  color: var(--primary-color-2) !important;
+}
+.color-white{
+  color: var(--color-white) !important;
+}
+
+.primary-background-color-1{
+  background-color: var(--primary-color-1) !important;
+}
+.primary-background-color-2{
+  background-color: var(--primary-color-2) !important;
+}
+.color-background-white{
+  background-color: var(--color-white) !important;
+}
+

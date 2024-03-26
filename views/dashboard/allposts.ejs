@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Announcement</h3>
+              <p class="text-subtitle text-muted">The default layout.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Layout Default
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">All Announcement</h4>
+                </div>
+                <div class="card-body">
+
+                  <form action="/allposts" method="GET" class="container">
+                    <div class="col-8 mx-auto">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Search..." aria-label="Search..." aria-describedby="button-addon2">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="divider"></div>
+                  <div class="container">
+                    <div class="row">
+                      <% announcements.forEach(announcement => { %>
+                        <!-- Card for each announcement -->
+                        <div class="col-md-6 col-sm-12">
+                          <div class="card">
+                            <a href="/allposts/<%= announcement._id %>" class="card-content">
+                              <!-- Display announcement details -->
+                              <img class="card-img-bottom img-fluid" src="<%= announcement.path %>" alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                              <div class="card-body">
+                                <h4 class="card-title"><%= announcement.title %></h4>
+                                <p><%= announcement.appel %></p>
+                                <p>Posted Date: <small class="text-muted"><%= announcement.createdAt.toDateString() %></small></p>
+                                <p>Expired Date: <small class="text-muted"><%= announcement.expiredDate.toDateString() %></small></p>
+                              </div>
+                              <ul class="list-group list-group-flush">
+                                <a href="/allposts/delete/<%= announcement._id %>" class="btn icon icon-left btn-danger"><i class="bi bi-trash-fill"></i>Delete</a>
+                              </ul>
+                            </a>
+                          </div>
+                        </div>
+                      <% }) %>
+                    </div>
+                  </div>
+                  <!-- Pagination Links -->
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-primary  justify-content-center">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                            </li>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+                
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>

@@ -55,16 +55,13 @@ app.get('/404', (req, res) => {
 app.get('/blog', (req, res) => {
     res.render("blogpage");
 })
-app.get('/allblogs', (req, res) => {
-    res.render("allblogs");
-})
 
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
 app.use("/companies", require("./routes/companiesroute"));
 app.use("/allannouncement", require("./routes/announcementroute"));
-
+app.use("/blogs", require("./routes/blogsroute"));
 
 
 
@@ -98,6 +95,11 @@ app.use("/login",authenticatelogin, require("./routes/loginroute"));
 
 app.use("/addpost",authenticateToken, checkUserRole, require("./routes/addpostroute"));
 app.use("/allposts",authenticateToken, checkUserRole, require("./routes/allpostsroute"));
+
+
+app.use("/addblog",authenticateToken, checkUserRole, require("./routes/addblogroute"));
+app.use("/allblogs",authenticateToken, checkUserRole, require("./routes/allblogsroute"));
+
 
 // Gestionnaire de route pour les routes non définies
 app.use((req, res, next) => {

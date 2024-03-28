@@ -65,7 +65,10 @@ section {
   margin: 0 !important;
 }
 .mt-100px {
-  margin-top: 200px !important;
+  margin-top: 100px !important;
+}
+.mt-140px {
+  margin-top: 140px !important;
 }
 .border-radius-16{
   border-radius: 16px !important;

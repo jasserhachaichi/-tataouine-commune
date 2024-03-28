@@ -112,31 +112,28 @@
   </script>
   <script src="assets/extensions/summernote/summernote-lite.min.js"></script>
   <script>
-    $('#summernote').summernote({
-      height: 450,
-      styleTags: [
-        'p',
-        {
-          title: 'Blockquote',
-          tag: 'blockquote',
-          className: 'blockquote',
-          value: 'blockquote'
-        },
-        'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-      ],
-      toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['fontname', ['fontname']],
-        ['fontsize', ['fontsize']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['view', ['fullscreen', 'codeview', 'help']],
-      ],
-    });
+$('#summernote').summernote({
+  height: 450,
+  fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
+  styleTags: [
+    'p',
+    { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' },
+    'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+  ],
+  toolbar: [
+    ['style', ['style']],
+    ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
+    ['fontname', ['fontname']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['table', ['table']],
+    ['insert', ['link', 'picture', 'video', 'hr']],
+    ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
+  ],
+});
+
   </script>
 
   <script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>

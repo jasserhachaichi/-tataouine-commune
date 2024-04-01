@@ -19,13 +19,13 @@
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
               <h3>Add Announcement</h3>
-              <p class="text-subtitle text-muted">Multiple form layouts, you can use.</p>
+              <p class="text-subtitle text-muted">Create and publish new announcements on the website or platform.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Form Layout</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Announcement</li>
                 </ol>
               </nav>
             </div>
@@ -112,27 +112,34 @@
   </script>
   <script src="assets/extensions/summernote/summernote-lite.min.js"></script>
   <script>
-$('#summernote').summernote({
-  height: 450,
-  fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
-  styleTags: [
-    'p',
-    { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' },
-    'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-  ],
-  toolbar: [
-    ['style', ['style']],
-    ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
-    ['fontname', ['fontname']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']],
-    ['table', ['table']],
-    ['insert', ['link', 'picture', 'video', 'hr']],
-    ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
-  ],
-});
+    $('#summernote').summernote({
+      height: 450,
+      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
+      styleTags: [
+        'p',
+        {
+          title: 'Blockquote',
+          tag: 'blockquote',
+          className: 'blockquote',
+          value: 'blockquote'
+        },
+        'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+      ],
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['ltr', 'rtl']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['misc', ['emoji']],
+        ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
+      ],
+    });
 
   </script>
 

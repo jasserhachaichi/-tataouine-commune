@@ -687,13 +687,13 @@ html[data-bs-theme=dark] .email-application .content-area-wrapper .form-control 
 
 html[data-bs-theme=dark] html[data-bs-theme=dark] .form-check-input {
     background-color: #151521;
-    border: 2px solid #435ebe
+    border: 2px solid #216632
 }
 
 html[data-bs-theme=dark] .email-application .content-body {
-    background-color: #435ebe
+    background-color: #216632
 }
 
 html[data-bs-theme=dark] .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action {
-    border-bottom: 1px solid #435ebe
+    border-bottom: 1px solid #216632
 }

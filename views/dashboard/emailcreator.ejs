@@ -18,13 +18,14 @@
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
               <h3>Send Email </h3>
-              <p class="text-subtitle text-muted">Super simple WYSIWYG editor. But you must include jQuery.</p>
+              <p class="text-subtitle text-muted">Sending an email for all followers.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Summernote</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Mailbox</li>
+                  <li class="breadcrumb-item active" aria-current="page">Send Email</li>
                 </ol>
               </nav>
             </div>
@@ -35,7 +36,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Default Editor</h4>
+                  <h4 class="card-title">Email Informations:</h4>
                 </div>
                 <form id="emailForm" action="emailcreator" method="POST" enctype="multipart/form-data" class="card-body">
                   <section id="basic-horizontal-layouts">
@@ -100,7 +101,7 @@
                     </div>
                   </div>
                   <div class="col-12 d-flex justify-content-end">
-                    <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Send Message</button>
+                    <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Send Email</button>
                   </div>
 
 
@@ -127,7 +128,8 @@
   <script src="assets/extensions/summernote/summernote-lite.min.js"></script>
   <script>
     $('#summernote').summernote({
-      height: 250,
+      height: 350,
+      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
       styleTags: [
         'p',
         {
@@ -140,15 +142,17 @@
       ],
       toolbar: [
         ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
+        ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
         ['fontname', ['fontname']],
         ['fontsize', ['fontsize']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
+        ['insert', ['ltr', 'rtl']],
         ['height', ['height']],
-        ['view', ['fullscreen', 'codeview', 'help']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['misc', ['emoji']],
+        ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
       ],
     });
   </script>
@@ -222,12 +226,12 @@
           processData: false,
           contentType: false,
           success: function(response) {
-            console.log(response);
+            //console.log(response);
             // Re-enable the submit button after 1 second
             setTimeout(function() {
               viderInputs();
               showMessage(response, -1, "#4fbe87");
-              $('#submit-button').prop('disabled', false).html('Submit');
+              $('#submit-button').prop('disabled', false).html('Send Email');
             }, 1000);
 
 
@@ -238,7 +242,7 @@
             console.error(error);
             showMessage(error, -1, "#dc3545");
             // Re-enable the submit button
-            $('#submit-button').prop('disabled', false).html('Submit');
+            $('#submit-button').prop('disabled', false).html('Send Email');
           }
         });
       });

@@ -2,6 +2,14 @@
 <html lang="en">
 <%- include('./commun/head') %>
 <style>
+  a {
+    text-decoration: none;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
   .wrap__article-detail-content p {
     line-height: 28px;
     color: #333;
@@ -212,6 +220,10 @@
     margin-left: 65px;
   }
 
+  .comments-area .children .comment-respond {
+    padding: 0 25px;
+  }
+
   .comments-area .comment-body {
     border-bottom: 1px solid #eee;
     margin-left: 65px;
@@ -224,15 +236,23 @@
     margin-top: 15px;
   }
 
-  .comments-area .comment-body .reply a {
+  .comments-area .comment-body .reply a,
+  #load-more-comments,
+  .load-more-reply {
     color: #fff;
     font-family: Montserrat, sans-serif;
     display: inline-block;
     padding: 5px 20px 6px;
+    cursor: pointer;
     background: #c00;
     font-size: 13px;
     position: relative;
     z-index: 1;
+  }
+
+  #load-more-comments,
+  .load-more-reply {
+    margin: 0 0 40px 0;
   }
 
   .comments-area .comment-body .reply a::before {
@@ -269,16 +289,23 @@
     width: 50px;
   }
 
-  .comments-area .comment-author .says {
-    display: none;
+  .comments-area .comment-author p {
+    font-weight: 700;
+  }
+
+  .comments-area .comment-author i {
+    margin-left: 10px;
+    color: #495057;
   }
 
   .comments-area .comment-metadata {
     text-transform: uppercase;
     font-size: 13px;
+    font-family: Montserrat, sans-serif;
+    color: #495057;
   }
 
-  .comments-area .comment-metadata a {
+  .comments-area .comment-metadata span {
     font-family: Montserrat, sans-serif;
     color: #495057;
   }
@@ -403,7 +430,8 @@
     width: 100%;
   }
 
-  .comments-area .comment-respond .form-submit input {
+  .comments-area .comment-respond .form-submit button,
+  .comments-area .comment-respond .form-submit span {
     background: #d72924;
     border: 1px solid #d72924;
     color: #fff;
@@ -651,35 +679,35 @@
                 </li>
 
                 <li class="list-inline-item">
-                  <a class="btn btn-social-o twitter shtwitter"  target="blank" >
+                  <a class="btn btn-social-o twitter shtwitter" target="blank">
                     <i class="fa-brands fa-twitter"></i>
                     <span>Twitter</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
-                  <a class="btn btn-social-o whatsapp shwhatsapp"  target="blank" >
+                  <a class="btn btn-social-o whatsapp shwhatsapp" target="blank">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
-                  <a class="btn btn-social-o telegram shtelegram"  target="blank" >
+                  <a class="btn btn-social-o telegram shtelegram" target="blank">
                     <i class="fa-brands fa-telegram"></i>
                     <span>Telegram</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
-                  <a class="btn btn-linkedin-o linkedin shlinkedin" target="blank" >
+                  <a class="btn btn-linkedin-o linkedin shlinkedin" target="blank">
                     <i class="fa-brands fa-linkedin-in"></i>
                     <span>LinkedIn</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
-                  <a class="btn btn-social-o instagram shinstagram" target="blank" >
+                  <a class="btn btn-social-o instagram shinstagram" target="blank">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span>
                   </a>
@@ -697,6 +725,17 @@
               <%- blog.details%>
             </div>
 
+            <% if (blog.attachments && blog.attachments.length > 0) { %>
+            <h2>Attachments</h2>
+            <ul>
+              <% blog.attachments.forEach(function(attachment) { %>
+              <li>
+                <i class="fa-solid fa-paperclip"></i>
+                <a href="<%= attachment.path.replace('attachments\\', '') %>"><%= attachment.filename %></a>
+              </li>
+              <% }); %>
+            </ul>
+            <% } %>
 
 
 
@@ -809,179 +848,167 @@
 
 
             <div class="col-md-10 mx-auto">
+
               <!-- Comment  -->
               <div id="comments" class="comments-area">
-                <h3 class="comments-title">2 Comments:</h3>
+                <h3 class="comments-title"><span id="TCC"><%= totalComments %></span> Comments:</h3>
 
                 <ol class="comment-list">
+                  <% mainComments.forEach(comment => { %>
                   <li class="comment">
+                    <!-- all principale_comment -->
                     <aside class="comment-body">
                       <div class="comment-meta">
-                        <div class="comment-author vcard">
+                        <div class="comment-author">
                           <img src="images/Default-profile.jpg" class="avatar" alt="image">
-                          <b class="fn">Sinmun</b>
-                          <span class="says">says:</span>
+                          <b class="fn"><%= comment.principale_comment.name %></b>
                         </div>
-
                         <div class="comment-metadata">
-                          <a href="#">
-                            <span>April 24, 2019 at 10:59 am</span>
-                          </a>
+                          <span><%= new Date(comment.principale_comment.date_comment).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %> AT <%= new Date(comment.principale_comment.date_comment).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }) %></span>
                         </div>
                       </div>
-
                       <div class="comment-content">
-                        <p>Lorem Ipsum has been the industry’s standard dummy text ever since
-                          the 1500s, when an unknown
-                          printer took a galley of type and scrambled it to make a type
-                          specimen book.</p>
+                        <p><%= comment.principale_comment.comment %></p>
                       </div>
-
                       <div class="reply">
-                        <a href="#" class="comment-reply-link">Reply</a>
+                        <a class="comment-reply-link" data-idP="<%= comment.principale_comment.idP %>">Reply</a>
                       </div>
                     </aside>
-
                     <ol class="children">
-                      <li class="comment">
+                      <% let replycount = 0; %>
+                      <!-- all  replies_comments -->
+                      <% comment.principale_comment.replies_comments.forEach(reply => { %>
+                      <%  replycount += 1; %>
+
+
+                      <li class="comment <%  if(replycount > 1){%> <%= "d-none" %> <%}%>">
                         <aside class="comment-body">
                           <div class="comment-meta">
-                            <div class="comment-author vcard">
+                            <div class="comment-author">
                               <img src="images/Default-profile.jpg" class="avatar" alt="image">
-                              <b class="fn">Sinmun</b>
-                              <span class="says">says:</span>
-                            </div>
-
-                            <div class="comment-metadata">
-                              <a href="#">
-                                <span>April 24, 2019 at 10:59 am</span>
-                              </a>
-                            </div>
-                          </div>
-
-                          <div class="comment-content">
-                            <p>Lorem Ipsum has been the industry’s standard dummy text ever
-                              since the 1500s, when an
-                              unknown printer took a galley of type and scrambled it to
-                              make a type specimen book.</p>
-                          </div>
-
-                          <div class="reply">
-                            <a href="#" class="comment-reply-link">Reply</a>
-                          </div>
-                        </aside>
-                      </li>
-                    </ol>
-                  </li>
-
-                  <li class="comment">
-                    <aside class="comment-body">
-                      <div class="comment-meta">
-                        <div class="comment-author vcard">
-                          <img src="images/Default-profile.jpg" class="avatar" alt="image">
-                          <b class="fn">Sinmun</b>
-                          <span class="says">says:</span>
-                        </div>
-
-                        <div class="comment-metadata">
-                          <a href="#">
-                            <span>April 24, 2019 at 10:59 am</span>
-                          </a>
-                        </div>
-                      </div>
-
-                      <div class="comment-content">
-                        <p>Lorem Ipsum has been the industry’s standard dummy text ever since
-                          the 1500s, when an unknown
-                          printer took a galley of type and scrambled it to make a type
-                          specimen book.</p>
-                      </div>
-
-                      <div class="reply">
-                        <a href="#" class="comment-reply-link">Reply</a>
-                      </div>
-                    </aside>
-                  </li>
-                </ol>
-
-                <div class="comment-respond">
-                  <h3 class="comment-reply-title">Leave a Reply</h3>
-
-                  <form class="comment-form">
-                    <p class="comment-notes">
-                      <span id="email-notes">Your email address will not be published.</span>
-                      Required fields are marked
-                      <span class="required">*</span>
-                    </p>
-                    <p class="comment-form-comment">
-                      <label for="comment">Comment</label>
-                      <textarea name="comment" id="comment" cols="45" rows="5" maxlength="65525" required="required"></textarea>
-                    </p>
-                    <p class="comment-form-author">
-                      <label>Name <span class="required">*</span></label>
-                      <input type="text" name="name" required="required">
-                    </p>
-                    <p class="comment-form-email">
-                      <label for="email">Email <span class="required">*</span></label>
-                      <input type="email" id="email" name="email" required="required">
-                    </p>
-                    <p class="comment-form-url">
-                      <label for="url">Website</label>
-                      <input type="url" id="url" name="url">
-                    </p>
-                    <p class="comment-form-cookies-consent">
-                      <input type="checkbox" value="yes" name="wp-comment-cookies-consent" id="wp-comment-cookies-consent">
-                      <label for="wp-comment-cookies-consent">Save my name, email, and website in
-                        this browser for the next
-                        span I comment.</label>
-                    </p>
-                    <p class="form-submit">
-                      <input type="submit" name="submit" id="submit" class="submit" value="Post Comment">
-                    </p>
-                  </form>
-                </div>
+                              <p><b class="fn"><%= reply.name %></b><i class=" fa-regular fa-reply"></i> <%= reply.to %></p>
               </div>
-              <!-- Comment -->
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="single_navigation-prev mb-5">
-                    <a href="#">
-                      <span>previous post</span>
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem,
-                      similique.
-                    </a>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="single_navigation-next text-left text-md-right mb-5">
-                    <a href="#">
-                      <span>next post</span>
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis,
-                      nesciunt.
-                    </a>
-                  </div>
-                </div>
+              <div class="comment-metadata">
+                <span><%= new Date(reply.date_reply).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %> AT <%= new Date(reply.date_reply).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }) %></span>
               </div>
-              <div class="clearfix"></div>
             </div>
+            <div class="comment-content">
+              <p><%= reply.comment %></p>
+            </div>
+            <div class="reply">
+              <a class="comment-reply-link" data-idP="<%= comment.principale_comment.idP %>">Reply</a>
+            </div>
+            </aside>
+            </li>
+
+            <% }); %>
+            </ol>
+            <%  if(replycount > 1){%>
+            <div class="row">
+              <div class="col-12 text-center">
+                <a class="load-more-reply" onclick="show_replies(this)">Show More Replies (<%= replycount-1 %>)</a>
+              </div>
+            </div>
+            <%}%>
+            </li>
+            <% }); %>
+            </ol>
+            <%  if (totalComments - totalccm  > 0) { %>
+            <div class="row">
+              <div class="col-12 text-center">
+                <a id="load-more-comments">Show More (<%= totalComments - totalccm %>)</a>
+              </div>
+            </div>
+            <%  } %>
 
 
 
+            <div class="comment-respond">
+              <h3 class="comment-reply-title">Leave a Reply</h3>
 
-
+              <form id="commentpForm" action="/blogs/<%= blog._id %>/comment" method="post" class="comment-form">
+                <p class="comment-notes">
+                  <span id="email-notes">Your email address will not be published.</span>
+                  Required fields are marked
+                  <span class="required">*</span>
+                </p>
+                <p class="comment-form-comment">
+                  <label for="comment">Comment</label>
+                  <textarea name="comment" id="comment" cols="45" rows="5" maxlength="65525" required="required"></textarea>
+                </p>
+                <p class="comment-form-author">
+                  <label>Name <span class="required">*</span></label>
+                  <input type="text" name="name" required="required">
+                </p>
+                <p class="comment-form-email">
+                  <label for="email">Email <span class="required">*</span></label>
+                  <input type="email" id="email" name="email" required="required">
+                </p>
+                <p class="comment-form-url">
+                  <label for="url">Website</label>
+                  <input type="url" id="url" name="website">
+                </p>
+                <p class="comment-form-cookies-consent">
+                  <input type="checkbox" value="yes" name="receive_news" id="wp-comment-cookies-consent">
+                  <label for="wp-comment-cookies-consent">Save my name, email, and website in
+                    this browser for the next
+                    span I comment.</label>
+                </p>
+                <p class="form-submit">
+                  <button type="submit" id="submit" class="submit">Post Comment</button>
+                </p>
+              </form>
+            </div>
           </div>
+          <!-- Comment -->
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="single_navigation-prev mb-5">
+                <% if (prevBlog) { %>
+                <a href="/blogs/<%= prevBlog._id %>">
+                  <span>previous post</span>
+                  <%= prevBlog.title %>
+                </a>
+                <% } %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="single_navigation-next text-left text-md-right mb-5">
+                <% if (nextBlog) { %>
+                <a href="/blogs/<%= nextBlog._id %>">
+                  <span>next post</span>
+                  <%= nextBlog.title %>
+                </a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
         </div>
+
+
+
+
+
       </div>
+    </div>
+    </div>
     </div>
   </section>
 
-
+  <div id="custom-toast-template" style="display: none; ">
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="color-white"> currently being create <br>Do not refresh or change this page</p>
+  </div>
+  </div>
 
 
 
   <%- include('./commun/footer') %>
-<!-- 
+  <!-- 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const ngrokUrl = "https://61fc-102-156-53-177.ngrok-free.app"; // Ngrok URL from your session
@@ -991,9 +1018,10 @@
       fb.href = `https://www.facebook.com/sharer/sharer.php?u=${ngrokUrl}/blogs/660499cd76cccf5f73cb22af&title=${title}&quote=${msg}`;
     });
   </script> -->
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const ngrokUrl = "https://97e0-102-156-53-177.ngrok-free.app"; // Ngrok URL from your session
+      const ngrokUrl = encodeURI(window.location.href); //"https://97e0-102-156-53-177.ngrok-free.app"; // Ngrok URL from your session
       const msg = encodeURIComponent(document.querySelector('.Blog-detail-Block').textContent);
       const title = encodeURIComponent(document.querySelector('.Blog-title-Block').textContent);
 
@@ -1010,6 +1038,399 @@
       document.querySelector('.shinstagram').href = `https://www.instagram.com/share?url=${ngrokUrl}/blogs/660499cd76cccf5f73cb22af&title=${title}`;
     });
   </script>
+  <script>
+    function clearFormFields() {
+      var fieldsToClear = document.querySelectorAll('input[type=text], input[type=email], textarea, input[type=url]');
+      fieldsToClear.forEach(function(input) {
+        input.value = '';
+      });
+    }
+
+
+    function showMessage(msg, duration, color) {
+      Toastify({
+        text: msg,
+        close: true,
+        duration: duration,
+        gravity: "bottom",
+        position: "right",
+        backgroundColor: color,
+      }).showToast()
+    }
+    // Function to show a Toastify notification with a spinner
+    function showSpinnerToast(message) {
+      var toast = Toastify({
+        text: document.getElementById('custom-toast-template').innerHTML,
+        duration: -1, // Infinite duration
+        gravity: "bottom",
+        position: "right",
+        className: 'toastify-spinner',
+        escapeMarkup: false,
+        closeOnClick: true,
+        backgroundColor: "#007bff",
+      }).showToast();
+      // Return the toast instance
+      return toast;
+    }
+  </script>
+  <script>
+    function incrementValue() {
+      // Get the span element by its ID
+      var spanElement = document.getElementById('TCC');
+
+      // Get the current value as a number and increment it by 1
+      var currentValue = parseInt(spanElement.innerText);
+      var newValue = currentValue + 1;
+
+      // Update the span element with the new value
+      spanElement.innerText = newValue;
+    }
+    $(document).ready(function() {
+      $('#commentpForm').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var toastInstance = showSpinnerToast("Posting...");
+
+        var form = $(this);
+        var formData = form.serialize(); // Serialize form data
+        $.ajax({
+          type: form.attr('method'),
+          url: form.attr('action'),
+          data: formData,
+          success: function(response) {
+            toastInstance.hideToast();
+            if (response.errors && response.errors.length > 0) {
+              response.errors.forEach(error => {
+                showMessage(error, 3000, "#dc3545");
+              });
+
+            }
+            if (response.message && response.message.length > 0) {
+              clearFormFields();
+              showMessage(response.message, -1, "#4fbe87");
+              const parsedFormData = new URLSearchParams(formData);
+              const comment = parsedFormData.get('comment');
+              const name = parsedFormData.get('name');
+              const email = parsedFormData.get('email');
+              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn">${name}</b></p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.idP}">Reply</a> </div> </aside> <ol class="children"></ol> </li>`;
+
+              $('.comment-list').append(commentBlock);
+              incrementValue();
+
+
+            }
+          },
+          error: function(xhr, status, error) {
+            const errorMessage = JSON.parse(xhr.responseText).errors[0];
+            toastInstance.hideToast();
+            showMessage(errorMessage, 3000, "#dc3545");
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    function removeForm(elm) {
+      const formElement = elm.closest('.rcomment-respond');
+      const replyLink = formElement.previousElementSibling.querySelector('.comment-reply-link');
+      replyLink.closest('.reply').classList.remove('d-none');
+      formElement.remove();
+    }
+    // Wait for the document to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add a click event listener to the document
+      document.addEventListener('click', function(event) {
+        // Check if the clicked element has the class "comment-reply-link"
+        if (event.target.classList.contains('comment-reply-link')) {
+          // Get the parent element with the class "reply" and add the class "d-none"
+          const replyElement = event.target.closest('.reply');
+          if (replyElement) {
+            replyElement.classList.add('d-none');
+            const closestComment = event.target.closest('.comment-body');
+            // Get the name element within the parent element
+            const nameElement = closestComment.querySelector('.comment-author .fn');
+
+            // Get the text content of the name element
+            const nameto = nameElement.textContent;
+
+            // Check if a matching ancestor element was found
+            if (closestComment) {
+              const existingForm = document.querySelector('.rcomment-respond');
+              if (existingForm) {
+                const replyLink = existingForm.previousElementSibling.querySelector('.comment-reply-link');
+                replyLink.closest('.reply').classList.remove('d-none');
+                existingForm.remove();
+              }
+              // Create a new element for the HTML code
+              const commentRespond = document.createElement('div');
+              commentRespond.classList.add('comment-respond', 'rcomment-respond');
+              const dataIdPValue = event.target.getAttribute('data-idP');
+              commentRespond.innerHTML = `<form id="commentRForm" action="/blogs/" method="post" class="comment-form" data-to="${nameto}"  data-idP="${dataIdPValue}"> <p class="comment-form-comment"> <label for="comment">Comment</label> <textarea name="comment" id="comment" cols="25" rows="3" maxlength="65525" required="required"></textarea> </p> <p class="comment-form-author"> <label>Name <span class="required">*</span></label> <input type="text" name="name" required="required"> </p> <p class="comment-form-email"> <label for="email">Email <span class="required">*</span></label> <input type="email" id="email" name="email" required="required"> </p> <p class="comment-form-url"> <label for="url">Website</label> <input type="url" id="url" name="website"> </p> <p class="comment-form-cookies-consent"> <input type="checkbox" value="yes" name="receive_news" id="wp-comment-cookies-consent"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next span I comment.</label> </p> <p class="form-submit"> <button type="submit" id="submit" class="submit">Replay</button> <span onclick="removeForm(this)">Cancel</span> </p> </form>`;
+
+              // Append the new element to the closest "comment" ancestor
+              closestComment.appendChild(commentRespond);
+            }
+          }
+        }
+      });
+    });
+  </script>
+
+  <!--   <script>
+    $(document).ready(function() {
+      $('#commentRForm').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var toastInstance = showSpinnerToast("Posting...");
+
+        var form = $(this);
+        var formData = form.serialize(); // Serialize form data
+        $.ajax({
+          type: form.attr('method'),
+          url: form.attr('action') + "<%= blog._id || null %>" + "/Rcomment",
+          data: formData,
+          success: function(response) {
+            toastInstance.hideToast();
+            if (response.errors && response.errors.length > 0) {
+              response.errors.forEach(error => {
+                showMessage(error, 3000, "#dc3545");
+              });
+
+            }
+            if (response.message && response.message.length > 0) {
+              clearFormFields();
+              showMessage(response.message, -1, "#4fbe87");
+            }
+          },
+          error: function(xhr, status, error) {
+            const errorMessage = JSON.parse(xhr.responseText).errors[0];
+            toastInstance.hideToast();
+            showMessage(errorMessage, 3000, "#dc3545");
+          }
+        });
+
+      });
+    });
+  </script>
+ -->
+  <script>
+    $(document).ready(function() {
+      // Event listener for submitting the reply form via AJAX
+      $(document).on('submit', '#commentRForm', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        var parentDiv = $(this).closest('div');
+        //console.log(parentDiv);
+        parentDiv.prev('.reply').removeClass('d-none');
+
+        // Show loading spinner
+        var toastInstance = showSpinnerToast("Posting...");
+
+        // Serialize form data and add the 'data-to' value
+        // Serialize the form data
+        var formData = $(this).serializeArray();
+
+        // Get the value of the 'data-to' attribute
+        var dataTo = $(this).data('to');
+        formData.push({
+          name: 'data_to',
+          value: dataTo
+        });
+
+        // Get the value of the 'data-idP' attribute
+        var dataIdP = $(this).data('idp'); // Corrected to 'idp' (lowercase 'p')
+        formData.push({
+          name: 'data_idP',
+          value: dataIdP
+        });
+
+        // Convert the formData array into URL-encoded string
+        formData = $.param(formData);
+
+        // AJAX request
+        $.ajax({
+          type: $(this).attr('method'),
+          url: $(this).attr('action') + "<%= blog._id || null %>" + "/Rcomment",
+          data: formData,
+          success: function(response) {
+            toastInstance.hideToast(); // Hide loading spinner
+
+            if (response.errors && response.errors.length > 0) {
+              // Display error messages if any
+              response.errors.forEach(error => {
+                showMessage(error, 3000, "#dc3545");
+              });
+            }
+
+            if (response.message && response.message.length > 0) {
+              clearFormFields(); // Clear form fields on successful submission
+              showMessage(response.message, -1, "#4fbe87"); // Show success message
+              //console.log(response.idR);
+              const htmlElm = parentDiv.closest('.children');
+              const parsedFormData = new URLSearchParams(formData);
+              const comment = parsedFormData.get('comment');
+              const name = parsedFormData.get('name');
+              const email = parsedFormData.get('email');
+
+              const to_dest = '<i class="fa-regular fa-reply"></i> ' + response.data_to;
+
+
+              // Construct the HTML block
+              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn">${name}</b> ${to_dest} </p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.data_idP}">Reply</a> </div> </aside>  </li>`;
+
+
+              if (htmlElm && htmlElm.attr('class') != undefined) {
+                htmlElm.append(commentBlock);
+              } else {
+                var commentElement = parentDiv.closest('.comment'); // Find closest .comment element
+                var pchildren = commentElement.find('.children'); // Find .children within the commentElement
+                pchildren.append(commentBlock); // Append commentBlock to pchildren
+              }
+
+              //console.log(commentBlock);
+
+
+              parentDiv.remove();
+              incrementValue();
+            }
+          },
+          error: function(xhr, status, error) {
+            // Display error message in case of AJAX error
+            const errorMessage = JSON.parse(xhr.responseText).errors[0];
+            toastInstance.hideToast(); // Hide loading spinner
+            showMessage(errorMessage, 3000, "#dc3545");
+          }
+        });
+
+
+      });
+    });
+  </script>
+
+
+  <script>
+function createCommentHTML(commentData) {
+  let replycount = 0;
+  const commentHTML = `
+    <li class="comment">
+      <aside class="comment-body">
+        <div class="comment-meta">
+          <div class="comment-author">
+            <img src="images/Default-profile.jpg" class="avatar" alt="image">
+            <b class="fn">${commentData.principale_comment.name}</b>
+          </div>
+          <div class="comment-metadata">
+            <span>${new Date(commentData.principale_comment.date_comment).toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="comment-content">
+          <p>${commentData.principale_comment.comment}</p>
+        </div>
+        <div class="reply">
+          <a class="comment-reply-link" data-idp="${commentData.principale_comment.idP}">Reply</a>
+        </div>
+      </aside>
+      <ol class="children">
+        ${commentData.principale_comment.replies_comments.map(reply => {
+          replycount += 1;
+          return `
+            <li class="comment ${replycount > 1 ? 'd-none' : ''}">
+              <aside class="comment-body">
+                <div class="comment-meta">
+                  <div class="comment-author">
+                    <img src="images/Default-profile.jpg" class="avatar" alt="image">
+                    <p><b class="fn">${reply.name}</b><i class="fa-regular fa-reply"></i> ${reply.to}</p>
+                  </div>
+                  <div class="comment-metadata">
+                    <span>${new Date(reply.date_reply).toLocaleString()}</span>
+                  </div>
+                </div>
+                <div class="comment-content">
+                  <p>${reply.comment}</p>
+                </div>
+                <div class="reply">
+                  <a class="comment-reply-link" data-idp="${commentData.principale_comment.idP}">Reply</a>
+                </div>
+              </aside>
+            </li>
+          `;
+        }).join('')}
+      </ol>
+      ${replycount > 1 ? `
+        <div class="row">
+          <div class="col-12 text-center">
+            <a class="load-more-reply" onclick="show_replies(this)">Show More Replies (${replycount - 1})</a>
+          </div>
+        </div>
+      ` : ''}
+    </li>
+  `;
+
+  return commentHTML;
+}
+
+
+    
+    const loadMoreButton = document.getElementById('load-more-comments');
+    let skip = 2; // Nombre de commentaires à sauter lors du chargement suivant
+    const limit = 2; // Limite de commentaires à charger par défaut
+
+    // Fonction pour charger les commentaires supplémentaires
+    async function loadMoreComments() {
+      const response = await fetch(`/blogs/<%= blog._id || null %>/comments?skip=${skip}&limit=${limit}`);
+      const comments = await response.json();
+      /*       if (comments.comments.length === 0){
+              loadMoreButton.remove();
+              return;
+            } */
+
+      const commentList = document.querySelector(".comment-list");
+
+      comments.comments.forEach(commentData => {
+        var commentHTML = createCommentHTML(commentData);
+        commentList.innerHTML += commentHTML;
+      });
+
+
+
+      skip += comments.comments.length;
+      if (comments.TTC > 0) {
+        document.getElementById('load-more-comments').innerText = "Show More (" + comments.TTC + ")";
+      } else {
+        loadMoreButton.remove();
+      }
+
+    }
+
+    loadMoreButton.addEventListener('click', loadMoreComments);
+  </script>
+
+  <script>
+    function show_replies(elm) {
+      // Get the parent ol element with the class "comment"
+      var parentOl = elm.closest('.comment');
+
+      // Get all the li elements with the class "comment" and "d-none" inside the parent ol
+      var hiddenListItems = parentOl.querySelectorAll('.children li.comment.d-none');
+
+      // Loop through the hidden list items and remove the "d-none" class for the first two items
+      for (var i = 0; i < 2 && i < hiddenListItems.length; i++) {
+        hiddenListItems[i].classList.remove('d-none');
+      }
+
+      // Update the "Show More" link text and onclick function based on remaining hidden items
+      var remainingHiddenItems = parentOl.querySelectorAll('li.comment.d-none');
+      var showMoreLink = parentOl.querySelector('.load-more-reply');
+      if (remainingHiddenItems.length > 0) {
+        showMoreLink.textContent = 'Show More Replies (' + remainingHiddenItems.length + ')';
+      } else {
+        showMoreLink.remove();
+      }
+    }
+  </script>
+
+
+
+
+
 </body>
 
 </html>

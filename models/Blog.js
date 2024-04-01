@@ -6,11 +6,11 @@ const BlogSchema = new mongoose.Schema({
         required: true
     },
     subtitle: String,
-    coverIMGpath:String,
+    coverIMGpath: String,
     autor: {
         fullname: String,
         expertise: String,
-        autorIMGpath:String,
+        autorIMGpath: String,
         socialmedia: {
             linkedin: String,
             facebook: String,
@@ -32,11 +32,19 @@ const BlogSchema = new mongoose.Schema({
     comments: [
         {
             principale_comment: {
+                idP: {
+                    type: Number,
+                    unique: true
+                },
                 name: {
                     type: String,
                     required: true
                 },
                 email: {
+                    type: String,
+                    required: true
+                },
+                comment: {
                     type: String,
                     required: true
                 },
@@ -49,28 +57,40 @@ const BlogSchema = new mongoose.Schema({
                     type: Boolean,
                     default: false
                 },
+                replies_comments: [
+                    {
+                        idR: {
+                            type: Number,
+                            unique: true
+                        },
+                        name: {
+                            type: String,
+                            required: true
+                        },
+                        email: {
+                            type: String,
+                            required: true
+                        },
+                        to: {
+                            type: String,
+                            required: true
+                        },
+                        comment: {
+                            type: String,
+                            required: true
+                        },
+                        website: String,
+                        date_reply: {
+                            type: Date,
+                            default: Date.now
+                        },
+                        receive_news: {
+                            type: Boolean,
+                            default: false
+                        },
+                    },
+                ],
             },
-            replies_comments: [
-                {
-                    name: {
-                        type: String,
-                        required: true
-                    },
-                    email: {
-                        type: String,
-                        required: true
-                    },
-                    website: String,
-                    date_reply: {
-                        type: Date,
-                        default: Date.now
-                    },
-                    receive_news: {
-                        type: Boolean,
-                        default: false
-                    },
-                },
-            ],
         },
     ],
     attachments: [

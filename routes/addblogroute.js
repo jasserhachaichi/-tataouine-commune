@@ -4,7 +4,7 @@ const Blog = require('./../models/Blog');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Console } = require("console");
+//const { Console } = require("console");
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -12,9 +12,16 @@ const storage = multer.diskStorage({
         cb(null, 'attachments/Blog/');
     },
     filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        cb(null, file.fieldname + '-' + Date.now() + ext);
+        if (file.fieldname === 'filepond2') {
+            // Use the original filename for 'filepond2' field
+            cb(null, file.originalname);
+        } else {
+            // Generate a unique filename for other fields
+            const ext = path.extname(file.originalname);
+            cb(null, file.fieldname + '-' + Date.now() + ext);
+        }
     }
+    
 });
 
 const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }, { name: 'filepond3' }]);

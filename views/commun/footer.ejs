@@ -89,25 +89,7 @@
   </div>
 
 </footer>
-<script>
-  /* const activePage = window.location.pathname;
-const navLinks = document.querySelectorAll('#topnavbar a').forEach(link => {
-  if((link.href.includes(`${activePage}`)) && (activePage.toString() !== "/")){
-    link.classList.add('active');
-  }
-}) */
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const activePage = window.location.pathname;
-    const navLinks = document.querySelectorAll('#topnavbar a');
-
-    navLinks.forEach(link => {
-      if (link.getAttribute('href') === activePage) {
-        link.classList.add('active');
-      }
-    });
-  });
-</script>
 
 
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Blog = require('./../models/Blog');
-
+const transporter = require('../config/nodemailer');
 
 router.use(express.static("public"));
 router.use(express.static("Attachments"));
@@ -68,7 +68,8 @@ router.get('/:id', async (req, res) => {
     const limit = 2;
 
     try {
-        const blog = await Blog.findById(blogId).select('-comments');
+        //const blog = await Blog.findById(blogId).select('-comments');
+        const blog = await Blog.findByIdAndUpdate(blogId, { $inc: { nb_views: 1 } }, { new: true }).select('-comments');
         if (!blog) {
             return res.redirect("/404");
         }
@@ -95,7 +96,7 @@ router.get('/:id', async (req, res) => {
         const nextBlog = await Blog.findOne({ _id: { $gt: blogId } }).select('title _id').sort({ _id: 1 });
         const prevBlog = await Blog.findOne({ _id: { $lt: blogId } }).select('title _id').sort({ _id: -1 });
 
-        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit , totalccm:totalmainCommentsComments});
+        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments });
     } catch (err) {
         console.error(err);
         return res.status(500).send('Internal Server Error');
@@ -124,7 +125,7 @@ router.get('/:id/comments', async (req, res) => {
         });
         let existec = 0;
         if (NBpcomment - parseInt(skip) - parseInt(limit) > 0) {
-            existec = allComments - parseInt(skip) - parseInt(limit) -  parseInt(skip);
+            existec = allComments - parseInt(skip) - parseInt(limit) - parseInt(skip);
         }
         const comments = blog.comments.slice(parseInt(skip), parseInt(skip) + parseInt(limit));
 
@@ -207,7 +208,7 @@ router.get('/:id/gcomment', async (req, res) => {
 });
  */
 
-router.get('/:id/remove', async (req, res) => {
+/* router.get('/:id/remove', async (req, res) => {
     try {
         const blogId = req.params.id;
 
@@ -220,7 +221,7 @@ router.get('/:id/remove', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
+ */
 
 
 
@@ -288,7 +289,7 @@ router.post("/:id/comment", async (req, res) => {
 router.post("/:id/Rcomment", async (req, res) => {
     console.log(req.body);
     const blogId = req.params.id;
-    const { 'name': name, 'email': email, 'comment': comment, 'website': website, 'receive_news': receive_news, 'data_to': data_to, 'data_idP': data_idP } = req.body;
+    const { 'name': name, 'email': email, 'comment': comment, 'website': website, 'receive_news': receive_news, 'data_to': data_to, 'data_idP': data_idP, 'data_toid': data_toid } = req.body;
     let errors = [];
 
     // Check if any required field is missing
@@ -344,8 +345,36 @@ router.post("/:id/Rcomment", async (req, res) => {
         };
         parentComment.principale_comment.replies_comments.push(replyComment);
         await blog.save();
+        const replycommentelm = parentComment.principale_comment.replies_comments.find(reply => reply.idR.toString() === data_toid);
+        console.log(replycommentelm);
+        let email_dest = "";
+        let name_dest = "";
+        if (replycommentelm) {
+            email_dest = replycommentelm.email;
+            name_dest = replycommentelm.name;
+            console.log("replycommentelm" + replycommentelm.receive_news);
+        } else{
+            console.log("ok");
+            email_dest = parentComment.principale_comment.email;
+            name_dest = parentComment.principale_comment.name;
+        }
+        const mailOptions = {
+            from: process.env.sendermail,
+            to: email_dest,
+            subject: 'New Reply on Your Comment',
+            text: `Hello ${name_dest},\n\nSomeone has replied to your comment on our blog. Visit the blog post to view the reply.\n\nThank you.`,
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+
         const pDate = formatDateC(replyComment.date_reply);
-        return res.status(200).json({ message: 'Comment created successfully', data_idP, pDate, data_to });
+        return res.status(200).json({ message: 'Comment created successfully', data_idP, pDate, data_to, idR });
     } catch (err) {
         console.error(err);
         //return res.redirect("/404");

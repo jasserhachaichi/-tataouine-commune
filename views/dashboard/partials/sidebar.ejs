@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.html"><img src="images/dashboard-logo.svg" alt="Logo" srcset=""></a>
+                    <a href="/home"><img src="images/dashboard-logo.svg" alt="Logo" srcset=""></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -41,7 +41,6 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                <li class="sidebar-title">Gestion</li>
 
                 <li class="sidebar-item ">
                     <a href="/dashhome" class='sidebar-link'>
@@ -51,6 +50,8 @@
 
 
                 </li>
+                <li class="sidebar-title">Gestion</li>
+
                 <li class="sidebar-item  has-sub">
                     <span class='sidebar-link'>
                         <i class="bi bi-people-fill"></i>
@@ -98,6 +99,23 @@
                 <li class="sidebar-title">Contenu</li>
                 <li class="sidebar-item  has-sub">
                     <span class='sidebar-link'>
+                        <i class="bi bi-calendar-event"></i>
+                        <span>Events</span>
+                    </span>
+
+                    <ul class="submenu ">
+                        <li class="submenu-item ">
+                            <a href="/calendarmanagement" class="submenu-link">Events Management</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="/createevent" class="submenu-link">Add Event</a>
+                        </li>
+                    </ul>
+
+
+                </li>
+                <li class="sidebar-item  has-sub">
+                    <span class='sidebar-link'>
                         <i class="bi bi-book-half"></i>
                         <span>Blog</span>
                     </span>
@@ -111,6 +129,30 @@
                             <a href="/addblog" class="submenu-link">Add Blog</a>
                         </li>
                     </ul>
+
+
+                </li>
+                <li class="sidebar-item  has-sub">
+                    <span class='sidebar-link'>
+                        <i class="bi bi-globe-europe-africa"></i>
+
+                        <span>Assistance</span>
+                    </span>
+
+                    <ul class="submenu ">
+
+                        <li class="submenu-item  ">
+                            <a href="/createassistance" class="submenu-link">Create Form</a>
+
+                        </li>
+
+                        <li class="submenu-item  ">
+                            <a href="/assistances" class="submenu-link">All Forms</a>
+
+                        </li>
+
+                    </ul>
+
 
 
                 </li>
@@ -179,6 +221,10 @@
 
 
                 </li>
+
+
+
+
                 <li class="sidebar-title">Entreprise</li>
 
                 <li class="sidebar-item has-sub">

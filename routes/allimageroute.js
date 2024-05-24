@@ -20,10 +20,10 @@ router.post("/delete-image/:id", async (req, res) => {
 
     // Remove the image file from the server file system
     fs.unlink(image.path, (err) => {
-      if (err) {
-        console.error(err);
+      if (!err) {
+/*         console.error(err);
         return res.redirect("/404"); 
-      } else {
+      } else { */
         return res.redirect("/allimage"); 
       }
     });

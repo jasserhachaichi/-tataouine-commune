@@ -1,7 +1,7 @@
 <nav id="topnavbar" class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <div>
-      <a class="navbar-brand" href="home"><img src="images/CTlogo.svg" alt="" width="30" height="auto" class="d-inline-block align-text-top"> </a>
+      <a class="navbar-brand" href="/home"><img src="images/CTlogo.svg" alt="" width="30" height="auto" class="d-inline-block align-text-top"> </a>
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,7 @@
 
 
         <li class="nav-item fw-medium dropdown">
-          <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Gallery
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -33,38 +33,82 @@
         <li class="nav-item fw-medium ">
           <a class="nav-link" aria-current="page" href="/login">Se connecter</a>
         </li>
-<!--         <li class="nav-item fw-medium ">
+        <li class="nav-item fw-medium ">
+          <a class="nav-link" aria-current="page" href="/faq">FAQ</a>
+        </li>
+        <!--         <li class="nav-item fw-medium ">
           <a class="nav-link" aria-current="page" href="about">À propos</a>
-        </li> -->
+        </li> 
         <li class="nav-item fw-medium">
           <a class="nav-link" aria-current="page" href="/companies">Companies</a>
         </li>
 
-        <li class="nav-item fw-medium">
+          <li class="nav-item fw-medium">
           <a class="nav-link" aria-current="page" href="/allannouncement/">Announcements</a>
         </li>
-        <li class="nav-item fw-medium">
+       <li class="nav-item fw-medium">
           <a class="nav-link" aria-current="page" href="/blogs/">Blogs</a>
-        </li>
-
-
+        </li> -->
 
 
         <li class="nav-item fw-medium dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            En cours
+            Content
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <!-- <li><a class="dropdown-item" href="/blog">Blog</a></li> -->
-            <li><a class="dropdown-item" href="about">À propos</a></li>
-<!--             <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="123">Edition 2023 (en cours)</a></li> -->
+            <li><a class="dropdown-item" href="/blogs/">Blogs</a></li>
+            <li><a class="dropdown-item" href="/forms">Assistances</a></li>
+            <li><a class="dropdown-item" href="/allannouncement/">Announcements</a></li>
+            <li><a class="dropdown-item" href="/companies">Companies</a></li>
+            <li><a class="dropdown-item" href="/events">Events</a></li>
           </ul>
+        </li>
+
+        <li class="nav-item fw-medium ">
+          <a class="nav-link" aria-current="page" href="/about">À propos</a>
         </li>
       </ul>
     </div>
 
   </div>
 </nav>
+
+
+<script>
+  /* const activePage = window.location.pathname;
+const navLinks = document.querySelectorAll('#topnavbar a').forEach(link => {
+  if((link.href.includes(`${activePage}`)) && (activePage.toString() !== "/")){
+    link.classList.add('active');
+  }
+}) */
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const activePage = window.location.pathname;
+    const navLinks = document.querySelectorAll('#topnavbar .collapse a');
+
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href) {
+        const normalizedHref = href.replace(/^\//, '');
+        if (activePage.includes(normalizedHref) && activePage !== '/') {
+          link.classList.add('active');
+          // Check if it's a dropdown item
+          if (link.classList.contains('dropdown-item')) {
+            // Get the parent nav item
+            const parentNavItem = link.closest('.nav-item');
+            if (parentNavItem) {
+              const parentNavLink = parentNavItem.querySelector('.nav-link');
+              if (parentNavLink) {
+                parentNavLink.classList.add('active');
+              }
+            }
+          }
+        }
+
+      }
+
+
+    });
+  });
+</script>

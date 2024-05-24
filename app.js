@@ -17,16 +17,13 @@ connectToDB();
 
 
 
+
 // body Parser
 const bodyParser = require('body-parser');
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(bodyParser.urlencoded({ extended: true }));
 // Parse JSON bodies (as sent by API clients)
 app.use(bodyParser.json());
-
-
-
-
 
 
 const cookieParser = require('cookie-parser');
@@ -39,6 +36,13 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // Change secure to true if using HTTPS
 }));
+
+// passport  for authentication google
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/googleauth2');
+
 
 
 
@@ -56,7 +60,7 @@ app.get('/blog', (req, res) => {
     res.render("blogpage");
 })
 app.get('/logout', (req, res) => {
-    // Clear the token from cookies
+    // Clear the token from cookie
     res.clearCookie('token');
 
     // Clear the session token if it exists
@@ -66,7 +70,7 @@ app.get('/logout', (req, res) => {
 
     res.redirect("/login");
 });
-
+app.use("/forms", require("./routes/formsroute"));
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
@@ -74,8 +78,24 @@ app.use("/companies", require("./routes/companiesroute"));
 app.use("/allannouncement", require("./routes/announcementroute"));
 app.use("/blogs", require("./routes/blogsroute"));
 
+app.use("/events", require("./routes/eventsroute"));
+const Event = require("./models/Event");
+app.get("/allevents", async (req, res) => {
+    console.log("jasser");
+    try {
+        const events = await Event.find({}, { __v: 0 });
+        res.status(200).json({ events: events });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch events", error: error.message });
+    }
+});
 
-
+app.get('/faq', (req, res) => {
+    res.render("faq");
+})
+app.get('/about', (req, res) => {
+    res.render("about");
+})
 //Dashboard
 const authenticateToken = require('./middleware/authenticate');
 const authenticatelogin = require('./middleware/authenticatelogin');
@@ -111,6 +131,55 @@ app.use("/allposts", authenticateToken, checkUserRole, require("./routes/allpost
 app.use("/addblog", authenticateToken, checkUserRole, require("./routes/addblogroute"));
 app.use("/allblogs", authenticateToken, checkUserRole, require("./routes/allblogsroute"));
 
+app.use("/calendarmanagement", authenticateToken, checkUserRole, require("./routes/dashcalendarroute"));
+app.use("/createevent", authenticateToken, checkUserRole, require("./routes/createeventroute"));
+
+app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
+app.use("/editassistance", authenticateToken, checkUserRole, require("./routes/editassistanceroute"));
+app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));
+app.use("/form", authenticateToken, checkUserRole, require("./routes/formroute"));
+app.get('/showdform', authenticateToken, (req, res) => {
+    res.render("dashboard/showdform");
+})
+app.get(
+    '/auth/google/form',
+    passport.authenticate('google', {
+        scope: ['email', 'profile'],
+    })
+);
+app.get(
+    '/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/auth/protected',
+        failureRedirect: '/404',
+    })
+);
+app.use('/auth/logout', (req, res) => {
+    res.clearCookie('visitor'); // Clear the visitor cookie
+    req.session.destroy();
+    res.send('See you again!');
+});
+app.get('/auth/protected', (req, res) => {
+    //console.log("2 hhhhhh");
+    //console.log(req.user);
+    const userCookie = JSON.stringify(req.user);
+    res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });
+    //res.send(`Cookie set: ${userCookie}`);
+    res.redirect("/assistances");
+});
+
+
+
+
+
+
+
+
+
+
+app.get('/dashhome', authenticateToken, (req, res) => {
+    res.render("dashboard/home");
+});
 
 // Gestionnaire de route pour les routes non définies
 app.use((req, res, next) => {

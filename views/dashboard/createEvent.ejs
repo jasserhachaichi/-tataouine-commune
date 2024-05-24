@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+<link rel="stylesheet" href="assets/extensions/flatpickr/flatpickr.min.css">
+<link rel="stylesheet" href="assets/extensions/summernote/summernote-lite.css">
+<link rel="stylesheet" href="assets/compiled/css/form-editor-summernote.rtl.css">
+<link rel="stylesheet" href="assets/extensions/filepond/filepond.css">
+<link rel="stylesheet" href="plugin/Tagify/tagify.css">
+
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Add Event</h3>
+              <p class="text-subtitle text-muted">Create and share event details effortlessly</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Event</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <form id="eventform" class="form">
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Event Details</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="event-title">Event title</label>
+                      <input type="text" id="event-title" class="form-control" placeholder="Event title" name="event-title">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <label>Type</label>
+                    <div class="input-group mb-3">
+                      <select class="form-select" id="inputGroupSelect01" name="type">
+                        <option selected>Select event type</option>
+                        <option value="organizational">Organizational</option>
+                        <option value="external">External</option>
+                        <option value="technical">Technical</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="venue">Venue</label>
+                      <input type="text" id="venue" class="form-control" placeholder="Venue" name="venue">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="country">Country</label>
+                      <input type="text" id="country" class="form-control" placeholder="Country" name="country">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="state">State</label>
+                      <input type="text" id="state" class="form-control" placeholder="State" name="state">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="city">City</label>
+                      <input type="text" id="city" class="form-control" placeholder="City" name="city">
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex my-3">
+                    <p class="me-4">Participation: </p>
+                    <div class="form-check me-4">
+                      <input class="form-check-input" type="radio" name="participation" id="flexRadio1" value="Online">
+                      <label class="form-check-label" for="flexRadio">
+                        Online
+                      </label>
+                    </div>
+                    <div class="form-check me-4">
+                      <input class="form-check-input" type="radio" name="participation" id="flexRadio2" value="Onsite">
+                      <label class="form-check-label" for="flexRadio">
+                        Onsite
+                      </label>
+                    </div>
+                    <div class="form-check me-4">
+                      <input class="form-check-input" type="radio" name="participation" id="flexRadio3" value="Both" checked>
+                      <label class="form-check-label" for="flexRadio">
+                        Both
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea class="form-control" id="description" rows="4" name="description"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Schedule</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="start-date">Start date</label>
+                      <input type="text" id="start-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="start-date">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="end-date">End date</label>
+                      <input type="text" id="end-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="end-date">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="Reg-dead">Registration deadline</label>
+                      <input type="text" id="Reg-dead" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="Reg-dead">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Logo & Names</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="organizers">ORGANIZERS</label>
+                      <input type="text" id="organizers" class="form-control" placeholder="ORGANIZERS" name="organizers">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="sponsors">SPONSORS</label>
+                      <input type="text" id="sponsors" class="form-control" placeholder="SPONSORS" name="sponsors">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <input id="filepondinput" type="file" name="filepond" multiple />
+                  </div>
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Tags</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input id="tags-event" class="form-control" name='tags-event'>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">About this event</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <div id="summernote"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <div class="col-12 d-flex justify-content-end">
+            <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Post</button>
+          </div>
+
+
+        </form>
+
+
+
+
+
+      </div>
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script src="assets/extensions/flatpickr/flatpickr.min.js"></script>
+  <script>
+    var startDate = document.getElementById('start-date');
+    var endDate = document.getElementById('end-date');
+
+    flatpickr('.flatpickr-no-config', {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      onChange: function(selectedDates, dateStr, instance) {
+        if (instance.element.id === 'start-date') {
+          endDate._flatpickr.set('minDate', selectedDates[0]);
+        }
+        if (instance.element.id === 'end-date') {
+          startDate._flatpickr.set('maxDate', selectedDates[0]);
+        }
+      }
+    });
+  </script>
+  <script src="assets/extensions/summernote/summernote-lite.min.js"></script>
+  <script>
+    $('#summernote').summernote({
+      height: 400,
+      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36'],
+      styleTags: [
+        'p',
+        {
+          title: 'Blockquote',
+          tag: 'blockquote',
+          className: 'blockquote',
+          value: 'blockquote'
+        },
+        'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+      ],
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['ltr', 'rtl']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['misc', ['emoji']],
+        ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
+      ],
+    });
+  </script>
+  <script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
+  <script src="assets/extensions/filepond/filepond.js"></script>
+  <script>
+    FilePond.registerPlugin(FilePondPluginFileValidateSize);
+    const pond = FilePond.create(document.getElementById("filepondinput"), {
+      maxFileSize: '5MB',
+      credits: null,
+    });
+  </script>
+  <script src="plugin/Tagify/tagify.min.js"></script>
+  <script>
+    // The DOM element you wish to replace with Tagify
+    var input = document.querySelector('input[name=tags-event]');
+
+    // initialize Tagify on the above input node reference
+    var tagify = new Tagify(input);
+  </script>
+
+
+
+
+<script>
+      function showMessage(msg, duration, color) {
+      Toastify({
+        text: msg,
+        close: true,
+        duration: duration,
+        gravity: "bottom",
+        position: "right",
+        backgroundColor: color,
+      }).showToast()
+    }
+      $(document).ready(function() {
+      $('#eventform').submit(function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        // Disable the submit button and show loading text
+        $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Posting event...');
+
+
+        var summernoteHTML = $('#summernote').summernote('code');
+        //console.log(summernoteHTML);
+
+        // Get files from FilePond instance
+        const files = pond.getFiles();
+
+
+        // Create FormData object and append files to it
+        const formData = new FormData(this);
+        files.forEach(file => {
+          formData.append('filepond', file.file);
+        });
+        formData.append('summernote', summernoteHTML);
+
+        // Send AJAX request
+        $.ajax({
+          type: 'POST',
+          url: '/createevent',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            setTimeout(function() {
+              //viderInputs();
+              showMessage(response, -1, "#4fbe87");
+              $('#submit-button').prop('disabled', false).html('Post');
+              document.getElementById("eventform").reset();
+              $('#summernote').summernote('code', '');
+              pond.removeFiles();
+            }, 1000);
+
+
+          },
+          error: function(xhr, status, error) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+              const errors = xhr.responseJSON.errors;
+              // Iterate through each error in the "errors" list
+              errors.forEach(function(errorMsg) {
+                // Handle each error as needed
+                //console.error('Error:', errorMsg);
+                showMessage(errorMsg, -1, "#dc3545");
+              });
+            }
+            // Re-enable the submit button
+            $('#submit-button').prop('disabled', false).html('Post');
+
+          }
+        });
+      });
+    });
+</script>
+
+
+</body>
+
+</html>

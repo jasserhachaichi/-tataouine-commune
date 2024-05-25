@@ -13,7 +13,7 @@ router.post("/subscribe", async (req, res) => {
       const newFollower = new followerModel({ email });
       await newFollower.save();
       console.log(email);
-      //res.send("Subscription successful!");
+      res.send("Subscription successful!");
     } catch (error) {
       res.status(500).send("Internal Server Error");
     }

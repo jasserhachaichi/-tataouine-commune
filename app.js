@@ -111,12 +111,9 @@ app.use("/addimage", authenticateToken, require("./routes/addimageroute"));
 app.use("/allimage", authenticateToken, require("./routes/allimageroute"));
 
 app.use("/emailbox", authenticateToken, checkUserRole, require("./routes/emailroute"));
-app.use("/email", authenticateToken, checkUserRole, require("./routes/emailsroute"));
-app.use("/emailcreator", authenticateToken, checkUserRole, require("./routes/emailcreatorroute"));
 
 app.use("/addcompany", authenticateToken, checkUserRole, require("./routes/addcompanyroute"));
 app.use("/allcompanies", authenticateToken, require("./routes/allcompaniesroute"));
-
 
 
 app.use("/users", authenticateToken, checkUserRole, require("./routes/usersroute"));

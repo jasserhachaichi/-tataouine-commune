@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Admin</h3>
+              <p class="text-subtitle text-muted">
+                Check and update admin informations.
+              </p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Settings</li>
+                  <li class="breadcrumb-item active" aria-current="page">Admin</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- // Basic multiple Column Form section start -->
+        <section id="multiple-column-form">
+          <div id="allalerts"></div>
+          <div class="row match-height">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-header">
+                    <h4 class="card-title">Current Admin:</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>First Name: <span id="fname"><%= adminUser.firstname %></span></p>
+                    <p>Last Name: <span id="lname"><%= adminUser.lastname %></span></p>
+                    <p>Email: <span id="email"><%= adminUser.email %></span></p>
+                    <hr>
+                    <p>Forget Password? <a href="" onclick="resetpwd()">Reset password</a></p>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-header">
+                    <h4 class="card-title">Change Admin:</h4>
+                    <p>To update information, please ensure that you fill in the exact input for the desired changes while leaving the other fields empty. Additionally, providing the password is mandatory.</p>
+                  </div>
+                  <div class="card-body">
+                    <form id="myform" class="form" action="/" method="post" data-parsley-validate>
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="first-name-column" class="form-label">First
+                              Name</label>
+                            <input type="text" id="first-name-column" class="form-control" placeholder="First Name" name="fname-column" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="last-name-column" class="form-label">Last
+                              Name</label>
+                            <input type="text" id="last-name-column" class="form-control" placeholder="Last Name" name="lname-column" />
+                          </div>
+                        </div>
+
+
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="email-id-column" class="form-label">Email</label>
+                            <input type="email" id="email-id-column" class="form-control" name="email-id-column" placeholder="Email" data-parsley-trigger="change" />
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                          <div class="form-group mandatory">
+                            <label for="pwdold-id-column" class="form-label">Old Password</label>
+                            <input type="text" id="pwdold-id-column" class="form-control" name="pwdold-id-column" placeholder="Old Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="password-id-column" class="form-label">New Password</label>
+                            <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="New Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="cpassword-id-column" class="form-label">Confirm Password</label>
+                            <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirm New Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-equalto="#password-id-column" data-parsley-error-message="Passwords must match." />
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                          <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">
+                            Update
+                          </button>
+                          <button id="reset-button" type="reset" class="btn btn-light-secondary me-1 mb-1">
+                            Reset
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- // Basic multiple Column Form section end -->
+      </div>
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+
+
+  <script src="assets/extensions/parsleyjs/parsley.min.js"></script>
+  <script src="assets/static/js/pages/parsley.js"></script>
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script>
+    function resetpwd() {
+      $.ajax({
+        url: '/users/forgot-password/',
+        type: 'POST',
+        success: function(response) {
+          Toastify({
+            text: response.message,
+            duration: 3000,
+            close: true,
+            gravity: "bottom",
+            position: "right",
+            backgroundColor: "#198754",
+          }).showToast();
+        },
+        error: function(xhr, status, error) {
+          if (xhr.status === 400) {
+            var errors = xhr.responseJSON.errors;
+            errors.forEach(function(error) {
+              Toastify({
+                text: error,
+                duration: 5000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#dc3545",
+              }).showToast();
+            });
+          } else {
+            Toastify({
+              text: error,
+              duration: 5000,
+              close: true,
+              gravity: "bottom",
+              position: "right",
+              backgroundColor: "#dc3545",
+            }).showToast();
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      $('#myform').submit(function(event) {
+        event.preventDefault();
+        $('#myform #submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+        if ($(this).parsley().isValid()) {
+          var formData = $(this).serialize();
+          console.log(formData);
+          $.ajax({
+            url: '/users/updateadmin',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+              Toastify({
+                text: response.message,
+                duration: 3000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#198754",
+              }).showToast();
+              // Convert the serialized string into an object for easier access to individual fields
+              var formDataObject = {};
+              formData.split('&').forEach(function(pair) {
+                var [key, value] = pair.split('=');
+                formDataObject[decodeURIComponent(key)] = decodeURIComponent(value);
+              });
+              if(formDataObject['email-id-column']){
+                $("#email").text(formDataObject['email-id-column']);
+              }
+              if(formDataObject['lname-column']){
+                $("#lname").text(formDataObject['lname-column']);
+              }
+              if(formDataObject['fname-column']){
+                $("#fname").text(formDataObject['fname-column']);
+              }
+              $('#myform  #submit-button').prop('disabled', false).html('Update');
+              // Reset the form
+              $('#myform').trigger('reset');
+            },
+
+
+
+
+            error: function(xhr, status, error) {
+              console.error(error);
+              Toastify({
+                text: xhr.responseJSON.errors || 'An error occurred',
+                duration: 5000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#dc3545",
+              }).showToast();
+              $('#submit-button').prop('disabled', false).html('Update');
+            }
+
+
+
+
+          });
+        }
+      });
+
+      $('#reset-button').click(function() {
+        $('#myform').trigger('reset');
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>

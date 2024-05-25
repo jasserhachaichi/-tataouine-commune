@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/simple-datatables/style.css">
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>All Followers</h3>
+              <p class="text-subtitle text-muted"> Displays a list of all registered followers.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Followers</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-striped" id="table1">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% followers.forEach(follower => { %>
+                  <tr>
+                    <td>
+                      <%= follower._id %>
+                    </td>
+                    <td>
+                      <%= follower.email %>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" onclick="getuserinfo(this)" data-bs-target="#confirmDelete" data-user-id="<%= follower._id %>">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+
+          <!--Confirmation de la suppression  Modal -->
+          <div class="modal fade text-left" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel33">Confirmation de la
+                    suppression </h4>
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <p>Etes-vous sûr de vouloir supprimer cette follower?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Close</button>
+                  <a id="userurl" href="" class="btn btn-danger ms-1">Delete
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+        </section>
+      </div>
+
+
+        <%- include('./partials/footer') %>
+
+    </div>
+
+
+    <%- include('./commun/scripts') %>
+
+
+
+    <script src="assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+    <script src="assets/static/js/pages/simple-datatables.js"></script>
+    <script src="assets/extensions/parsleyjs/parsley.min.js"></script>
+    <script src="assets/static/js/pages/parsley.js"></script>
+    <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+    <script>
+      function getuserinfo(elm) {
+        const userId = elm.getAttribute('data-user-id');
+        var charurl = "/emailbox/follower/" + userId;
+        document.getElementById("userurl").href = charurl;
+      }
+
+    </script>
+</body>
+
+</html>

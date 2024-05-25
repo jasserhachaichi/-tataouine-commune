@@ -3,7 +3,7 @@
 
 <%- include('./commun/head') %>
     <link rel="stylesheet" href="assets/extensions/simple-datatables/style.css">
-
+    <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
     <body>
         <script src="assets/static/js/initTheme.js"></script>
         <div id="app">
@@ -21,7 +21,7 @@
                                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                                                <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+                                                <li class="breadcrumb-item"><a href="/users">Accounts</a></li>
                                                 <li class="breadcrumb-item active" aria-current="page">Add User</li>
                                             </ol>
                                         </nav>
@@ -59,6 +59,9 @@
                                                                 data-user-id="<%= user._id %>"
                                                                 data-user-fname="<%= user.firstname %>">
                                                                 <i class="bi bi-trash-fill"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-light" data-bs-toggle="modal" onclick="getuserid('<%= user._id %>')" data-bs-target="#editpopup">
+                                                                <i class="bi bi-key-fill"></i>
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -108,35 +111,59 @@
                             </section>
                         </div>
 
-
-                        <!--Confirmation de la suppression  Modal -->
-                        <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
-                            aria-labelledby="myModalLabel33" aria-hidden="true">
+                        <div class="modal fade text-left" id="editpopup" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel34" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                <div class="modal-content">
+                                <form id="editform" class="modal-content" method="post" data-parsley-validate >
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="myModalLabel33">Confirmation de la suppression </h4>
+                                        <h4 class="modal-title" id="myModalLabel34">Edit Account </h4>
                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <i data-feather="x"></i>
                                         </button>
                                     </div>
 
                                     <div class="modal-body">
-                                        <p>Etes-vous sûr de vouloir supprimer cette utilisateur?</p>
+                                        <div class="row">
+                                            <div class="col-12">
+                                            <div class="col-12">
+                                                <div class="form-group mandatory">
+                                                    <label for="password-id-column"
+                                                        class="form-label">Password</label>
+                                                    <input type="text" id="password-id-column"
+                                                        class="form-control" name="password-id-column"
+                                                        placeholder="Password"
+                                                        data-parsley-trigger="change"
+                                                        data-parsley-minlength="8"
+                                                        data-parsley-required="true"
+                                                        data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$"
+                                                        data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mandatory">
+                                                    <label for="cpassword-id-column"
+                                                        class="form-label">Confirm Password</label>
+                                                    <input type="text" id="cpassword-id-column"
+                                                        class="form-control" name="cpassword-id-column"
+                                                        placeholder="Confirm Password"
+                                                        data-parsley-trigger="change"
+                                                        data-parsley-minlength="8"
+                                                        data-parsley-required="true"
+                                                        data-parsley-equalto="#password-id-column"
+                                                        data-parsley-error-message="Passwords must match." />
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                            <i class="bx bx-x d-block d-sm-none"></i>
-                                            <span class="d-none d-sm-block">Close</span>
+                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Close
                                         </button>
-                                        <button type="button" class="btn btn-danger ms-1" data-bs-dismiss="modal">
-                                            <i class="bx bx-check d-block d-sm-none"></i>
-                                            <span class="d-none d-sm-block">Delete</span>
-                                        </button>
+                                        <button id="submit-button" type="submit" class="btn btn-primary ms-1">Edit</button>
                                     </div>
 
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
 
@@ -151,6 +178,9 @@
 
             <script src="assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
             <script src="assets/static/js/pages/simple-datatables.js"></script>
+            <script src="assets/extensions/parsleyjs/parsley.min.js"></script>
+            <script src="assets/static/js/pages/parsley.js"></script>
+            <script src="assets/extensions/toastify-js/src/toastify.js"></script>
 
             <script>
                 function getuserinfo(elm) {
@@ -161,9 +191,76 @@
                     var charurl = "/users/delete/" + userId;
                     document.getElementById("userurl").href = charurl;
                 }
+                function getuserid(elmid) {
+                    $('#editform').trigger('reset');
+                    document.querySelector("#editpopup #editform  #submit-button").setAttribute("userid", elmid);
+                }
             </script>
 
+<script>
 
+    $(document).ready(function () {
+        $('#editform').submit(function (event) {
+            event.preventDefault();
+            const idu = $('#submit-button').attr("userid");
+
+            $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
+            if ($(this).parsley().isValid()) {
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/users/key/' + idu,
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        Toastify({
+                            text: response.message,
+                            duration: 3000,
+                            close: true,
+                            gravity: "bottom",
+                            position: "right",
+                            backgroundColor: "#198754",
+                        }).showToast();
+
+                        $('#submit-button').prop('disabled', false).html('Edit');
+                        $('#editpopup').modal('hide');
+                        $('#editform').trigger('reset');
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 400) {
+                            var errors = xhr.responseJSON.errors;
+                            errors.forEach(function(error) {
+                                Toastify({
+                                    text: error,
+                                    duration: 5000,
+                                    close: true,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    backgroundColor: "#dc3545",
+                                }).showToast();
+                            });
+                        } else {
+                            Toastify({
+                                text: error,
+                                duration: 5000,
+                                close: true,
+                                gravity: "bottom",
+                                position: "right",
+                                backgroundColor: "#dc3545",
+                            }).showToast();
+                        }
+
+                        $('#submit-button').prop('disabled', false).html('Edit');
+                    }
+                });
+            } else {
+                showAlert('User not updated successfully!', 'alert-danger', 'bi-file-excel');
+                $('#submit-button').prop('disabled', false).html('Edit');
+            }
+        });
+    });
+</script>
     </body>
 
 </html>

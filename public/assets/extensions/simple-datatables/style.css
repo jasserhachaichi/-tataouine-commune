@@ -156,7 +156,15 @@
 	border-top: 4px solid transparent;
 	top: 0px;
 }
-
+html[data-bs-theme=dark] .dataTable-sorter::before {
+	border-top: 4px solid white;
+	bottom: 0px;
+}
+html[data-bs-theme=dark] .dataTable-sorter::after {
+	border-bottom: 4px solid white;
+	border-top: 4px solid transparent;
+	top: 0px;
+}
 .asc .dataTable-sorter::after,
 .desc .dataTable-sorter::before {
 	opacity: 0.6;

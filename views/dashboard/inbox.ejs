@@ -87,7 +87,7 @@
                         <% if (emails.length > 0) { %>
                         <ul class="users-list-wrapper media-list">
                           <% emails.forEach((email) => { %>
-                            <a href="/email/?id=<%= email._id %>">
+                            <a href="/emailbox/<%= email._id %>">
                               <li class="media <%= email.isOpen ? '' : 'mail-read' %>">
                                 <div class="user-action">
                                   <form action="/emailbox/<%= email._id %>?_method=DELETE" method="POST" class="me-3">

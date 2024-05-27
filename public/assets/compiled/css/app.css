@@ -9501,7 +9501,7 @@ fieldset:disabled .btn {
 
 .text-body-emphasis {
     --bs-text-opacity: 1;
-    color: var(--bs-emphasis-color) !important
+    color: #bc2026 
 }
 
 .text-reset {

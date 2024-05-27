@@ -20,7 +20,28 @@
   box-sizing: border-box;
 }
 
+/* .reset-styles * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  background: none;
+} */
 
+/* Additional reset for the div itself */
+.reset-styles {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  background: none;
+}
 /*  scroll Top Button */
 #btn-back-to-top {
   width: 50px;

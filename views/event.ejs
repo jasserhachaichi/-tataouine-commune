@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('./commun/head') %>
-<script src="./plugin/calendar/simplebar.min.js"></script>
-<script src="./plugin/calendar/config.js"></script>
+<!-- <script src="./plugin/calendar/simplebar.min.js"></script>
+<script src="./plugin/calendar/config.js"></script> -->
 
 <link href="./theme.min.css" type="text/css" rel="stylesheet" id="style-default">
 <style>
@@ -15,7 +15,6 @@
     font-size: 14px;
     font-weight: 600;
     text-transform: capitalize;
-    font-family: Montserrat, sans-serif;
   }
 
   .breadcrumbs__item:last-child:after {
@@ -72,15 +71,14 @@
     <div class="container">
       <div class="content">
         <div class="pb-9">
-          <h2 class="mb-4 mb-lg-6">Event details <%= event.type != undefined ? '(' +event.type+ ')' : '' %></h2><img class="rounded w-100 fit-cover mb-5 mb-md-6 mb-xl-8" src="images/BackgroundEvent.jpg" alt="" style="min-height: 250px;">
+          <h2 class="mb-4 mb-lg-6"><span class="primary-color-2"><%= event.title %></span> <%= event.type != undefined ? '(' +event.type+ ')' : '' %></h2>
+          <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="<%= event.coverpath ? event.coverpath.replace(/\\/g, '/').replace('attachments/', '') : 'images/BgEvent-default.jpg' %>" alt="<%= event.title %> Cover Image" style="max-height: 500px; width: auto;">
           <div class="row gx-lg-9">
             <div class="col-xl-8 border-end-xl">
-              <div class="card mb-9">
+              <div class="card mb-9 fw-semibold">
                 <div class="card-body">
-                  <h1 class="lh-sm fs-6 fs-xxl-4 mb-2">
-                    <%= event.title %>
-                  </h1>
-                  <p class="fs-8 mb-4 text-body-tertiary">
+                  <h1 class="lh-sm fs-6 fs-xxl-4 mb-2 primary-color-1">Description</h1>
+                  <p class="fs-8 mb-4 ">
                     <%= event.description %>
                   </p>
                   <div class="card mb-5 mb-xxl-7">
@@ -98,7 +96,7 @@
                                 <h5 class="ms-2 text-body-emphasis mb-0">Location <%= event.participation === 'Both' ? '(Online & Onsite)' : '(' +event.participation+ ')' %></h5>
                               </div>
                             </div>
-                            <p class="lh-sm mb-0 text-body-tertiary">
+                            <p class="lh-sm mb-0 ">
                               <%= event.venue ? event.venue : '' %><%= event.country ? ', ' +  event.country : '' %><br>
                               <%= event.state ? event.state : '' %><%= event.city ? ', ' +  event.city : '' %>
                             </p>
@@ -117,7 +115,7 @@
                               <h5 class="ms-2 mb-0">Date &amp; Time</h5>
                             </div>
                           </div>
-                          <p class="lh-sm mb-0 text-body-tertiary">
+                          <p class="lh-sm mb-0 ">
                             <%= event.startDate %> <br> <%= event.endDate ? event.endDate : '' %>
                           </p>
                         </div>
@@ -133,7 +131,7 @@
                               <h5 class="ms-2 mb-0">Registration Deadline:</h5>
                             </div>
                           </div>
-                          <p class="lh-sm mb-0 text-body-tertiary">
+                          <p class="lh-sm mb-0 ">
                             <%= event.regDead ? event.regDead : '' %>
                           </p>
                         </div>
@@ -143,10 +141,24 @@
                   </div>
                 </div>
               </div>
-              <h2 class="mb-3">About this event</h2>
-              <div>
+              <h2 class="mb-3 primary-color-1">About this event</h2>
+
+              <div class="reset-styles">
                 <%- event.summernote %>
               </div>
+              <br>
+              <% if (event.attachements && (event.attachements.length) > 0) { %>
+                <h2 class="mb-3 primary-color-1">Attachments</h2>
+                <ul>
+                  <% event.attachements.forEach(function(attachment) { %>
+                  <li>
+                    <i class="fa-solid fa-paperclip"></i>
+                    <a href="<%= attachment.path.replace('attachments\\', '') %>"><%= attachment.filename %></a>
+                  </li>
+                  <% }); %>
+                </ul>
+                <% } %>
+
 
 
 
@@ -192,37 +204,50 @@
               </div>
             </div>
             <div class="col-xl-4">
-              <h3 class="mb-5 mb-xl-4">Organized by</h3>
-              <div class="row g-2 mb-6 align-items-center">
+              <h3 class="mb-3 primary-color-1">Organized by</h3>
+              <div class="row g-2 mb-3 align-items-center">
                 <div class="col-sm-auto flex-1">
-                  <span class="mb-0 text-primary fw-semibold lh-sm">
-                    <%= event.organizers %>
+                  <span class="mb-0lh-sm fw-semibold ">
+                    <%= event.organizers.join(', ') %>
                   </span>
                 </div>
+              </div>
+              <div class="row g-2 mb-4 align-items-center">
+                <% if (event.ologospath.length > 0) { %>
+                <% event.ologospath.forEach(function(path) { %>
+                <div class="col-auto"><img class="rounded img-fluid" src="<%= path.replace(/\\/g, '/').replace('attachments/', '') %>" alt="Organizer logo" width="40" height="auto"></div>
+                <% }) %>
+                <% } %>
               </div>
 
 
 
               <% if (event.sponsors && event.sponsors !=null) { %>
-              <h3 class="mb-5 mb-xl-4">Sponsored by</h3>
-              <div class="row g-2 mb-6 align-items-center">
+              <h3 class="mb-3 primary-color-1">Sponsored by</h3>
+              <div class="row g-2 mb-3 align-items-center">
                 <div class="col-sm-auto flex-1">
-                  <span class="mb-0 text-primary fw-semibold lh-sm">
-                    <%= event.sponsors %>
+                  <span class="mb-0 lh-sm fw-semibold ">
+                    <%= event.sponsors.join(', ') %>
                   </span>
                 </div>
               </div>
               <% } %>
 
 
-              <div class="row g-2 mb-6 align-items-center">
-                <% event.logospath.forEach(logo=> { %>
-                <div class="col-auto"><img class="rounded img-fluid" src="<%= logo.replace(/\\/g, '/').replace('Attachments/', '') %>" alt="logo" width="40" height="40"></div>
-                <% }); %>
+              <div class="row g-2 mb-4 align-items-center">
+                <% if (event.slogospath.length > 0) { %>
+                <% event.slogospath.forEach(function(path) { %>
+                <div class="col-auto"><img class="rounded img-fluid" src="<%= path.replace(/\\/g, '/').replace('attachments/', '') %>" alt="Sponsor logo" width="40" height="auto"></div>
+                <% }) %>
+                <% } %>
               </div>
 
+
+
+
+
               <% if (event.tags) { %>
-              <h3 class="mb-3">Tags</h3>
+              <h3 class="mb-3 primary-color-1">Tags</h3>
               <div class="d-flex flex-wrap pb-7 border-bottom border-translucent">
                 <% event.tags.forEach(tag=> { %>
                 <span class="badge badge-tag me-2 mb-2">
@@ -237,7 +262,7 @@
 
               <div class="row g-0 py-3 border-bottom border-dashed align-items-end justify-content-between">
                 <div class="col-auto">
-                  <h3 class="flex-1 mb-0 text-nowrap me-3">Upcoming events</h3>
+                  <h3 class="flex-1 mb-0 text-nowrap me-3 primary-color-1">Upcoming events</h3>
                 </div>
                 <div class="col-auto"><a class="fw-bold fs-9" href="/events">See more</a></div>
               </div>
@@ -248,7 +273,7 @@
               <% latestEvents.forEach(levent=> { %>
               <div class="bg-event my-4 p-3 border-bottom border-translucent border-dashed">
                 <div class="d-flex flex-between-center">
-                  <p class="text-warning fs-10 mb-0 fw-bold mb-1">
+                  <p class="fs-8 mb-0 fw-bold mb-1 primary-color-2">
                     <%= levent.startDate.toDateString() %> - <%= levent.endDate ? levent.endDate.toDateString() : 'Ongoing' %>
                     <span><%= levent.participation === 'Both' ? '(Online & Onsite)' : '('+levent.participation+')' %></span>
                   </p>
@@ -260,11 +285,11 @@
                     <%= levent.organizers %>
                   </span></p>
                 <% if (levent.regDead) { %>
-                  <p class="text-body-secondary fs-9 mb-2">Deadline Date:<br><span class="fw-bold">
+                <p class="text-body-secondary fs-9 mb-2">Deadline Date:<br><span class="fw-bold">
                     <%= event.regDead ? event.regDead : '' %>
                   </span></p>
                 <% } %>
-                <p class="fs-9 text-body-tertiary fw-bold mb-1">
+                <p class="fs-9  fw-bold mb-1">
                   <svg class="svg-inline--fa fa-clock text-body-secondary me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
                     <path fill="currentColor" d="M256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512zM232 256C232 264 236 271.5 242.7 275.1L338.7 339.1C349.7 347.3 364.6 344.3 371.1 333.3C379.3 322.3 376.3 307.4 365.3 300L280 243.2V120C280 106.7 269.3 96 255.1 96C242.7 96 231.1 106.7 231.1 120L232 256z">
                     </path>
@@ -276,7 +301,7 @@
 
 
                 <% if (levent.venue || levent.country || levent.state || levent.city) { %>
-                <p class="fs-9 text-body-tertiary fw-bold mb-0">
+                <p class="fs-9  fw-bold mb-0">
                   <svg class="svg-inline--fa fa-location-dot text-body-secondary me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
                     <path fill="currentColor" d="M168.3 499.2C116.1 435 0 279.4 0 192C0 85.96 85.96 0 192 0C298 0 384 85.96 384 192C384 279.4 267 435 215.7 499.2C203.4 514.5 180.6 514.5 168.3 499.2H168.3zM192 256C227.3 256 256 227.3 256 192C256 156.7 227.3 128 192 128C156.7 128 128 156.7 128 192C128 227.3 156.7 256 192 256z">
                     </path>
@@ -307,8 +332,7 @@
   </main>
 
 
-
-  <%- include('./commun/footer') %>
+<%- include('./commun/footer') %>
   <script src="./plugin/calendar/anchor.min.js"></script>
   <script src="./plugin/calendar/is.min.js"></script>
   <script src="./all.min.js"></script> <!-- fontawesome -->

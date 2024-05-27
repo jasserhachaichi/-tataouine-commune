@@ -21,14 +21,25 @@ const AdvancedEventSchema = new mongoose.Schema({
     },
     endDate: Date,
     regDead: Date,
-    organizers: String,
-    sponsors: String,
+    organizers: [String],
+    sponsors: [String],
     tags: [String],
     summernote: {
         type: String,
         required: true
     },
-    logospath:[String],
+    slogospath:[String],
+    ologospath:[String],
+    attachements: [
+        {
+            filename: String,
+            path: String
+        }
+    ],
+    coverpath:{
+        type:String,
+        default: "images/BgEvent-default.jpg",
+    },
 });
 
 const AdvancedEvent = mongoose.model('AdvancedEvent', AdvancedEventSchema);

@@ -3356,7 +3356,7 @@ textarea.form-control {
 
 .text-body-emphasis {
     --phoenix-text-opacity: 1;
-    color: var(--phoenix-emphasis-color) !important
+    color: var(--primary-color-1) !important
 }
 
 .text-body-highlight {

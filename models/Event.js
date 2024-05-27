@@ -10,6 +10,7 @@ const eventSchema = new mongoose.Schema({
     },
     start: {
         type: Date,
+        required: true
     },
     end: {
         type: Date,
@@ -18,14 +19,14 @@ const eventSchema = new mongoose.Schema({
         type: Boolean,
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     location: {
         type: String,
     },
-    organizer: {
-        type: String,
-    },
+    organizers: [String],
+    sponsors: [String],
     url: {
         type: String,
     }

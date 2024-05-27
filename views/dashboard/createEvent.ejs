@@ -8,6 +8,19 @@
 <link rel="stylesheet" href="assets/compiled/css/form-editor-summernote.rtl.css">
 <link rel="stylesheet" href="assets/extensions/filepond/filepond.css">
 <link rel="stylesheet" href="plugin/Tagify/tagify.css">
+<style>
+  .reset-styles {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background: none;
+}
+
+</style>
 
 
 <body>
@@ -44,13 +57,13 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6 col-12">
-                    <div class="form-group">
-                      <label for="event-title">Event title</label>
+                    <div class="form-group  mandatory">
+                      <label for="event-title" class="form-label">Event title</label>
                       <input type="text" id="event-title" class="form-control" placeholder="Event title" name="event-title">
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
-                    <label>Type</label>
+                    <label class="form-label">Type</label>
                     <div class="input-group mb-3">
                       <select class="form-select" id="inputGroupSelect01" name="type">
                         <option selected>Select event type</option>
@@ -106,8 +119,8 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <div class="form-group">
-                      <label for="description">Description</label>
+                    <div class="form-group mandatory">
+                      <label for="description" class="form-label">Description</label>
                       <textarea class="form-control" id="description" rows="4" name="description"></textarea>
                     </div>
                   </div>
@@ -125,15 +138,15 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6 col-12">
-                    <div class="form-group">
-                      <label for="start-date">Start date</label>
+                    <div class="form-group mandatory">
+                      <label for="start-date" class="form-label">Start date</label>
                       <input type="text" id="start-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="start-date">
                     </div>
                   </div>
 
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="end-date">End date</label>
+                      <label for="end-date"  class="form-label">End date</label>
                       <input type="text" id="end-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="end-date">
                     </div>
                   </div>
@@ -159,27 +172,66 @@
                   <div class="col-md-6 col-12">
                     <div class="form-group">
                       <label for="organizers">ORGANIZERS</label>
-                      <input type="text" id="organizers" class="form-control" placeholder="ORGANIZERS" name="organizers">
+<!--                       <input type="text" id="organizers" class="form-control" placeholder="ORGANIZERS" name="organizers"> -->
+                      <input id="organizers" class="form-control" name="organizers">
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
                     <div class="form-group">
                       <label for="sponsors">SPONSORS</label>
-                      <input type="text" id="sponsors" class="form-control" placeholder="SPONSORS" name="sponsors">
+<!--                       <input type="text" id="sponsors" class="form-control" placeholder="SPONSORS" name="sponsors"> -->
+                      <input id="sponsors" class="form-control" name='sponsors'>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-md-6 col-12">
                     <input id="filepondinput" type="file" name="filepond" multiple />
                   </div>
-
-
-
-
-
+                  <div class="col-md-6 col-12">
+                    <input id="filepondinput2" type="file" name="filepond2" multiple />
+                  </div>
                 </div>
               </div>
             </div>
           </section>
+
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Photo Cover</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <input id="filepondinput3" type="file" name="filepond3"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Attachements</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                    <input id="filepondinput4" type="file" name="filepond4" multiple/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+
+
+
+
+
+
 
           <section class="section">
             <div class="card">
@@ -201,12 +253,15 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">About this event</h4>
+
+                <div class="form-group  mandatory">
+                  <h4 class="card-title form-label">About this event</h4>
+                </div>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-12">
-                    <div class="form-group">
+                    <div class="form-group reset-styles">
                       <div id="summernote"></div>
                     </div>
                   </div>
@@ -214,7 +269,7 @@
               </div>
             </div>
           </section>
-          
+
           <div class="col-12 d-flex justify-content-end">
             <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Post</button>
           </div>
@@ -292,21 +347,41 @@
       maxFileSize: '5MB',
       credits: null,
     });
+    const pond2 = FilePond.create(document.getElementById("filepondinput2"), {
+      maxFileSize: '5MB',
+      credits: null,
+    });
+    const pond3 = FilePond.create(document.getElementById("filepondinput3"), {
+      maxFileSize: '5MB',
+      credits: null,
+    });
+    const pond4 = FilePond.create(document.getElementById("filepondinput4"), {
+      maxFileSize: '5MB',
+      credits: null,
+    });
+
+
   </script>
   <script src="plugin/Tagify/tagify.min.js"></script>
   <script>
     // The DOM element you wish to replace with Tagify
-    var input = document.querySelector('input[name=tags-event]');
+    var inputtag = document.querySelector('input[name=tags-event]');
+    var inputo = document.querySelector('input[name=organizers]');
+    var inputs = document.querySelector('input[name=sponsors]');
+    
 
     // initialize Tagify on the above input node reference
-    var tagify = new Tagify(input);
+    var tagifytag = new Tagify(inputtag);
+    var tagifys = new Tagify(inputs);
+    var tagifyo = new Tagify(inputo);
+
   </script>
 
 
 
 
-<script>
-      function showMessage(msg, duration, color) {
+  <script>
+    function showMessage(msg, duration, color) {
       Toastify({
         text: msg,
         close: true,
@@ -316,7 +391,7 @@
         backgroundColor: color,
       }).showToast()
     }
-      $(document).ready(function() {
+    $(document).ready(function() {
       $('#eventform').submit(function(e) {
         e.preventDefault(); // Prevent the default form submission
         // Disable the submit button and show loading text
@@ -328,6 +403,9 @@
 
         // Get files from FilePond instance
         const files = pond.getFiles();
+        const files2 = pond2.getFiles();
+        const files3 = pond3.getFiles();
+        const files4 = pond4.getFiles();
 
 
         // Create FormData object and append files to it
@@ -335,6 +413,18 @@
         files.forEach(file => {
           formData.append('filepond', file.file);
         });
+        files2.forEach(file => {
+          formData.append('filepond2', file.file);
+        });
+        files3.forEach(file => {
+          formData.append('filepond3', file.file);
+        });
+        files4.forEach(file => {
+          formData.append('filepond4', file.file);
+        });
+
+
+
         formData.append('summernote', summernoteHTML);
 
         // Send AJAX request
@@ -352,6 +442,9 @@
               document.getElementById("eventform").reset();
               $('#summernote').summernote('code', '');
               pond.removeFiles();
+              pond2.removeFiles();
+              pond3.removeFiles();
+              pond4.removeFiles();
             }, 1000);
 
 
@@ -373,7 +466,7 @@
         });
       });
     });
-</script>
+  </script>
 
 
 </body>

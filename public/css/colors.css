@@ -5,7 +5,6 @@
 
 
 
-
   /* --second-color-1: #f99b86; */
   --second-color-1 :#439bbb;
   --third-color-1 : #2e7d99;
@@ -34,4 +33,18 @@
 .color-background-white{
   background-color: var(--color-white) !important;
 }
+
+/*
+#0b5ed7      --primary-color-2
+#0b5ed7   --primary-color-1
+
+#0a58ca    
+
+
+
+
+
+
+
+*/
 

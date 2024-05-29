@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const followerModel = require('./../models/Follower');
+const Blog = require('./../models/Blog');
 
 
-router.get("/", (req, res) => {
-    return res.render("home");
+router.get("/", async (req, res) => {
+            // Fetch the three most recent blog posts
+            const recentBlogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
+            // Render the home page and pass the recentBlogs to the template
+            return res.render("home", { recentBlogs });
 });
 
 router.post("/subscribe", async (req, res) => {

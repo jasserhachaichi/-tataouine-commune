@@ -34,7 +34,7 @@ const BlogSchema = new mongoose.Schema({
             principale_comment: {
                 idP: {
                     type: Number,
-                    unique: true
+                    //unique: true
                 },
                 name: {
                     type: String,
@@ -61,7 +61,7 @@ const BlogSchema = new mongoose.Schema({
                     {
                         idR: {
                             type: Number,
-                            unique: true
+                            //unique: true
                         },
                         name: {
                             type: String,
@@ -95,6 +95,7 @@ const BlogSchema = new mongoose.Schema({
     ],
     attachments: [
         {
+            originalname: String,
             filename: String,
             path: String
         }

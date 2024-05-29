@@ -152,6 +152,10 @@ section {
   --bs-btn-disabled-bg: var(--second-color-1);
   --bs-btn-disabled-border-color: var(--second-color-1);
 }
+.fit-cover {
+  -o-object-fit: cover;
+  object-fit: cover !important
+}
 
 
 /* custom scroll bar */

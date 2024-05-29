@@ -620,10 +620,6 @@ button,
     align-items: center
 }
 
-.fit-cover {
-    -o-object-fit: cover;
-    object-fit: cover
-}
 
 .content {
     min-height: 100vh;

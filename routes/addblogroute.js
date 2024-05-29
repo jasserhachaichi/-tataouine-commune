@@ -12,14 +12,9 @@ const storage = multer.diskStorage({
         cb(null, 'attachments/Blog/');
     },
     filename: function (req, file, cb) {
-        if (file.fieldname === 'filepond2') {
-            // Use the original filename for 'filepond2' field
-            cb(null, file.originalname);
-        } else {
-            // Generate a unique filename for other fields
+        console.log(file.originalname);
             const ext = path.extname(file.originalname);
             cb(null, file.fieldname + '-' + Date.now() + ext);
-        }
     }
     
 });
@@ -78,7 +73,8 @@ router.post('/', async (req, res) => {
             var attachaaray = [];
             if (req.files['filepond2'] && req.files['filepond2'].length > 0) {
                 attachaaray = req.files['filepond2'].map(file => ({
-                    filename: file.originalname,
+                    originalname: file.originalname,
+                    filename: file.filename,
                     path: file.path,
                 }));
             }

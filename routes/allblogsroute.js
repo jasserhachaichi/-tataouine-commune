@@ -98,6 +98,149 @@ router.get("/delete/:id", async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+router.get('/:id', async (req, res) => {
+    try {
+        const blogId = req.params.id;
+        //let query = {};
+        var { search, page } = req.query;
+        const perPage = 6; 
+        var pageNumber = parseInt(page) || 1;
+
+        if (search) {
+            query = {
+                $or: [
+                    { 'comments.principale_comment.name': { $regex: search, $options: 'i' } },
+                    { 'comments.principale_comment.comment': { $regex: search, $options: 'i' } },
+                    { 'comments.replies_comments.name': { $regex: search, $options: 'i' } },
+                    { 'comments.replies_comments.comment': { $regex: search, $options: 'i' } }
+                ]
+            };
+        }
+
+        const blog = await Blog.findById(blogId).select('-attachments -autor -subtitle -coverIMGpath -nb_views -details -tags').exec();
+        if (!blog) {
+            return res.status(404).send('Blog post not found');
+        }
+
+        let filteredComments = blog.comments;
+        if (search) {
+            filteredComments = blog.comments.filter(commentObj => {
+                const comment = commentObj.principale_comment;
+                const matchesPrincipal = comment.name.match(new RegExp(search, 'i')) || comment.comment.match(new RegExp(search, 'i'));
+                const matchesReplies = comment.replies_comments.some(reply => reply.name.match(new RegExp(search, 'i')) || reply.comment.match(new RegExp(search, 'i')));
+                return matchesPrincipal || matchesReplies;
+            });
+        }
+
+        const totalComments = filteredComments.length;
+        const totalPages = Math.ceil(totalComments / perPage);
+
+        if(totalPages < pageNumber){
+            pageNumber = 1;
+            page = 1;
+        }
+
+        const comments = filteredComments.slice((pageNumber - 1) * perPage, pageNumber * perPage);
+
+        return res.render('dashboard/allcomments', {
+            blog,
+            comments,
+            currentPage: pageNumber,
+            totalPages,
+            search,
+            page
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+
+router.get('/comments/PC/:blogId/:idP', async (req, res) => {
+    try {
+        const { blogId, idP } = req.params;
+        const { search } = req.query;
+        console.log(search);
+
+        // Find the blog by ID
+        const blog = await Blog.findById(blogId);
+
+        if (!blog) {
+            return res.status(404).send('Blog post not found');
+        }
+
+        // Filter out the principal comment with the given idP
+        blog.comments = blog.comments.filter(commentObj => commentObj.principale_comment.idP !== parseInt(idP));
+
+        // Save the updated blog
+        await blog.save();
+
+                // Construct the URL with query parameters
+                let redirectUrl = `/allblogs/${blogId}`;
+                const queryParams = [];
+                if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
+                if (queryParams.length > 0) {
+                    redirectUrl += `?${queryParams.join('&')}`;
+                }
+                //console.log(redirectUrl);
+        
+                return res.redirect(redirectUrl);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Server Error');
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/comments/RC/:blogId/:idR', async (req, res) => {
+    try {
+        const { blogId, idR } = req.params;
+        const { search, page } = req.query;
+        console.log(search);
+        console.log(page);
+
+        // Find the blog by ID
+        const blog = await Blog.findById(blogId);
+
+        if (!blog) {
+            return res.status(404).send('Blog post not found');
+        }
+
+        // Iterate through each principal comment to find and remove the reply
+        blog.comments.forEach(commentObj => {
+            commentObj.principale_comment.replies_comments = commentObj.principale_comment.replies_comments.filter(reply => reply.idR !== parseInt(idR));
+        });
+
+        // Save the updated blog
+        await blog.save();
+
+                // Construct the URL with query parameters
+                let redirectUrl = `/allblogs/${blogId}`;
+                const queryParams = [];
+                if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
+                if (page) queryParams.push(`page=${encodeURIComponent(page)}`);
+                if (queryParams.length > 0) {
+                    redirectUrl += `?${queryParams.join('&')}`;
+                }
+                //console.log(redirectUrl);
+        
+                return res.redirect(redirectUrl);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Server Error');
+    }
+});
 
 
 

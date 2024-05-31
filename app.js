@@ -70,7 +70,7 @@ app.get('/logout', (req, res) => {
 
     res.redirect("/login");
 });
-app.use("/forms", require("./routes/formsroute"));
+/* app.use("/forms", require("./routes/formsroute")); */ //Annuler pour le moment a reason de limitation du temps
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
@@ -131,7 +131,7 @@ app.use("/allblogs", authenticateToken, checkUserRole, require("./routes/allblog
 app.use("/calendarmanagement", authenticateToken, checkUserRole, require("./routes/dashcalendarroute"));
 app.use("/createevent", authenticateToken, checkUserRole, require("./routes/createeventroute"));
 
-app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
+/* app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
 app.use("/editassistance", authenticateToken, checkUserRole, require("./routes/editassistanceroute"));
 app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));
 app.use("/form", authenticateToken, checkUserRole, require("./routes/formroute"));
@@ -163,7 +163,7 @@ app.get('/auth/protected', (req, res) => {
     res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });
     //res.send(`Cookie set: ${userCookie}`);
     res.redirect("/assistances");
-});
+}); */
 
 
 

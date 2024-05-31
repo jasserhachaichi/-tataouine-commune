@@ -2,145 +2,130 @@
 <html lang="en">
 <%- include('./commun/head') %>
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/ctas/cta-1/assets/css/cta-1.css" />
+<style>
+  .title_section {
+    color: var(--primary-color-2);
+    font-weight: bold;
+  }
+
+  ul strong {
+    color: var(--primary-color-1);
+  }
+</style>
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
 
 
-<!-- Call To Action 1 - Bootstrap Brain Component -->
-<section class="bsb-cta-1 px-2 bsb-overlay" style="background-image: url('images/Default-cover.jpg');">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-9 col-lg-8 col-xl-7 col-xxl-6">
-        <h2 class="fs-5 mb-3 text-white text-uppercase">Our Services & Expertise</h2>
-        <h3 class="display-5 text-white mb-4">We are a design agency studio delivering custom creative & unique websites.</h3>
-        <a href="#!" class="btn bsb-btn-2xl btn-light rounded mb-0 text-nowrap">Join Us</a>
+  <!-- Call To Action 1 - Bootstrap Brain Component -->
+  <section class="bsb-cta-1 px-2 bsb-overlay" style="background-image: url('images/Default-cover.jpg'); min-height: 400px; width: auto;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-9 col-lg-8 col-xl-7 col-xxl-6">
+          <!--           <h2 class="fs-5 mb-3 text-white text-uppercase">Our Services & Expertise</h2>
+          <h3 class="display-5 text-white mb-4">We are a design agency studio delivering custom creative & unique websites.</h3>
+          <a href="#!" class="btn bsb-btn-2xl btn-light rounded mb-0 text-nowrap">Join Us</a> -->
+          <h2 class="fs-3  text-white text-uppercase">À propos de nous</h2>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<style>
-  .figure_for_frame {
-    --c: 50px;
-    --p: 30px;
-    --d: 10px;
-    background: red;
-    display: inline-block;
-    padding: var(--p);
-    background:
-      radial-gradient(farthest-side at 0 0, #000, #0000) 0 0 / var(--c) var(--c),
-      radial-gradient(farthest-side at 100% 100%, #000, #0000) 100% 100% / var(--c) var(--c),
-      linear-gradient(#fff 0 0) 50% 50% / calc(100% - var(--p)) calc(100% - var(--p)),
-      linear-gradient(#0000, #000 25% 75%, #0000) 50% 50% / calc(100% - var(--p)) calc(100% - var(--d)),
-      linear-gradient(90deg, #0000, #000 25% 75%, #0000) 50% 50% / calc(100% - var(--d)) calc(100% - var(--p)),
-      radial-gradient(farthest-side at 0 100%, #00000018, #0000) calc(100% - var(--d) * 0.5) calc(var(--d) * 0.5) / var(--d) var(--d),
-      radial-gradient(farthest-side at 100% 0, #00000018, #0000) calc(var(--d) * 0.5) calc(100% - var(--d) * 0.5) / var(--d) var(--d);
-    background-repeat: no-repeat;
-    clip-path: polygon(0 var(--c), var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%);
-  }
-</style>
+  </section>
 
-
-<section class="section-2">
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-12 col-md-10 col-lg-8 col-xl-7">
-        <h3 class="title_section">À propos de nous</h3>
-        <h2 class="title_discription">C'est quoi Forum des entreprises ?</h2>
+  <section>
+    <div class="container mb-5">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="title_section">Notre Site Web : Gestion et Valorisation des Déchets</h1>
+          <!--         <h2 class="title_discription">C'est quoi Forum des entreprises ?</h2> -->
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <h3 class="title_section">Mission et Vision</h3>
+      <p class="text-justify fw-semibold">
+        Le site web que j'ai développé a pour mission de fournir des informations exhaustives, inspirer la créativité, et sensibiliser le public à l'importance de la gestion durable des déchets. Nous visons à faciliter l'accès aux ressources, encourager l'interactivité et la participation des utilisateurs, et soutenir activement les initiatives locales. </p>
+      <h3 class="title_section">Fonctionnalités Clés</h3>
+      <p class="text-justify fw-semibold">
+        Le site web que j'ai développé a pour mission de fournir des informations exhaustives, inspirer la créativité, et sensibiliser le public à l'importance de la gestion durable des déchets. Nous visons à faciliter l'accès aux ressources, encourager l'interactivité et la participation des utilisateurs, et soutenir activement les initiatives locales. </p>
+      <ul class="text-justify fw-semibold lh-lg">
+        <li><strong>Ressources et Informations :</strong> Le site offre une multitude de ressources éducatives et informatives sur des sujets variés tels que le recyclage, le compostage, la méthanisation, et bien plus encore.</li>
+        <li><strong>Interactivité et Participation :</strong> Nous encourageons les utilisateurs à participer activement à la gestion des déchets en proposant des idées de projets, des sujets de fin d'études, et des initiatives locales.</li>
+        <li><strong>Coordination Locale :</strong> Le site facilite la coordination à l'échelle locale entre les différentes parties prenantes, y compris les municipalités, les entreprises, et les communautés locales.</li>
+        <li><strong>Services Pratiques :</strong> Des services tels qu'un calendrier d'événements, un annuaire des entreprises autorisées dans le domaine des déchets, et des propositions de financement pour soutenir les projets locaux sont disponibles.</li>
+        <li><strong>Transparence et Signalement :</strong> Nous promouvons la transparence et permettons le signalement des problématiques liées à la gestion des déchets pour une meilleure efficacité.</li>
+        <li><strong>Soutien aux Projets Locaux :</strong> Le site apporte un soutien concret aux projets locaux par le biais de vidéos éducatives, de webinaires, et d'une galerie de produits upcyclés.</li>
+      </ul>
 
 
+      <h3 class="title_section">Appel à Projets et Idées</h3>
+      <p class="text-justify fw-semibold">Une page dédiée permet de diffuser des appels à projets, des idées, et des offres de financement. Cela inclut :</p>
+      <ul class="text-justify fw-semibold lh-lg">
+        <li>Des sujets de projets de fin d'études (PFE), de masters, et de recherches.</li>
+        <li>Des idées pour les clubs, les investisseurs, et les associations.</li>
+        <li>Des offres de financement pour soutenir les projets de développement durable.</li>
+      </ul>
 
+      <h3 class="title_section">Annuaire des Entreprises Autorisées</h3>
+      <p class="text-justify fw-semibold">Notre annuaire est une ressource essentielle qui offre un accès rapide et fiable à une liste complète d'entreprises autorisées dans le domaine de la gestion des déchets.</p>
 
+      <h3 class="title_section">Événements et Ateliers</h3>
+      <p class="text-justify fw-semibold">Nous organisons des vidéos et des webinaires éducatifs sur des sujets tels que le compostage à domicile, le zéro déchet, et l'upcycling. Notre calendrier en ligne recense tous les colloques, séminaires, et événements pertinents.</p>
+    </div>
+  </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="container mb-5">
-    <div class="row justify-content-md-center">
-      <div class="col-12 col-md-10 col-lg-8 col-xl-7">
-        <figure class="figure_for_frame">
-          <img style="max-width: 100%;height: auto;" src="images/slider3.jpg" alt="Forum ENIG" />
-          <figcaption>Forum 2023</figcaption>
-        </figure>
+  <section>
+    <div class="container mb-5">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="title_section">Projet « La Gouvernance Environnementale Municipale - MEG »</h1>
+          <!--         <h2 class="title_discription">C'est quoi Forum des entreprises ?</h2> -->
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="container">
-    <p class="text-justify fw-semibold">
-      Le Forum Entreprise ENIG est un événement annuel organisé par une équipe des jeunes étudiants de l’Ecole Nationale
-      d’Ingénieurs de Gabès (ENIG) qui visent à mettre en relation les étudiants ingénieurs et les entreprises. Cet
-      événement permet aux entreprises de rencontrer les futurs ingénieurs, de diffuser leurs offres de stages,
-      d’emplois et de recruter les profils adéquats. Pour les étudiants, c’est l’occasion d’établir un premier contact
-      avec le monde professionnel et d’explorer les opportunités de carrière.
-    </p><br>
-    <p class="text-justify fw-semibold">
-      Chaque année, le Forum Entreprise ENIG invite plusieurs entreprises tunisiennes et internationales à tenir un
-      stand et à présenter leurs activités aux étudiants dans le domaine de la bancassurance, le conseil, l’industrie,
-      la santé, les services numériques…. Des conférences et des ateliers animés par des experts sont aussi organisés
-      pour partager des conseils et des témoignages avec les étudiants.
-    </p><br>
+  <section>
+    <div class="container">
 
 
 
-  </div>
-</section>
-<!-- Blog 1 - Bootstrap Brain Component -->
-<section class="py-3 py-md-5">
-  <div class="container overflow-hidden">
-    <div class="row gy-5">
-      <div class="col-12">
-        <div class="row align-items-center gy-3 gy-md-0 gx-xl-5">
-          <div class="col-xs-12 col-md-6">
-            <div class="img-wrapper position-relative bsb-hover-push">
-              <figure class="figure_for_frame">
-                <img style="max-width: 100%;height: auto;" src="images/slider2.jpg" alt="enig" />
-                <figcaption>ENIG - École Nationale d'Ingénieurs de Gabès</figcaption>
-              </figure>
+      <div class="row">
+        <div class="col-md-9 col-sm-12">
+          <h3 class="title_section">Contexte</h3>
+          <p class="text-justify fw-semibold">Ce projet est une initiative menée par l'organisation Volonté et Citoyenneté (OVC) avec le soutien du Fonds National pour la Démocratie. En collaboration avec neuf communes du sud de la Tunisie, il vise à instaurer un système de gestion des déchets durable et participatif, à renforcer la coordination entre les membres de la communauté et les municipalités, et à promouvoir le partenariat entre les secteurs public et privé.</p>
 
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-6">
-            <div class="text-justify fw-semibold">
-              <p class="mb-4">L’ENIG est une école d’ingénieurs tunisienne, fondée en 1975 et rattachée à l’Université
-                de Gabès. Elle propose des formations d’ingénieurs dans les domaines suivants : génie chimique, génie
-                civil, génie électrique et automatique, génie des réseaux et communication et génie mécanique.</p>
-              <p class="mb-4">Accréditée par la Commission des Titres d’Ingénieur (CTI) depuis 2022, l’ENIG compte plus
-                de 6500 diplômés, 814 étudiants et 142 enseignants. Elle entretient des partenariats avec plus de 50
-                universités à travers le monde.</p>
-              <p class="mb-4">Le Forum Entreprise ENIG et l’ENIG ont pour mission d’accompagner les étudiants dans leur
-                insertion professionnelle et de favoriser les partenariats entre le monde académique et les entreprises.
-              </p>
-            </div>
-          </div>
+        </div>
+        <div class="col-md-3 col-sm-12 d-flex justify-content-md-center">
+          <figure class="figure_for_frame">
+            <img style="max-width: 100%;height: auto;" src="images/ovclogo.png" alt="Forum ENIG" />
+          </figure>
         </div>
       </div>
 
+      <h3 class="title_section">Objectifs</h3>
+      <p class="text-justify fw-semibold">
+        Le site web que j'ai développé a pour mission de fournir des informations exhaustives, inspirer la créativité, et sensibiliser le public à l'importance de la gestion durable des déchets. Nous visons à faciliter l'accès aux ressources, encourager l'interactivité et la participation des utilisateurs, et soutenir activement les initiatives locales. </p>
+      <ul class="text-justify fw-semibold lh-lg">
+        <li><strong>Gestion Durable des Déchets :</strong> Mettre en place un système de gestion des déchets efficace et responsable.</li>
+        <li><strong>Coordination et Coopération :</strong> Accroître la coopération entre les différentes parties prenantes pour améliorer les politiques locales de gestion des déchets.</li>
+        <li><strong>Partenariat Public-Privé :</strong> Renforcer les liens entre les secteurs public et privé pour une meilleure gestion des déchets.</li>
+      </ul>
     </div>
-  </div>
-</section>
+  </section>
 
+  <section>
+    <div class="container">
+      <h3 class="title_section">Jasser Hachaichi</h3>
+      <p><strong>(Le propriétaire de l'initiative de site web)</strong></p>
+      <p class="text-justify fw-semibold">
+        Je m'appelle Jasser Hachaichi et je suis un étudiant passionné en Ingénierie des Communications et des Réseaux à l'École Nationale d'Ingénieurs de Gabès (ENIG). Je me consacre à la création d'innovations technologiques pour améliorer notre environnement. C'est dans ce cadre que j'ai développé un site web dédié à la gestion et à la valorisation des déchets.
+      </p>
+    </div>
+  </section>
 
 
 

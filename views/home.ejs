@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('./commun/head') %>
-
+ <link rel="stylesheet" href="plugin/twentytwenty/twentytwenty.css"> 
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
   <%- include('./partials/hero') %>
 
-
+  <!-- About 1 - Bootstrap Brain Component -->
+  <section class="py-3 py-md-5">
+    <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+        <div class="col-12 col-lg-6 col-xl-5">
+          <!-- <img class="img-fluid rounded" loading="lazy" src="./assets/img/about-img-1.jpg" alt="About 1"> -->
+          <div class="twentytwenty-container" data-orientation="vertical">
+            <img src="images/slider-1.jpg" />
+            <img src="images/slider-1c.jpg" />
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl-7">
+          <div class="row justify-content-xl-center">
+            <div class="col-12 col-xl-11">
+              <h2 class="mb-3">Qui sommes nous?</h2>
+              <p class="lead fs-4 text-secondary mb-3">Nous sommes une plateforme dédiée à la gestion durable des déchets, visant à informer, inspirer, et mobiliser les communautés pour des pratiques environnementales responsables. Notre mission est de faciliter l'accès aux ressources et de soutenir activement les initiatives locales pour un avenir plus vert.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
   <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/services/service-4/assets/css/service-4.css">
@@ -114,11 +135,15 @@
         </div>
       </div>
     </div>
-
+    <style>
+      img.framed {
+        box-shadow: -50px -50px 0 -40px var(--primary-color-2), 50px 50px 0 -40px var(--primary-color-2);
+      }
+    </style>
     <div class="container">
       <div class="row gy-4 gy-lg-0 align-items-lg-center">
         <div class="col-12 col-lg-6">
-          <img class="img-fluid rounded" loading="lazy" src="images/OurSuccess.jpg" alt="Our Success">
+          <img class="img-fluid rounded framed" loading="lazy" src="images/OurSuccessovc.jpg" alt="Our Success">
         </div>
         <div class="col-12 col-lg-6">
           <div class="row justify-content-xl-end">
@@ -529,7 +554,16 @@
       }
     });
   </script>
-
+  <script src="plugin/twentytwenty/jquery.event.move.js"></script>
+  <script src="plugin/twentytwenty/jquery.twentytwenty.js"></script>
+  <script>
+    $(function() {
+      $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({
+        default_offset_pct: 0.5,
+        orientation: 'vertical'
+      });
+    });
+  </script>
 </body>
 
 </html>

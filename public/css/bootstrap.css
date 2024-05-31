@@ -7563,8 +7563,7 @@ textarea.form-control-lg {
 }
 
 .border-primary {
-  --bs-border-opacity: 1;
-  border-color: rgba(var(--bs-primary-rgb), var(--bs-border-opacity)) !important;
+  border-color: var(--primary-color-2) !important;
 }
 
 .border-secondary {

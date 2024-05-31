@@ -75,21 +75,20 @@
 		</section> -->
   <section>
     <div class="container">
-
-		<div id="lightgallery" class="pictures">
-			<% images.forEach(image => { %>
-			  <a href="<%= image.path.replace('attachments\\', '') %>">
-				<img class="picture" src="<%= image.path.replace('attachments\\', '') %>" loading="lazy"/>
-			  </a>
-			<% }); %>
-		  </div>
-
-			<% if (images.length === 20) { %>
-				<a  class="btn btn-primary" href="/galleryimages?skip=<%= skip %>">Show More</a>
+		<div class="row">
+			<div id="lightgallery" class="pictures">
+				<% images.forEach(image => { %>
+				<a href="<%= image.path.replace('attachments\\', '') %>">
+				  <img class="picture" src="<%= image.path.replace('attachments\\', '') %>" loading="lazy" />
+				</a>
+				<% }); %>
+			  </div>
+		
+			  <% if (images.length === 20) { %>
+			  <a class="btn btn-primary" href="/galleryimages?skip=<%= skip %>">Show More</a>
 			  <% } %>
-
-		  
-    </div>
+			</div>
+		</div>
   </section>
 
   <!-- <section>
@@ -162,7 +161,7 @@
   <script type="text/javascript">
     lightGallery(document.getElementById('lightgallery'));
   </script>
-  
+
 
 </body>
 

@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 <style>
-  #allvids .elm  .play-icon-container {
+  #allvids .elm .play-icon-container {
     color: red;
     border-radius: 60%;
     display: flex;
@@ -15,25 +15,28 @@
     height: 100px;
     width: 100px;
   }
-  #allvids .elm  .play-icon-container .bi {
+
+  #allvids .elm .play-icon-container .bi {
     font-size: 5rem;
     width: 100%;
     height: auto;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
-  #allvids .elm  .play-icon-container .bi:hover {
+
+  #allvids .elm .play-icon-container .bi:hover {
     color: white;
   }
 
-  #allvids .elm  .card-body{
+  #allvids .elm .card-body {
     cursor: pointer;
   }
-  #allvids .elm  .card-body:hover{
+
+  #allvids .elm .card-body:hover {
     background-color: rgb(235, 235, 235);
   }
 
-  #allvids .elm  .card-text {
-    
+  #allvids .elm .card-text {
+
     min-height: 4.5em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -44,6 +47,7 @@
     -webkit-box-orient: vertical;
   }
 </style>
+
 <body>
   <script src="assets/static/js/initTheme.js"></script>
   <div id="app">
@@ -83,17 +87,17 @@
                 </ul>
                 <div class="tab-content mt-3">
                   <div class="tab-pane fade show active" id="youtube-form">
-                    <form class="form formy" action="/youtube">
+                    <form class="form formy" action="/youtube" method="POST" enctype="multipart/form-data">
                       <div class="row">
                         <div class="col-md-6 col-12">
-                          <div class="form-group">
-                            <label for="title-column">Title</label>
+                          <div class="form-group mandatory">
+                            <label for="title-column" class="form-label">Title</label>
                             <input type="text" id="title-column" class="form-control" placeholder="Video Title" name="title-column">
                           </div>
                         </div>
                         <div class="col-md-6 col-12">
-                          <div class="form-group has-icon-left">
-                            <label for="url-column">URL</label>
+                          <div class="form-group has-icon-left mandatory">
+                            <label for="url-column" class="form-label">URL</label>
                             <div class="position-relative">
                               <input type="text" class="form-control" placeholder="URL Youtube here" id="url-column" name="url-column">
                               <div class="form-control-icon">
@@ -102,8 +106,14 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-12 col-12">
+                        <div class="col-md-6 col-12">
                           <div class="form-group">
+                            <label for="thumbnail-column" class="form-label">Thumbnail</label>
+                            <input class="form-control" type="file" id="thumbnail-column" name="thumbnail-column" accept="image/*">
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="form-group mandatory">
                             <label for="description-column" class="form-label">Description</label>
                             <textarea class="form-control" id="description-column" name="description-column" rows="3" placeholder="Description of video..."></textarea>
                           </div>
@@ -119,7 +129,7 @@
                     <form class="form forml" action="/addvideo/local" enctype="multipart/form-data" method="POST">
                       <div class="row">
                         <div class="col-md-6 col-12">
-                          <div class="form-group">
+                          <div class="form-group mandatory">
                             <label for="title-column" class="form-label">Title</label>
                             <input type="text" id="title-column" class="form-control" placeholder="Video Title" name="title-column">
                           </div>
@@ -128,7 +138,7 @@
                       <hr>
                       <div class="row">
                         <div class="col-md-6 col-12">
-                          <div class="form-group">
+                          <div class="form-group mandatory">
                             <label for="video-column" class="form-label">Local video location</label>
                             <input class="form-control" type="file" id="video-column" name="video-column" accept="video/*">
                           </div>
@@ -143,13 +153,13 @@
                       <hr>
                       <div class="row">
                         <div class="col-md-12 col-12">
-                          <div class="form-group">
+                          <div class="form-group mandatory">
                             <label for="description-column" class="form-label">Description</label>
                             <textarea class="form-control" id="description-column" name="description-column" rows="3" placeholder="Description of video..."></textarea>
                           </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end">
-                          <button type="submit" class="btn btn-primary me-1 mb-1" id="submit-button">Submit</button>
+                          <button type="submit" class="btn btn-primary me-1 mb-1" id="submit-button-l">Submit</button>
                           <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
                         </div>
                       </div>
@@ -172,7 +182,6 @@
 
 
   <%- include('./commun/scripts') %>
-
   <script src="assets/extensions/toastify-js/src/toastify.js"></script>
   <script>
     document.getElementById('youtube-tab').addEventListener('click', function() {
@@ -187,22 +196,27 @@
   </script>
 
   <script>
-    // client-side JavaScript
     document.querySelector('.formy').addEventListener('submit', async function(event) {
       event.preventDefault();
-      // Disable the submit button and show loading text
       $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
 
       const formData = new FormData(this);
-      const requestData = Object.fromEntries(formData.entries());
+
+      // Get the uploaded file
+      const thumbnailFile = formData.get('thumbnail-column');
+
+      // Check if a file was uploaded
+      if (thumbnailFile) {
+        // Resize the image
+        const resizedThumbnail = await resizeImage(thumbnailFile);
+        // Replace the original file with the resized one
+        formData.set('thumbnail-column', resizedThumbnail, thumbnailFile.name);
+      }
 
       try {
         const response = await fetch('/addvideo/youtube', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestData)
+          body: formData
         });
 
         if (response.ok) {
@@ -215,19 +229,18 @@
             gravity: "bottom",
             position: "right",
             backgroundColor: "#198754",
-          }).showToast()
+          }).showToast();
         } else {
           const errorData = await response.json();
           errorData.errors.forEach(error => {
-            //console.error(`${error.msg} for ${error.path}`); 
             Toastify({
-              text: error.msg,
+              text: error,
               duration: 5000,
               close: true,
               gravity: "bottom",
               position: "right",
               backgroundColor: "#dc3545",
-            }).showToast() // Log each error separately
+            }).showToast();
           });
         }
       } catch (error) {
@@ -238,19 +251,70 @@
           gravity: "bottom",
           position: "right",
           backgroundColor: "#dc3545",
-        }).showToast()
+        }).showToast();
         console.error('An error occurred:', error);
       }
 
       $('#submit-button').prop('disabled', false).html('Submit');
     });
 
-    // JavaScript to handle form submission via AJAX
-    document.querySelector('.forml').addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent default form submission
+    // Function to resize the image
+    async function resizeImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(event) {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const maxWidth = 640;
+            let width = img.width;
+            let height = img.height;
 
-      // Create FormData object to store form data including files
-      var formData = new FormData(this);
+            // Calculate new height to maintain aspect ratio
+            if (width > maxWidth) {
+              height *= maxWidth / width;
+              width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+              resolve(new File([blob], file.name, {
+                type: file.type,
+                lastModified: Date.now()
+              }));
+            }, file.type);
+          };
+        };
+        reader.onerror = (error) => reject(error);
+      });
+    }
+
+    // JavaScript to handle form submission via AJAX
+    document.querySelector('.forml').addEventListener("submit", async function(event) {
+      event.preventDefault(); 
+      
+      $('#submit-button-l').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
+
+      const formData = new FormData(this);
+
+      // Get the uploaded file
+      const thumbnailFile = formData.get('thumbnail-column');
+
+      // Check if a file was uploaded
+      if (thumbnailFile) {
+        // Resize the image
+        const resizedThumbnail = await resizeImage(thumbnailFile);
+        // Replace the original file with the resized one
+        formData.set('thumbnail-column', resizedThumbnail, thumbnailFile.name);
+      }
 
       // Send AJAX request
       $.ajax({
@@ -303,8 +367,9 @@
       });
 
 
-
+      $('#submit-button-l').prop('disabled', false).html('Submit');
     });
+
   </script>
 
 

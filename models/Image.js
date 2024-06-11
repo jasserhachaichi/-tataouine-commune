@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Define the schema for the video
 const ImageSchema = new mongoose.Schema({
   filename: {
     type: String,
@@ -9,8 +8,9 @@ const ImageSchema = new mongoose.Schema({
   path: {
     type: String,
     required: true
-  },
-
+  }
+}, {
+  timestamps: true
 });
 
 // Create a model using the schema

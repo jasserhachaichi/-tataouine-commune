@@ -137,7 +137,11 @@
                           <div class="card-content">
                             <a href="<%= video.url %>" class="mfp-iframe position-relative">
                               <!-- Display video thumbnail -->
-                              <img class="card-img-top rounded" src="<%= video.thumbnail %>">
+                              <% if (video.thumbnail !== "images/Default-profile.jpg") { %>
+                                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail.replace('attachments\\', '') %>">
+                                <% } else { %>
+                                  <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
+                                <% } %>
                               <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
                                 <i class="bi bi-play-circle-fill"></i>
                               </div>

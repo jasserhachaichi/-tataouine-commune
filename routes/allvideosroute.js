@@ -38,11 +38,12 @@ router.get("/", async (req, res) => {
 
         // Fetch videos from the database based on the query, sorted by createdAt field
         const videos = await Videog.find(query)
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
-        
+
         // Render the EJS file and pass the videos data along with pagination information
-        return res.render("dashboard/allvideos", { 
+        return res.render("dashboard/allvideos", {
             videos: videos,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
@@ -67,12 +68,11 @@ router.get("/delete/:id", async (req, res) => {
         // If video type is "local", delete associated files
         if (video.type === "local") {
             // Delete video file
-            fs.unlinkSync(path.join(__dirname, '../public', video.url));
-            
-            // Delete thumbnail file if not default
-            if (video.thumbnail !== 'images/Default-thumbnail.png') {
-                fs.unlinkSync(path.join(__dirname, '../public', video.thumbnail));
-            }
+            fs.unlinkSync(path.join(__dirname, '../attachments', video.url));
+        }
+        // Delete thumbnail file if not default
+        if (video.thumbnail !== 'images/Default-thumbnail.png') {
+            fs.unlinkSync(path.join(__dirname, '../', video.thumbnail));
         }
         // Delete video from the database
         await Videog.findByIdAndDelete(videoId);

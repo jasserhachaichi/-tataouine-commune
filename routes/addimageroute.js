@@ -3,14 +3,18 @@ const router = express.Router();
 const multer = require('multer'); // Module pour gérer les fichiers
 const fs = require('fs');
 const Image = require('./../models/Image');
-
+const { promisify } = require('util');
+const delay = promisify(setTimeout);
+const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'attachments/IMGuploads/'); // Dossier où les fichiers seront stockés sur le serveur
+    cb(null, 'attachments/IMGuploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    //cb(null, file.originalname);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + Date.now() + ext);
   }
 });
 
@@ -33,6 +37,7 @@ router.post('/', upload.array('filepond'), async (req, res) => {
         filename: file.originalname,
         path: file.path,
       });
+      await delay(300);
       return await image.save();
     }));
 

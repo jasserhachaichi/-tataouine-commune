@@ -47,7 +47,7 @@
                 <div class="col-12">
                   <div class="form-group  mandatory">
                     <label for="title-form" class="form-label">Title</label>
-                    <input type="text" id="title-form" class="form-control" placeholder="title" name="title-form" data-parsley-required="true">
+                    <input type="text" id="title-form" class="form-control" placeholder="title" value="Test title form" name="title-form" data-parsley-required="true">
                   </div>
                 </div>
                 <div class="col-12">
@@ -83,91 +83,160 @@
     });
   </script> -->
   <script>
-          var formDataggg = [
-        {
-          "type": "header",
-          "subtype": "h1",
-          "label": "<h2 class=\"section_title wizard-header\" style=\"margin-bottom: 5px; font-size: 1.625rem; -webkit-font-smoothing: antialiased; color: rgb(34, 34, 34); font-family: &quot;Work Sans&quot;, Arial, sans-serif;\">Presentation</h2>",
-          "access": false
-        },
-        {
-          "type": "paragraph",
-          "subtype": "p",
-          "label": "<div>Personal info</div>",
-          "access": false
-        },
-        {
-          "type": "text",
-          "required": false,
-          "label": "First and Last Name",
-          "placeholder": "First and Last Name",
-          "className": "form-control",
-          "name": "text-1714131410055-0",
-          "access": false,
-          "subtype": "text"
-        },
-        {
-          "type": "text",
-          "subtype": "email",
-          "required": false,
-          "label": "Email Address",
-          "placeholder": "Email Address",
-          "className": "form-control",
-          "name": "text-1714131413321-0",
-          "access": false
-        },
-        {
-          "type": "text",
-          "subtype": "tel",
-          "required": false,
-          "label": "Phone",
-          "placeholder": "Phone",
-          "className": "form-control",
-          "name": "text-1714131473479-0",
-          "access": false
-        },
-        {
-          "type": "radio-group",
-          "required": false,
-          "label": "Gender",
-          "inline": false,
-          "name": "radio-group-1714131535724-0",
-          "access": false,
-          "other": false,
-          "values": [
-            {
-              "label": "Male",
-              "value": "Male",
-              "selected": false
-            },
-            {
-              "label": "Female",
-              "value": "Female",
-              "selected": false
-            }
-          ]
-        },
-        {
-          "type": "file",
-          "required": false,
-          "label": "Upload Resume",
-          "description": "(File accepted: .pdf, .doc/docx - Max file size: 150KB for demo limit)",
-          "className": "form-control",
-          "name": "file-1714131607439-0",
-          "access": false,
-          "multiple": false
-        },
-        {
-          "type": "button",
-          "label": "Next",
-          "subtype": "button",
-          "className": "btn-default btn",
-          "name": "button-1714131621051-0",
-          "value": "Next",
-          "access": false,
-          "style": "default"
-        }
-      ];
+    var formDataggg = [{
+      "type": "header",
+      "subtype": "h1",
+      "label": "Header"
+    }, {
+      "type": "paragraph",
+      "subtype": "p",
+      "label": "Paragraph"
+    }, {
+      "type": "text",
+      "required": true,
+      "label": "Text Field",
+      "description": "777",
+      "placeholder": "777",
+      "className": "form-control",
+      "name": "text-1718202295546-0",
+      "value": "777",
+      "subtype": "text",
+      "maxlength": 7
+    }, {
+      "type": "textarea",
+      "required": true,
+      "label": "Text Area",
+      "description": "88",
+      "placeholder": "888",
+      "className": "form-control",
+      "name": "textarea-1718202346218-0",
+      "value": "888",
+      "subtype": "textarea",
+      "maxlength": 5,
+      "rows": 5
+    }, {
+      "type": "number",
+      "required": false,
+      "label": "Number",
+      "description": "77",
+      "placeholder": "77",
+      "className": "form-control",
+      "name": "number-1718202392330-0",
+      "value": "77",
+      "subtype": "number",
+      "min": 2,
+      "max": 5,
+      "step": 2
+    }, {
+      "type": "select",
+      "required": true,
+      "label": "Select",
+      "description": "999",
+      "placeholder": "999",
+      "className": "form-control",
+      "name": "select-1718202426740-0",
+      "multiple": true,
+      "values": [{
+        "label": "Option 1",
+        "value": "option-1",
+        "selected": true
+      }, {
+        "label": "Option 2",
+        "value": "option-2",
+        "selected": false
+      }]
+    }, {
+      "type": "checkbox-group",
+      "required": true,
+      "label": "Checkbox Group",
+      "description": "999",
+      "toggle": true,
+      "inline": true,
+      "name": "checkbox-group-1718202457242-0",
+      "other": true,
+      "values": [{
+        "label": "Option 1",
+        "value": "option-1",
+        "selected": true
+      }, {
+        "label": "Option 2",
+        "value": "option-2",
+        "selected": false
+      }]
+    }, {
+      "type": "radio-group",
+      "required": true,
+      "label": "Radio Group",
+      "description": "rr",
+      "inline": true,
+      "name": "radio-group-1718202512050-0",
+      "other": true,
+      "values": [{
+        "label": "Option 1",
+        "value": "option-1",
+        "selected": true
+      }, {
+        "label": "Option 2",
+        "value": "option-2",
+        "selected": false
+      }, {
+        "label": "Option 3",
+        "value": "option-3",
+        "selected": false
+      }]
+    }, {
+      "type": "date",
+      "required": true,
+      "label": "Date Field",
+      "description": "pp",
+      "placeholder": "pp",
+      "className": "form-control",
+      "name": "date-1718202531802-0",
+      "value": "55",
+      "subtype": "date",
+      "min": "55",
+      "max": "555",
+      "step": "5"
+    }, {
+      "type": "file",
+      "required": true,
+      "label": "File Upload",
+      "description": "777",
+      "placeholder": "777",
+      "className": "form-control",
+      "name": "file-1718202558547-0",
+      "multiple": true
+    }, {
+      "type": "autocomplete",
+      "required": true,
+      "label": "Autocomplete",
+      "description": "pppp",
+      "placeholder": "pppp",
+      "className": "form-control",
+      "name": "autocomplete-1718202590236-0",
+      "requireValidOption": true,
+      "values": [{
+        "label": "Option 1",
+        "value": "option-1",
+        "selected": true
+      }, {
+        "label": "Option 2",
+        "value": "option-2",
+        "selected": false
+      }]
+    }, {
+      "type": "hidden",
+      "name": "hidden-1718202622045-0",
+      "value": "pppppp"
+    }, {
+      "type": "button",
+      "subtype": "submit",
+      "label": "Button",
+      "className": "btn-primary btn",
+      "name": "button-1718202572866-0",
+      "value": "pp",
+      "style": "primary"
+    }]
 
     function showMessage(msg, duration, color) {
       Toastify({
@@ -185,6 +254,7 @@
       const formBuilder = fbTemplate.formBuilder({
         controlPosition: 'left',
         disabledActionButtons: ['data'],
+        disabledAttrs: ["className", "name", "access"],
         onSave: function(evt, formData) {
           const titleForm = $('#title-form').val();
 
@@ -219,24 +289,22 @@
         controlOrder: [
           'header',
           'paragraph',
-        'text',
-        'textarea',
-        'number',
-        'select',
-        'checkbox-group',
-        'radio-group',
-        'date',
-        'file',
-        'button'
-      ]
-      , /* defaultFields:formDataggg
-      , */
+          'text',
+          'textarea',
+          'number',
+          'select',
+          'checkbox-group',
+          'radio-group',
+          'date',
+          'file',
+          'button'
+        ],
+                 defaultFields:formDataggg
+                              ,  
 
 
 
       });
-
-
     });
   </script>
 

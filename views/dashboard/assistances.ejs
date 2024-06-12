@@ -37,7 +37,7 @@
               <h1>All Forms</h1>
               <% formData.forEach(form => { %>
                   <a href="/form/<%= form._id %>">
-                      <h2><%= form.title %></h2>
+                      <h2><%= form.titleForm %></h2>
                       <a class="btn btn-primary" href="/form/delete/<%= form._id %>">DELETE</a>
                       <a class="btn btn-primary" href="/editassistance/<%= form._id %>">Edit</a>
                   </a>

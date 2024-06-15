@@ -2,6 +2,7 @@
 <html lang="en">
 
 <%- include('./commun/head') %>
+
 <body>
   <script src="assets/static/js/initTheme.js"></script>
   <div id="app">
@@ -13,7 +14,7 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>Create Form</h3>
+              <h3>Tous les formulaires</h3>
               <p class="text-subtitle text-muted">Upload and publish new video, Youtube and Local, content on the
                 website or platform.</p>
             </div>
@@ -31,26 +32,69 @@
           </div>
         </div>
 
-        <section class="section">
-          <div class="card">
-            <div class="card-body">
-              <h1>All Forms</h1>
-              <% formData.forEach(form => { %>
-                  <a href="/form/<%= form._id %>">
-                      <h2><%= form.titleForm %></h2>
-                      <a class="btn btn-primary" href="/form/delete/<%= form._id %>">DELETE</a>
-                      <a class="btn btn-primary" href="/editassistance/<%= form._id %>">Edit</a>
-                  </a>
-                  <hr>
-                  <br>
-                  <br>
-              <% }); %>
 
 
 
 
+        <section>
 
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="/assistances" method="GET" class="container">
+                    <div class="col-8 mx-auto">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Recherche..." aria-label="Recherche..." aria-describedby="button-addon2" value="<%= search || '' %>">
+                        <button class="btn btn-primary" type="submit">Recherche</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div class="row">
+            <% formData.forEach(form => { %>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <h3 class="card-title"><%= form.titleForm %></h3>
+                    <p class="card-text"><strong>Dossier Google Drive:</strong> <%= form._id || 'N/A' %></p>
+                    <div>
+                      <a class="btn btn-primary" href="/form/<%= form._id %>">Voir</a>
+                      <a class="btn btn-danger" href="/form/delete/<%= form._id %>">Delete</a>
+                      <a class="btn btn-secondary" href="/editassistance/<%= form._id %>">Edit</a>
+                      <a class="btn btn-light" href="/assistances/<%= form._id %>">Answers</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+          <div class="row">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination pagination-primary justify-content-center">
+                <% if (currentPage > 1) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                </li>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                  <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                </li>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                  <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                </li>
+                <% } %>
+              </ul>
+            </nav>
           </div>
         </section>
 

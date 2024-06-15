@@ -1,7 +1,7 @@
 
 <style>
     /* Preloader  */
-.The-loader-container {
+.The-loader-container,.The-loader-container-form {
   margin: 0;
   padding: 0;
   background-color: var(--color-white);
@@ -28,6 +28,23 @@
 }
 
 </style>
-<div class="The-loader-container">
+ <div class="The-loader-container">
     <img src="images/CTlogo.svg" alt="preloader IMG">
-</div>
+</div> 
+
+
+<script>
+  // Wait for the document to be fully loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select the preloader div
+    var preloaderDiv = document.querySelector('.The-loader-container');
+    if (preloaderDiv) {
+      // Remove the preloader div after 1 second
+      setTimeout(function() {
+        preloaderDiv.parentNode.removeChild(preloaderDiv);
+      }, 1000); // 1000 milliseconds = 1 second
+    }
+
+
+  });
+</script>

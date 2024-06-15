@@ -1,34 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const FormData = require('./../models/FormData');
+const { authorize, createFolder } = require('./../config/googledrive');
 
 router.get("/", (req, res) => {
     return res.render("dashboard/createassistance");
 });
 
-
-
-
-// Route to handle saving form data
-/* router.post('/saveFormData', async (req, res) => {
-    const  title =   req.body.title;
-    if (title  == "" || !title ) {
-        res.status(500).send('Title is required');
-    }
-
-    const fields  = req.body.formData;
-    //console.log(typeof fields);
-        console.log(req.body);
-    try {
-         const newForm = new FormData({ title, fields });
-        await newForm.save();
-        console.log('Form data saved:', newForm); 
-        res.status(200).json({ message: 'Form created successfully' });
-    } catch (error) {
-        console.error('Error saving form data:', error);
-        res.status(500).send('Internal server error');
-    }
-}); */
 router.post('/saveFormData', async (req, res) => {
     const title = req.body.title;
     let fields;
@@ -55,11 +33,20 @@ router.post('/saveFormData', async (req, res) => {
         titleForm: title,
         attributes: fields
     });
+    //console.log(newFormData._id);
 
     try {
+        //console.log(newFormData);
+        const authClient = await authorize();
+        // Create a new folder
+        const folderName = newFormData._id;
+        const parentFolderId = '1yGGwTWHKT441IhHurrK3PStaa2oh5pO7';
+        const newFolderId = await createFolder(authClient, folderName, parentFolderId);
+        newFormData.FolderID=newFolderId;
+        console.log('Folder created with ID:', newFolderId);
         // Save the form data to the database
-        await newFormData.save();
-        console.log(newFormData);
+        await newFormData.save();// update
+
         res.status(200).json({ message: 'Form created successfully' });
     } catch (error) {
         console.error('Error saving form data:', error);

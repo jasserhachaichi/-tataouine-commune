@@ -13,7 +13,9 @@ const sharp = require('sharp');
 router.get("/", async (req, res) => {
   try {
     // Fetch the three most recent blog posts
-    const recentBlogs = await Blog.find().sort({ createdAt: -1 }).limit(3);
+    const recentBlogs = await Blog.find({}, 'coverIMGpath _id title subtitle autor.fullname autor.expertise autor.autorIMGpath createdAt')
+      .sort({ createdAt: -1 })
+      .limit(3);
     // Fetch the five most recent images
     const recentImages = await Image.find().sort({ createdAt: -1 }).limit(4);
     // Resize each image to 400x400
@@ -26,12 +28,14 @@ router.get("/", async (req, res) => {
         resizedPath: `data:image/jpeg;base64,${resizedImageBuffer.toString('base64')}`
       };
     }));
+        // Fetch the total count of images
+        const totalImagesCount = await Image.countDocuments();
 
     const updatedImages = recentImages.map(image => ({
       ...image.toObject(),
       path: image.path.replace("attachments\\", "").replace(/\\/g, '/')
     }));
-    return res.render("home", { recentBlogs, recentImages: updatedImages, resizedImages: resizedImages });
+    return res.render("home", { recentBlogs, recentImages: updatedImages, resizedImages: resizedImages, totalImagesCount });
   } catch (error) {
     console.error(error);
     return res.redirect("/404");

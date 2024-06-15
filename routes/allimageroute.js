@@ -5,7 +5,7 @@ const Image = require('./../models/Image'); // Assuming you have a Mongoose mode
 
 router.get("/", async (req, res) => {
   try {
-    const images = await Image.find(); // Fetch all images from MongoDB
+    const images = await Image.find().sort({ createdAt: -1 }); // Fetch all images from MongoDB
     res.render("dashboard/allimage", { images });
   } catch (error) {
     console.error(error);

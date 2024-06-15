@@ -11,30 +11,32 @@
     <link rel="icon" href="images/CTicon.png">
     <link rel="shortcut" href="images/CTicon.png">
     <link rel="apple-touche-icon" href="images/CTicon.png">
-
+    <link rel="stylesheet" href="css/colors.css">
+    <%- include('./../commun/loader') %>
   <!-- SITE CSS FILES -->
   <link rel="stylesheet" href="assets/compiled/css/app.css">
-
   <link rel="stylesheet" href="assets/compiled/css/iconly.css">
-
-
-  
-
-
-
 
 </head>
 
 <body>
+
   <section id="formsection" form-id-data="<%= formId %>" class="section min-vh-100 d-flex justify-content-center align-items-center">
     <div class="container">
       <div class="row d-flex justify-content-center">
         <div class="col-12 col-md-8">
-          <form id="form-render" action="/form/answer/<%= formId %>" method="post" ></form>
+          <form id="form-render" action="/form/answer/<%= formId %>" method="post" enctype="multipart/form-data"></form>
         </div>
       </div>
     </div>
   </section>
+
+<!--   <div class="The-loader-container-form d-none flex-column">
+    <img src="images/formloader-oval.svg" class="mb-5" style="width: 5rem" alt="loader form">
+    <div>
+      <p class="fw-bold">Votre demande est en cours de traitement...</p>
+    </div>
+  </div> -->
 
   <script src="assets/extensions/jquery/jquery.min.js"></script>
   <script src="plugin/form-builder/form-render.min.js"></script>
@@ -57,6 +59,13 @@
       }
     });
   </script>
+<!-- <script>
+  document.querySelector('button[type="submit"]').addEventListener('click', function() {
+    const loaderContainer = document.querySelector('.The-loader-container-form');
+    loaderContainer.classList.remove('d-none');
+    loaderContainer.classList.add('d-flex');
+  });
+</script> -->
 </body>
 
 </html>

@@ -11,33 +11,58 @@ router.use(express.static("Attachments"));
 router.get("/", async (req, res) => {
     try {
         let query = {};
-        const { search, page } = req.query;
+        const { search, page, sortOrder, statusFilter } = req.query;
         const perPage = 6; // Number of videos per page
         const pageNumber = parseInt(page) || 1; // Current page number, default to 1
 
-        // If search term is provided, filter by title and description
+        // If search term is provided, filter by title
         if (search) {
             query = {
                 $or: [
                     { title: { $regex: search, $options: 'i' } }, // Case-insensitive search
-                    { description: { $regex: search, $options: 'i' } }
                 ]
             };
+        }
+        // Filter by expiration status
+        const currentDate = new Date();
+        if (statusFilter) {
+            if (statusFilter === "expired") {
+                query = {
+                    ...query,
+                    expiredDate: { $lt: currentDate }
+                };
+            } else if (statusFilter === "notExpired") {
+                query = {
+                    ...query,
+                    expiredDate: { $gte: currentDate }
+                };
+            }
         }
 
         // Calculate skip value based on current page number
         const skip = (pageNumber - 1) * perPage;
+        // Determine sort order
+        let sortOption = {};
+        if (sortOrder === "up") {
+            sortOption = { createdAt: 1 }; // Ascending order
+        } else if (sortOrder === "down") {
+            sortOption = { createdAt: -1 }; // Descending order
+        }
 
         const announcements = await Announcement.find(query)
+            .sort(sortOption)
             .skip(skip)
             .limit(perPage); // Limit number of results per page
-        
-        return res.render("allannouncement", { 
+
+        return res.render("allannouncement", {
             announcements: announcements,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
-            search: search
+            search: search,
+            sortOrder: sortOrder,
+            statusFilter: statusFilter
         });
+
     } catch (err) {
         return res.redirect("/404");
     }

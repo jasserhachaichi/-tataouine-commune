@@ -1,16 +1,3 @@
-/* const mongoose = require('mongoose');
-
-const formDataSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    fields: String
-});
-
-// Create a MongoDB collection called "formData" using the defined schema
-const FormData = mongoose.model('formData', formDataSchema);
-
-module.exports = FormData; */
-
-
 const mongoose = require('mongoose');
 const fieldSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -25,7 +12,7 @@ const answerSchema = new mongoose.Schema({
 
 const formDataSchema = new mongoose.Schema({
     titleForm: {
-        type: String,
+        type: String,required: true
     }, attributes: [{
         type: { type: String, default: null },
         subtype: { type: String, default: null },
@@ -54,10 +41,12 @@ const formDataSchema = new mongoose.Schema({
         style: { type: String, default: null },
         access: { type: Boolean, default: null }
     }],
-    Answers: [answerSchema]
+    Answers: [answerSchema],
+    FolderID:{ type: String }
+},{
+    timestamps: true
 });
 
-// Create a MongoDB collection called "formData" using the defined schema
 const FormData = mongoose.model('formData', formDataSchema);
 
 module.exports = FormData; 

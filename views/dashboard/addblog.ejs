@@ -267,14 +267,7 @@
 
   <script>
     function viderInputs() {
-      // Sélectionnez tous les champs de formulaire que vous souhaitez vider
-      var inputsToClear = document.querySelectorAll('input[type=text]');
-      document.getElementById('subtitle').value = "";
-
-      // Parcourez chaque champ de formulaire et réinitialisez sa valeur à une chaîne vide
-      inputsToClear.forEach(function(input) {
-        input.value = '';
-      });
+      $('#blogForm').trigger('reset');
 
 
       pond.removeFiles();

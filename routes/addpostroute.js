@@ -4,6 +4,7 @@ const Announcement = require('./../models/Announcement');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const FormData = require('./../models/FormData');
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage }).fields([{ name: 'filepond' }]);
+const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }]);
 
 // GET route for rendering the form
 router.get("/", (req, res) => {
@@ -30,28 +31,51 @@ router.post('/', async (req, res) => {
             console.error(err);
             return res.status(500).json({ errors: 'Image upload failed' });
         }
+        console.log(req.body);
+        console.log(req.files);
         // Validate form data
         const { 'title-column': titleColumn, 'appel-column': appel, 'Expired-column': expiredDate } = req.body;
         const errors = [];
         if (!titleColumn) errors.push('Title is required');
-        if (!appel) errors.push('Appel de is required');
         if (!expiredDate) errors.push('Expired day is required');
-        if (req.body.summernote == "<p><br></p>") errors.push('Description is required');
-        if (!req.files['filepond'] || req.files['filepond'].length === 0 ) errors.push('Image is required');
+        if (req.body.summernote.trim() == "<p><br></p>" || req.body.summernote.trim() == "") errors.push('Details is required');
+        var formLink = req.body.formLink;
+        var formSource = req.body.formSource;
+
+        if (formSource && formSource == "LF" && formLink && formLink.trim().length > 0) {
+            if (formLink && formLink.trim().length > 0 ) {
+                const formDataExists = await FormData.exists({ _id: formLink });
+                if (!formDataExists) {
+                    errors.push("Formulaire locale n'est pas trouver");
+                }
+            }
+        }
+
 
         if (errors.length > 0) {
-            const imagePath = req.files['filepond'][0].path;
-            fs.unlinkSync(imagePath);
-
+            if (req.files['filepond'] && req.files['filepond'].length > 0) {
+                fs.unlinkSync(req.files['filepond'][0].path);
+            }
+            if (req.files['filepond2'] && req.files['filepond2'].length > 0) {
+                req.files['filepond2'].map(file => fs.unlinkSync(file.path));
+            }
             return res.status(400).json({ errors: errors });
+        }
+        var attachaaray = [];
+        if (req.files['filepond2'] && req.files['filepond2'].length > 0) {
+            attachaaray = req.files['filepond2'].map(file => ({
+                originalname: file.originalname,
+                filename: file.filename,
+                path: file.path,
+            }));
         }
 
         try {
-
-
-            const filePath = req.files['filepond'][0].path;
-            const newPath = filePath.substring(filePath.indexOf('AnnouncementIMG'));
-
+            var newPath;
+            if (req.files['filepond'] && req.files['filepond'].length > 0) {
+                const coverPath = req.files['filepond'][0].path;
+                newPath = coverPath.substring(coverPath.indexOf('AnnouncementIMG'));
+            }
             // Create new announcement instance
             const newAnnouncement = new Announcement({
                 title: titleColumn,
@@ -59,7 +83,26 @@ router.post('/', async (req, res) => {
                 expiredDate: expiredDate,
                 path: newPath,
                 details: req.body.summernote,
+                attachments: attachaaray,
             });
+
+            if (formSource && formSource.trim().length > 0 && formLink && formLink.trim().length > 0) {
+                if (formSource == "LF") {
+                    newAnnouncement.formSource = formSource;
+                    newAnnouncement.formLink = "/form/" + formLink;
+                }
+                else if (formSource == "Another") {
+                    newAnnouncement.formSource = formSource;
+                    newAnnouncement.formLink = formLink;
+                }
+
+            }
+
+            console.log(newAnnouncement);
+
+
+
+
             // Save the new announcement
             await newAnnouncement.save();
             return res.status(200).send('Announcement posted successfully');

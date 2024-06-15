@@ -70,7 +70,7 @@ app.get('/logout', (req, res) => {
 
     res.redirect("/login");
 });
- app.use("/forms", require("./routes/formsroute"));
+app.use("/forms", require("./routes/formsroute"));
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
@@ -163,7 +163,7 @@ app.get('/auth/protected', (req, res) => {
     res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });
     //res.send(`Cookie set: ${userCookie}`);
     res.redirect("/assistances");
-}); 
+});
 
 
 
@@ -177,6 +177,23 @@ app.get('/auth/protected', (req, res) => {
 app.get('/dashhome', authenticateToken, (req, res) => {
     res.render("dashboard/home");
 });
+app.get('/success', (req, res) => {
+    if (req.cookies.visitor) {
+        return res.render("success");
+    } else {
+        return res.redirect("/404");
+    }
+});
+app.get('/failure', (req, res) => {
+    if (req.cookies.visitor) {
+        return res.render("failure");
+    } else {
+        return res.redirect("/404");
+    }
+});
+
+
+
 
 // Gestionnaire de route pour les routes non définies
 app.use((req, res, next) => {

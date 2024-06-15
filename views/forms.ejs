@@ -2,42 +2,67 @@
 <html lang="en">
 <%- include('./commun/head') %>
 
-
+<style>
+  .card-title:hover{
+    color: var(--primary-color-1);
+  }
+  .card:hover{
+    background-color: rgb(226, 226, 226);
+  }
+</style>
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
-  <section class="section-3 bg-dark">
-    jjjj
-  </section>
-  <!-- Blog 5 - Bootstrap Brain Component -->
+  <%- include('./partials/sectionhero', { titre: 'Formulaires' ,bgimage:'images/cta-image-1.JPG'}) %>
 
-  <section class="bsb-blog-5 py-3 py-md-5 py-xl-8">
-    <form action="/allannouncement" method="GET" class="container mb-5">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="input-group">
-            <input class="form-control border-end-0 border" name="search" type="search" placeholder="Search..." id="search-input">
-            <span class="input-group-append">
-              <button class="btn btn-primary" type="submit">Search</button>
-            </span>
+  <section>
+    <div class="container">
+      <div class="row my-5">
+        <form action="/forms" method="GET">
+          <div class="col-md-8 mx-auto">
+            <div class="input-group">
+              <input class="form-control border-end-0 border" name="search" type="search" placeholder="Recherche..." id="search-input" value="<%= search || '' %>">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="submit">Recherche</button>
+              </span>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
-    </form>
-
-    <div class="container overflow-hidden">
-      <div class="row gy-4 gy-md-5 gx-xl-6 gy-xl-6 gx-xxl-9 gy-xxl-9">
+      <div class="row">
         <% formData.forEach(form => { %>
-          <a class="col-12" href="/form/<%= form._id %>">
-              <h2><%= form.titleForm %></h2>
-          </a>
-          <hr>
-          <br>
-          <br>
-      <% }); %>
-
-
+        <a class="col-12 mb-2" href="/form/<%= form._id %>">
+          <div class="card border-primary">
+            <div class="card-body text-primary">
+              <h4 class="card-title fw-bold">&#x261B; <%= form.titleForm %></h4>
+            </div>
+          </div>
+        </a>
+        <% }); %>
       </div>
+      <div class="row mt-4 pt-2">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-primary justify-content-center">
+            <% if (currentPage > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+            </li>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+            </li>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
 
 
 

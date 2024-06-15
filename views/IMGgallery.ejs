@@ -6,14 +6,12 @@
 
 <body class="overflow-x-hidden">
   <%- include('./partials/navbar') %>
-  <section class="section-3 bg-dark">
-    jjjj
-  </section>
+  <%- include('./partials/sectionhero', { titre: 'NOS INITIATIVES EN IMAGES' ,bgimage:'images/cta-image-1.JPG'}) %>
 
   <section>
     <div id="imageslist" class="container">
       <div class="row">
-        <div id="lightgallery" class="pictures">
+        <div id="lightgallery0" class="pictures">
 
           <% images.forEach(image => { %>
           <a href="<%= image.path.replace('attachments\\', '') %>">
@@ -50,7 +48,7 @@
     })
   </script>
   <script type="text/javascript">
-    lightGallery(document.getElementById('lightgallery'));
+    lightGallery(document.getElementById('lightgallery0'));
   </script>
 
 
@@ -125,9 +123,11 @@
             });
             const idlight = "lightgallery" + page;
 
+            const lightID = "#" + idlight + '.pictures'
+
             div.appendChild(divlight);
             imageslist.appendChild(div);
-            $('.pictures').tjGallery();
+            $(lightID).tjGallery();
             lightGallery(document.getElementById(idlight));
           }
 

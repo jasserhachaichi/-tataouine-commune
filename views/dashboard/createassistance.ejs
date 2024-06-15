@@ -7,6 +7,10 @@
     padding: 0;
     margin: 10px 0;
     background: #f2f2f2 url('https://formbuilder.online/assets/img/noise.png');
+    color: black;
+  }
+  #build-wrap .form-group label{
+    color: black;
   }
 </style>
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
@@ -47,18 +51,13 @@
                 <div class="col-12">
                   <div class="form-group  mandatory">
                     <label for="title-form" class="form-label">Title</label>
-                    <input type="text" id="title-form" class="form-control" placeholder="title" value="Test title form" name="title-form" data-parsley-required="true">
+                    <input type="text" id="title-form" class="form-control" placeholder="title"  name="title-form" data-parsley-required="true">
                   </div>
                 </div>
                 <div class="col-12">
                   <div id="build-wrap"></div>
                 </div>
               </div>
-
-
-
-
-
             </div>
           </div>
         </section>
@@ -272,6 +271,9 @@
               formBuilder.actions.clearFields();
               $('#title-form').val('');
               showMessage(response.message, -1, "#4fbe87");
+              setTimeout(() => {
+                    window.location.href = "/assistances";
+                }, 1000); // 3 second delay before redirect
               //console.log('Form data saved successfully:', response);
               // Handle success response here if needed
             },
@@ -299,8 +301,8 @@
           'file',
           'button'
         ],
-                 defaultFields:formDataggg
-                              ,  
+                 /* defaultFields:formDataggg
+                              ,   */
 
 
 

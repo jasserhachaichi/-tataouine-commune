@@ -23103,7 +23103,8 @@ body .bi:before,
     border-radius: .5rem;
     transition: all .5s;
     text-decoration: none;
-    color: #206531
+    color: #206531;
+    cursor: pointer;
 }
 
 .sidebar-wrapper .menu .sidebar-link svg,

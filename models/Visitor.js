@@ -15,9 +15,9 @@ const visitorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  formsid: [{
+/*   formsid: [{
     type: Number
-  }],
+  }], */
   // You can add other fields as needed
 });
 

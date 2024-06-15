@@ -44,35 +44,60 @@
                     <form id="announcementForm" class="form" action="/addpost" method="post">
                       <div class="row">
                         <div class="col-12">
-                          <div class="form-group">
-                            <label for="title-column">Title</label>
-                            <input type="text" id="title-column" class="form-control" placeholder="title" name="title-column">
+                          <div class="form-group mandatory">
+                            <label for="title-column" class="form-label">Title</label>
+                            <input type="text" id="title-column" class="form-control" placeholder="title" name="title-column" required>
                           </div>
                         </div>
                         <div class="col-md-6 col-12">
                           <div class="form-group">
-                            <label for="appel-column">Appel de</label>
+                            <label for="appel-column" class="form-label">Appel de</label>
                             <input type="text" id="appel-column" class="form-control" placeholder="appel de" name="appel-column">
                           </div>
                         </div>
                         <div class="col-md-6 col-12">
-                          <div class="form-group">
-                            <label for="Expired-column">Expired date</label>
-                            <input type="text" id="Expired-column" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="Expired-column">
+                          <div class="form-group mandatory">
+                            <label for="Expired-column" class="form-label">Expired date</label>
+                            <input type="text" id="Expired-column" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="Expired-column" required>
                           </div>
                         </div>
                         <hr>
-                        <div class="col-12">
+                        <div class="col-md-6 col-12">
                           <div class="form-group">
-                            <h4>Image</h4>
-                            <input id="filepondinput" type="file" name="filepond" multiple />
+                            <label class="form-label">Image Cover</label>
+                            <input id="filepondinput" class="filepondinput1" type="file" name="filepond" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label class="form-label">Attachements</label>
+                            <input id="filepondinput" class="filepondinput2" type="file" name="filepond2" multiple />
+                          </div>
+                        </div>
+                        <div class="divider">
+                          <div class="divider-text">Lier l'annonce au formulaire</div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                          <fieldset class="form-group">
+                            <label for="formSource" class="form-label">Source de formulaire</label>
+                            <select class="form-select" id="formSource" name="formSource">
+                              <option value="" selected>Pas de formulaire</option>
+                              <option value="LF">Formulaire locale(/form/ID)</option>
+                              <option value="Another">autre</option>
+                            </select>
+                          </fieldset>
+                        </div>
+                        <div class="col-md-8 mb-4">
+                          <div class="form-group">
+                            <label for="formLink" class="form-label">Lien de formulaire</label>
+                            <input type="text" id="formLink" class="form-control" placeholder="Lien(ID si formulaire locale)"  name="formLink">
                           </div>
                         </div>
                         <hr>
 
                         <div class="col-12">
                           <div class="form-group">
-                            <h4>Details</h4>
+                            <h4>Details(*)</h4>
                             <div id="summernote"></div>
                           </div>
                         </div>
@@ -140,7 +165,6 @@
         ['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']]
       ],
     });
-
   </script>
 
   <script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
@@ -154,20 +178,19 @@
       credits: null,
       acceptedFileTypes: ['image/*'] // Only allow image files
     });
+    const pond2 = FilePond.create(document.querySelector(".filepondinput2"), {
+      maxFileSize: '10MB',
+      credits: null,
+    });
   </script>
 
   <script>
     function viderInputs() {
-      // Sélectionnez tous les champs de formulaire que vous souhaitez vider
-      var inputsToClear = document.querySelectorAll('input[type=text]');
-
-      // Parcourez chaque champ de formulaire et réinitialisez sa valeur à une chaîne vide
-      inputsToClear.forEach(function(input) {
-        input.value = '';
-      });
+      $('#announcementForm').trigger('reset');
 
 
       pond.removeFiles();
+      pond2.removeFiles();
 
       // Si vous utilisez un éditeur WYSIWYG comme Summernote, vous devrez peut-être également le vider
       $('#summernote').summernote('code', ''); // Utilisez votre ID Summernote ici
@@ -199,11 +222,15 @@
 
         // Get files from FilePond instance
         const files = pond.getFiles();
+        const files2 = pond2.getFiles();
 
         // Create FormData object and append files to it
         const formData = new FormData(this);
         files.forEach(file => {
           formData.append('filepond', file.file);
+        });
+        files2.forEach(file => {
+          formData.append('filepond2', file.file);
         });
 
         formData.append('summernote', summernoteHTML);
@@ -211,7 +238,7 @@
         // Send AJAX request
         $.ajax({
           type: 'POST',
-          url: '/addpost', // The URL to your Express route
+          url: '/addpost',
           data: formData,
           processData: false,
           contentType: false,

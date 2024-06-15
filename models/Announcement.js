@@ -7,7 +7,6 @@ const AnnouncementSchema = new mongoose.Schema({
     },
     appel: {
         type: String,
-        required: true
     },
     expiredDate: {
         type: Date,
@@ -20,6 +19,19 @@ const AnnouncementSchema = new mongoose.Schema({
     details: {
         type: String,
         required: true
+    },
+    attachments: [
+        {
+            originalname: String,
+            filename: String,
+            path: String
+        }
+    ],
+    formSource: {
+        type: String,
+    },
+    formLink: {
+        type: String,
     },
 }, {
     timestamps: true

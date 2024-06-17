@@ -1,36 +1,41 @@
-
 <style>
-    /* Preloader  */
-.The-loader-container,.The-loader-container-form {
-  margin: 0;
-  padding: 0;
-  background-color: var(--color-white);
-  position: fixed;
-  z-index: 9999999;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.The-loader-container img {
-  max-width: 100px;
-  height: auto;
-  animation: pulse 800ms infinite alternate;
-}
-
-@keyframes pulse {
-  50% {
-      transform: scale(1.5);
+  /* Preloader  */
+  .The-loader-container,
+  .The-loader-container-form {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-white);
+    position: fixed;
+    z-index: 9999999;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-}
 
+  .The-loader-container img {
+    max-width: 100px;
+    height: auto;
+    animation: pulse 800ms infinite alternate;
+  }
+
+  @keyframes pulse {
+    50% {
+      transform: scale(1.5);
+    }
+  }
 </style>
- <div class="The-loader-container">
-    <img src="images/CTlogo.svg" alt="preloader IMG">
-</div> 
+<div class="The-loader-container">
+  <img src="images/CTlogo.svg" alt="preloader IMG">
+</div>
+<!--   <div class="The-loader-container-form d-none flex-column">
+    <img src="images/formloader-oval.svg" class="mb-5" style="width: 5rem" alt="loader form">
+    <div>
+      <p class="fw-bold">Votre demande est en cours de traitement...</p>
+    </div>
+  </div> -->
 
 
 <script>
@@ -47,4 +52,11 @@
 
 
   });
+  /*   document.addEventListener("DOMContentLoaded", function() {
+      document.querySelector('button[type="submit"]').addEventListener('click', function() {
+        const loaderContainer = document.querySelector('.The-loader-container-form');
+        loaderContainer.classList.remove('d-none');
+        loaderContainer.classList.add('flex');
+      });
+    }); */
 </script>

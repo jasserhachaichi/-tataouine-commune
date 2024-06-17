@@ -9,8 +9,32 @@
     background: #f2f2f2 url('https://formbuilder.online/assets/img/noise.png');
     color: black;
   }
-  #build-wrap .form-group label{
+
+  #build-wrap .form-group label {
     color: black;
+  }
+
+  /* Preloader  */
+  .The-loader-container-form {
+    margin: 0;
+    padding: 0;
+    background-color:white;
+    position: fixed;
+    z-index: 9999999;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+  @keyframes pulse {
+    50% {
+      transform: scale(1.5);
+    }
   }
 </style>
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
@@ -51,7 +75,7 @@
                 <div class="col-12">
                   <div class="form-group  mandatory">
                     <label for="title-form" class="form-label">Title</label>
-                    <input type="text" id="title-form" class="form-control" placeholder="title"  name="title-form" data-parsley-required="true">
+                    <input type="text" id="title-form" class="form-control" placeholder="title" name="title-form"  data-parsley-required="true">
                   </div>
                 </div>
                 <div class="col-12">
@@ -67,6 +91,12 @@
 
 
       <%- include('./partials/footer') %>
+    </div>
+  </div>
+  <div class="The-loader-container-form d-none flex-column">
+    <img src="images/formloader-oval.svg" class="mb-5" style="width: 5rem" alt="loader form">
+    <div>
+      <p class="fw-bold">Votre demande est en cours de traitement...</p>
     </div>
   </div>
 
@@ -255,6 +285,9 @@
         disabledActionButtons: ['data'],
         disabledAttrs: ["className", "name", "access"],
         onSave: function(evt, formData) {
+          const loaderContainer = document.querySelector('.The-loader-container-form');
+          loaderContainer.classList.remove('d-none');
+          loaderContainer.classList.add('flex');
           const titleForm = $('#title-form').val();
 
 
@@ -272,12 +305,14 @@
               $('#title-form').val('');
               showMessage(response.message, -1, "#4fbe87");
               setTimeout(() => {
-                    window.location.href = "/assistances";
-                }, 1000); // 3 second delay before redirect
+                window.location.href = "/assistances";
+              }, 1000); // 3 second delay before redirect
               //console.log('Form data saved successfully:', response);
               // Handle success response here if needed
             },
             error: function(xhr, status, error) {
+              loaderContainer.classList.remove('flex');
+              loaderContainer.classList.add('d-none');
               showMessage(error, -1, "#dc3545");
               //console.error('Error saving form data:', error);
               // Handle error response here if needed
@@ -301,8 +336,7 @@
           'file',
           'button'
         ],
-                 /* defaultFields:formDataggg
-                              ,   */
+        /* defaultFields: formDataggg, */
 
 
 

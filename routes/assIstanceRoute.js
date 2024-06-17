@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
         const allFormData = await FormData.find(query)
             .skip(skip)
             .limit(perPage) // Limit number of results per page
-            .select('titleForm _id');
+            .select('titleForm _id FolderID SHEETID');
 
         //console.log(allFormData);
 
@@ -39,56 +39,7 @@ router.get('/', async (req, res) => {
         return res.status(500).send('Internal Server Error');
     }
 });
-router.get('/:id', async (req, res) => {
-    try {
-        const formDataId = req.params.id;
-        const formDataExists = await FormData.exists({ _id: formDataId });
-        if (!formDataExists) {
-            return res.status(404).send('Form Data not found');
-        }
 
-        return res.render("dashboard/datashow", { formDataId });
-    } catch (error) {
-        console.error('Error fetching form data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
 
-router.get('/sheet/:id', async (req, res) => {
-    try {
-        const formDataId = req.params.id;
-        const formData = await FormData.findById(formDataId);
-
-        if (!formData) {
-            return res.status(404).send('Form Data not found');
-        }
-
-        const attributes = formData.attributes
-            .filter(attr => attr.name !== null)
-            .map(attr => ({
-                name: attr.name,
-                label: attr.label
-            }));
-
-        const answers = formData.Answers.map(answer => {
-            const fieldsMap = {};
-            answer.fields.forEach(field => {
-                fieldsMap[field.name] = field.value;
-            });
-            return {
-                visitorId: answer.visitorId,
-                fields: fieldsMap,
-                submittedAt: answer.submittedAt
-            };
-        });
-        //console.log(attributes);
-        //console.log("---------------------------------------");
-        //console.log(answers);
-        return res.json({ attributes, answers });
-    } catch (error) {
-        console.error('Error fetching form data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
 
 module.exports = router;

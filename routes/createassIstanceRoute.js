@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const FormData = require('./../models/FormData');
-const { authorize, createFolder } = require('./../config/googledrive');
+const { authorize, createFolder, createSheet } = require('./../config/googledrive');
 
 router.get("/", (req, res) => {
     return res.render("dashboard/createassistance");
@@ -19,6 +19,7 @@ router.post('/saveFormData', async (req, res) => {
     // Parse formData
     try {
         fields = JSON.parse(req.body.formData);
+        //console.log(fields);
     } catch (error) {
         return res.status(400).send('Invalid form data');
     }
@@ -41,11 +42,26 @@ router.post('/saveFormData', async (req, res) => {
         // Create a new folder
         const folderName = newFormData._id;
         const parentFolderId = '1yGGwTWHKT441IhHurrK3PStaa2oh5pO7';
+
         const newFolderId = await createFolder(authClient, folderName, parentFolderId);
-        newFormData.FolderID=newFolderId;
+        newFormData.FolderID = newFolderId;
         console.log('Folder created with ID:', newFolderId);
+
+        // Filter attributes with label and name not null
+        const validAttributes = newFormData.attributes.filter(attr => attr.name !== null);
+        // Extract labels from validAttributes
+        var labels = validAttributes.map(attr => attr.label);
+        // Replace null values with "Hide Input"
+        labels = labels.map(label => label === null ? "Hide Input" : label);
+        console.log(labels);
+        labels.unshift("VisitorID", "SubmittedAt");
+
+        const sheetId = await createSheet(authClient, newFolderId, newFormData.titleForm, labels);
+        console.log(`Sheet created successfully inside the folder, ID: ${sheetId}`);
+        newFormData.SHEETID = sheetId;
+
         // Save the form data to the database
-        await newFormData.save();// update
+        await newFormData.save();
 
         res.status(200).json({ message: 'Form created successfully' });
     } catch (error) {

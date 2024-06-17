@@ -1,14 +1,4 @@
 const mongoose = require('mongoose');
-const fieldSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    value: { type: String, required: true },
-});
-
-const answerSchema = new mongoose.Schema({
-    visitorId: { type: String, required: true },
-    fields: [fieldSchema],
-    submittedAt: { type: Date, default: Date.now }
-});
 
 const formDataSchema = new mongoose.Schema({
     titleForm: {
@@ -41,8 +31,8 @@ const formDataSchema = new mongoose.Schema({
         style: { type: String, default: null },
         access: { type: Boolean, default: null }
     }],
-    Answers: [answerSchema],
-    FolderID:{ type: String }
+    FolderID:{ type: String },
+    SHEETID: { type: String, required: true },
 },{
     timestamps: true
 });

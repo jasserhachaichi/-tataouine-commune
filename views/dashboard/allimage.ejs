@@ -34,12 +34,11 @@
                   <h5 class="card-title">Our Gallery</h5>
                 </div>
                 <div class="card-body">
-                  <div class="row gallery">
-
+                  <div class="container">
                     <div class="row gallery">
                       <% images.forEach((image, index) => { %>
                         <div class="col-6 col-sm-6 col-lg-3 mt-2 mt-md-0 mb-md-0 mb-2">
-                          <img class="w-100" src="<%= image.path.replace('attachments\\', '') %>" loading="lazy" alt="<%= image.filename %>">
+                          <img class="w-100" src="<%= image.resizedPath %>" loading="lazy" alt="<%= image.filename %>">
                           <form action="/allimage/delete-image/<%= image._id %>" method="POST"> <!-- Assuming you have a route to handle delete requests -->
                             <button type="submit" class="btn btn-danger">Delete</button>
                           </form>
@@ -47,8 +46,36 @@
                       <% }); %>
                     </div>
 
-
+                    <div class="row mt-4 pt-2">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-primary justify-content-center">
+                          <% if (currentPage > 1) { %>
+                          <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                          </li>
+                          <% } %>
+                          <% for (let i = 1; i <= totalPages; i++) { %>
+                          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                          </li>
+                          <% } %>
+                          <% if (currentPage < totalPages) { %>
+                          <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                          </li>
+                          <% } %>
+                        </ul>
+                      </nav>
+                    </div>
                   </div>
+
+
+
+
+                </div>
+                <div class="card-footer">
+
+                  
                 </div>
               </div>
             </div>

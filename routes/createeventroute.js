@@ -109,11 +109,11 @@ router.post('/', async (req, res) => {
             var formattedAttachments = [];
             if (attachments && attachments.length > 0) {
                 formattedAttachments = attachments.map(file => ({
-                    filename: file.filename,
+                    filename: file.originalname,
                     path: file.path,
                 }));
             }
-            console.log(formattedAttachments)
+            //console.log(formattedAttachments)
 
 
 
@@ -126,8 +126,8 @@ router.post('/', async (req, res) => {
                 state: eventData.state,
                 city: eventData.city,
                 description: eventData.description,
-                startDate: startDate,
-                endDate: eventData['end-date'],
+                start: startDate,
+                end: eventData['end-date'],
                 regDead: eventData['Reg-dead'],
                 organizers: organizers,
                 sponsors: sponsors,

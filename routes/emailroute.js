@@ -21,7 +21,6 @@ router.use(methodOverride('_method'));
 
 // Backend route for searching emails
 router.get('/', async (req, res) => {
-    console.log("11111114444444444")
     const page = req.query.page || 1;
     const perPage = 10;
     const skip = (page - 1) * perPage;
@@ -81,17 +80,23 @@ router.get('/follower/:id', async (req, res) => {
 
 
 router.get("/:id", async (req, res) => {
-    console.log("yyyyyyyyyyyee")
     try {
-      const emailId = req.params.id; 
-      const email = await Email.findById(emailId);
-      if (!email) {
-        return res.redirect("/emailbox");
-      }
-      return res.render('dashboard/email', { email });
+        const emailId = req.params.id;
+        const email = await Email.findById(emailId);
+
+        if (!email) {
+            return res.redirect("/emailbox");
+        }
+
+        if (!email.isOpen) {
+            email.isOpen = true;
+            await email.save();
+        }
+
+        return res.render('dashboard/email', { email });
     } catch (error) {
-      console.error(error);
-      return res.redirect("/404");
+        console.error(error);
+        return res.redirect("/404");
     }
 });
 

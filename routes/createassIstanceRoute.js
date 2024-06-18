@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const FormData = require('./../models/FormData');
+const Visitor = require('./../models/Visitor');
 const { authorize, createFolder, createSheet } = require('./../config/googledrive');
+router.use(express.static("public"));
+router.use(express.static("views"));
 
 router.get("/", (req, res) => {
     return res.render("dashboard/createassistance");
@@ -69,4 +72,41 @@ router.post('/saveFormData', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+
+router.get("/visitors", async (req, res) => {
+    let query = {};
+    const { search, page } = req.query;
+    const perPage = 10; // Number of visitors per page
+    const pageNumber = parseInt(page) || 1; // Current page number, default to 1
+
+    // If search term is provided, filter
+    if (search) {
+        query = {
+            $or: [
+                { googleId: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } },
+                { name: { $regex: search, $options: 'i' } },
+            ]
+        };
+    }
+
+    const skip = (pageNumber - 1) * perPage;
+
+    const visitors = await Visitor.find(query)
+        .skip(skip)
+        .limit(perPage); // Limit number of results per page
+
+    const totalVisitors = await Visitor.countDocuments(query);
+
+    return res.render("dashboard/visitors", {
+        visitors: visitors,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalVisitors / perPage),
+        search: search,
+    });
+});
+
+
+
 module.exports = router;

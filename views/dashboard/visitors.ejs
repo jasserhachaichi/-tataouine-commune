@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Visitors</h3>
+              <p class="text-subtitle text-muted">The default layout.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Layout Default</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Default Layout</h4>
+            </div>
+
+            <div class="card-body">
+              <form action="/createassistance/visitors" method="GET" class="container">
+                <div class="col-8 mx-auto">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Recherche..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search || '' %>">
+                    <button class="btn btn-primary" type="submit">Recherche</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nom</th>
+                      <th>@Gmail</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% visitors.forEach(visitor => { %>
+                        <tr>
+                            <td><%= visitor.googleId %></td>
+                            <td><%= visitor.name %></td>
+                            <td><%= visitor.email %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-primary justify-content-center">
+                  <% if (currentPage > 1) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                  </li>
+                  <% } %>
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                  <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                  </li>
+                  <% } %>
+                  <% if (currentPage < totalPages) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                  </li>
+                  <% } %>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+
+
+
+</body>
+
+</html>

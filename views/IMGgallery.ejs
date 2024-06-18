@@ -23,13 +23,33 @@
         </div>
       </div>
     </div>
-    <% if (totalImages > limit) { %>
+
     <div class="container">
-      <div class="d-flex justify-content-center my-5">
-        <button id="load-more" class="btn btn-primary">Voir plus</button>
+      <div class="row mt-4 pt-2">
+        <!-- Pagination Links -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-primary  justify-content-center">
+            <% if (currentPage > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage - 1 %>">Précédente</a>
+            </li>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+            </li>
+            <% } %>
+            <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage + 1 %>">Suivante</a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
       </div>
+
     </div>
-    <% } %>
+
   </section>
 
 
@@ -49,91 +69,6 @@
   </script>
   <script type="text/javascript">
     lightGallery(document.getElementById('lightgallery0'));
-  </script>
-
-
-
-
-
-  <!--   <script>
-    let page = 1;
-    const loadMoreButton = document.getElementById('load-more');
-    loadMoreButton.addEventListener('click', () => {
-      page++;
-      fetch(`/galleryimages/images/${page}`)
-        .then(response => response.json())
-        .then(images => {
-          if (images.length > 0) {
-            const imageslist = document.getElementById('imageslist');
-            var div = document.createElement('div');
-            var divlight = document.createElement('div');
-            div.className = "row";
-            divlight.id = "lightgallery" + page;
-            divlight.className = 'pictures';
-            images.forEach(image => {
-              const anchor = document.createElement('a');
-              anchor.href = image.path.replace('attachments\\', '');
-              const img = document.createElement('img');
-              img.className = 'picture';
-              img.src = image.resizedPath;
-              img.loading = 'lazy';
-              anchor.appendChild(img);
-              divlight.appendChild(anchor);
-            });
-            const idlight = "lightgallery" + page;
-
-            div.appendChild(divlight);
-            imageslist.appendChild(div);
-            $('.pictures').tjGallery();
-            lightGallery(document.getElementById(idlight));
-          }
-        })
-        .catch(error => console.error('Error loading more images:', error));
-    });
-  </script> -->
-
-
-  <script>
-    let page = 1;
-    const loadMoreButton = document.getElementById('load-more');
-    loadMoreButton.addEventListener('click', () => {
-      page++;
-      fetch(`/galleryimages/images/${page}`)
-        .then(response => response.json())
-        .then(data => {
-          if(data.isEnd){
-            loadMoreButton.remove() ;
-          }
-          if (data.resizedImages.length > 0) {
-            const imageslist = document.getElementById('imageslist');
-            var div = document.createElement('div');
-            var divlight = document.createElement('div');
-            div.className = "row";
-            divlight.id = "lightgallery" + page;
-            divlight.className = 'pictures';
-            data.resizedImages.forEach(image => {
-              const anchor = document.createElement('a');
-              anchor.href = image.path.replace('attachments\\', '');
-              const img = document.createElement('img');
-              img.className = 'picture';
-              img.src = image.resizedPath;
-              img.loading = 'lazy';
-              anchor.appendChild(img);
-              divlight.appendChild(anchor);
-            });
-            const idlight = "lightgallery" + page;
-
-            const lightID = "#" + idlight + '.pictures'
-
-            div.appendChild(divlight);
-            imageslist.appendChild(div);
-            $(lightID).tjGallery();
-            lightGallery(document.getElementById(idlight));
-          }
-
-        })
-        .catch(error => console.error('Error loading more images:', error));
-    });
   </script>
 
 

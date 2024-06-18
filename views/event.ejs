@@ -116,7 +116,7 @@
                             </div>
                           </div>
                           <p class="lh-sm mb-0 ">
-                            <%= event.startDate %> <br> <%= event.endDate ? event.endDate : '' %>
+                            <%= event.start %> <br> <%= event.end ? event.end : '' %>
                           </p>
                         </div>
 
@@ -264,17 +264,17 @@
                 <div class="col-auto">
                   <h3 class="flex-1 mb-0 text-nowrap me-3 primary-color-1">Upcoming events</h3>
                 </div>
-                <div class="col-auto"><a class="fw-bold fs-9" href="/events">See more</a></div>
+                <div class="col-auto"><a class="fw-bold fs-9" href="/events">See Calendar</a></div>
               </div>
 
 
 
-
+            <% if (latestEvents && latestEvents.length > 0) { %>
               <% latestEvents.forEach(levent=> { %>
               <div class="bg-event my-4 p-3 border-bottom border-translucent border-dashed">
                 <div class="d-flex flex-between-center">
                   <p class="fs-8 mb-0 fw-bold mb-1 primary-color-2">
-                    <%= levent.startDate.toDateString() %> - <%= levent.endDate ? levent.endDate.toDateString() : 'Ongoing' %>
+                    <%= levent.start.toDateString() %> - <%= levent.end ? levent.end.toDateString() : 'Ongoing' %>
                     <span><%= levent.participation === 'Both' ? '(Online & Onsite)' : '('+levent.participation+')' %></span>
                   </p>
                 </div>
@@ -295,7 +295,7 @@
                     </path>
                   </svg>
                   <!-- <span class="fa-solid fa-clock text-body-secondary me-1"></span> Font Awesome fontawesome.com -->
-                  <%= levent.startDate.toLocaleTimeString() %>
+                  <%= levent.start.toLocaleTimeString() %>
                 </p>
 
 
@@ -314,6 +314,10 @@
                 <% } %>
               </div>
               <% }); %>
+
+              <% } else { %>
+                <p>No upcoming events available at the moment.</p>
+            <% } %>
 
 
 

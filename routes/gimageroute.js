@@ -5,9 +5,13 @@ const sharp = require('sharp');
 
 router.get("/", async (req, res) => {
   try {
-    const limit = 12;
-    const images = await Image.find({}, 'path').sort({ createdAt: -1 }).limit(limit);
-    const totalImages = await Image.countDocuments();
+    const page = req.query.page;
+    const perPage = 20; // Number of images per page
+    const pageNumber = parseInt(page) || 1; // Current page number, default to 1
+    const totalPages = Math.ceil(await Image.countDocuments()/perPage);
+    const skip = (pageNumber - 1) * perPage;
+
+    const images = await Image.find({}, 'path').sort({ createdAt: -1 }).skip(skip).limit(perPage);
 
     const resizedImages = await Promise.all(images.map(async (image) => {
       const resizedImageBuffer = await sharp(image.path)
@@ -19,75 +23,14 @@ router.get("/", async (req, res) => {
       };
     }));
 
-    res.render("IMGgallery", { images: resizedImages, limit, totalImages });
+
+    return res.render("IMGgallery", { images: resizedImages, currentPage: pageNumber, totalPages });
   } catch (error) {
     console.error(error);
     return res.redirect("/404");
   }
 });
 
-/* router.get("/images/:page", async (req, res) => {
-  try {
-    const limit = 12;
-    const page = parseInt(req.params.page) || 1;
-    const offset = (page - 1) * limit;
-    const totalImages = await Image.countDocuments();
-    let isEnd = false;
-    if ((totalImages / limit) < (page - 1)) {
-      isEnd = true;
-    }
-
-
-    const images = await Image.find().sort({ createdAt: -1 }).skip(offset).limit(limit);
-    const resizedImages = await Promise.all(images.map(async (image) => {
-      const resizedImageBuffer = await sharp(image.path)
-        .resize({ width: 400 })
-        .toBuffer();
-      return {
-        ...image.toObject(),
-        resizedPath: `data:image/jpeg;base64,${resizedImageBuffer.toString('base64')}`
-      };
-    }));
-
-    res.json(resizedImages,images,isEnd);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-}); */
-router.get("/images/:page", async (req, res) => {
-  try {
-    const limit = 12;
-    const page = parseInt(req.params.page) || 1;
-    const offset = (page - 1) * limit;
-    const totalImages = await Image.countDocuments();
-
-    let isEnd = false;
-    if (totalImages <= offset + limit) {
-      isEnd = true;
-    }
-
-    const images = await Image.find({}, 'path')
-      .sort({ createdAt: -1 })
-      .skip(offset)
-      .limit(limit);
-
-    const resizedImages = await Promise.all(images.map(async (image) => {
-      const resizedImageBuffer = await sharp(image.path)
-        .resize({ width: 400 })
-        .toBuffer();
-      return {
-        ...image.toObject(),
-        resizedPath: `data:image/jpeg;base64,${resizedImageBuffer.toString('base64')}`
-      };
-    }));
-
-    res.json({resizedImages: resizedImages, isEnd: isEnd });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-});
 
 
 

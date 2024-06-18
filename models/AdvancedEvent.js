@@ -15,11 +15,11 @@ const AdvancedEventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    startDate: {
+    start: {
         type: Date,
         required: true
     },
-    endDate: Date,
+    end: Date,
     regDead: Date,
     organizers: [String],
     sponsors: [String],

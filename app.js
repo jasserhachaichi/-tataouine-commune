@@ -100,10 +100,8 @@ app.get('/about', (req, res) => {
 const authenticateToken = require('./middleware/authenticate');
 const authenticatelogin = require('./middleware/authenticatelogin');
 const checkUserRole = require("./middleware/checkUserRole");
-app.get('/dashhome', authenticateToken, (req, res) => {
-    res.render("dashboard/home");
-})
 
+app.use("/dashhome", authenticateToken, require("./routes/dashhomeroute.js"));
 app.use("/addvideo", authenticateToken, require("./routes/addvideoroute"));
 app.use("/allvideos", authenticateToken, require("./routes/allvideosroute"));
 
@@ -132,12 +130,8 @@ app.use("/calendarmanagement", authenticateToken, checkUserRole, require("./rout
 app.use("/createevent", authenticateToken, checkUserRole, require("./routes/createeventroute"));
 
 app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
-app.use("/editassistance", authenticateToken, checkUserRole, require("./routes/editassistanceroute"));
 app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));
 app.use("/form", /* authenticateToken, checkUserRole, */ require("./routes/formroute"));
-app.get('/showdform', authenticateToken, (req, res) => {
-    res.render("dashboard/showdform");
-})
 app.get(
     '/auth/google/form',
     passport.authenticate('google', {

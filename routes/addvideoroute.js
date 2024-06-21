@@ -70,19 +70,19 @@ router.post('/local', async (req, res) => {
         }
         var thumbnailPath;
         if(thumbnailFile &&  (thumbnailFile.length > 0)){
-            thumbnailPath = thumbnailFile[0].path;
+            thumbnailPath = thumbnailFile[0].path.replace(/\\/g, '/').replace('attachments/', '/');
         }else{
-            thumbnailPath = 'images/Default-thumbnail.png';
+            thumbnailPath = '/images/Default-thumbnail.png';
         }
-        //console.log(thumbnailPath)
+        
             
          
         
 
         if (errors.length > 0) {
             // Delete uploaded files if any error occurred
-            if (thumbnailPath !== 'images/Default-thumbnail.png') {
-                fs.unlinkSync(thumbnailPath);
+            if (thumbnailPath !== '/images/Default-thumbnail.png') {
+                fs.unlinkSync(thumbnailFile[0].path);
             }
             if (videofile && videofile[0]) {
                 fs.unlinkSync(videofile[0].path);
@@ -90,15 +90,11 @@ router.post('/local', async (req, res) => {
             return res.status(400).json({ errors: errors });
         }
 
-       
 
         try {
-            var videopath = videofile[0].path;
+            var videopath = videofile[0].path.replace(/\\/g, '/').replace('attachments/', '/');
             //console.log(videopath);
-            if (videopath.startsWith('attachments\\')) {
-                videopath = videopath.replace('attachments\\', '');
-            }
-            //console.log(videopath);
+            //console.log(thumbnailPath);
             const video = new Video({
                 title: req.body['title-column'],
                 description: req.body['description-column'],
@@ -125,17 +121,23 @@ router.post('/local', async (req, res) => {
 router.post('/youtube', uploady.single('thumbnail-column'), async (req, res) => {
     try {
         const { 'title-column': title, 'description-column': description, 'url-column': url } = req.body;
+        //console.log(req.file);
         const thumbnailFile = req.file;
         let errors = [];
+        //console.log("jassour1");
         // Validate form data
         if (!title) errors.push('Title is required');
         if (!description) errors.push('Description is required');
         if (!url) errors.push('URL is required');
-        var thumbnailPath = thumbnailFile ? thumbnailFile.path : 'images/Default-thumbnail.png';
+
+        var thumbnailPath = thumbnailFile && thumbnailFile.path? thumbnailFile.path.replace(/\\/g, '/').replace('attachments/', '/') : '/images/Default-thumbnail.png';
+
         //console.log(thumbnailPath);
+        //console.log("jassour 2");
+
         if (errors.length > 0) {
-            if(thumbnailPath != 'images/Default-thumbnail.png'){
-                fs.unlinkSync(thumbnailPath);
+            if(thumbnailPath != '/images/Default-thumbnail.png'){
+                fs.unlinkSync(req.file.path);
             }
             return res.status(400).json({ errors });
         }

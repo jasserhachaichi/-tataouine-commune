@@ -1,10 +1,8 @@
 const express = require("express");
+const path = require("path");
 // Init App
 const app = express();
-// Serve static files from the 'public' directory
-app.use(express.static("public"));
-app.use(express.static("views"));
-app.use(express.static("Attachments"));
+
 //  auto refrech
 require("./config/autoRefresh");
 require("dotenv").config();
@@ -24,6 +22,11 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 // Parse JSON bodies (as sent by API clients)
 app.use(bodyParser.json());
+
+// Serve static files from the 'public', 'views', and 'attachments' directories
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "views")));
+app.use(express.static(path.join(__dirname, "attachments")));
 
 
 const cookieParser = require('cookie-parser');
@@ -168,23 +171,12 @@ app.get('/auth/protected', (req, res) => {
 
 
 
-app.get('/dashhome', authenticateToken, (req, res) => {
+/* app.get('/dashhome', authenticateToken, (req, res) => {
     res.render("dashboard/home");
-});
-app.get('/success', (req, res) => {
-    if (req.cookies.visitor) {
-        return res.render("success");
-    } else {
-        return res.redirect("/404");
-    }
-});
-app.get('/failure', (req, res) => {
-    if (req.cookies.visitor) {
-        return res.render("failure");
-    } else {
-        return res.redirect("/404");
-    }
-});
+}); */
+app.use("/success" , require("./routes/successroute"));
+app.use("/failure" , require("./routes/failureroute"));
+
 
 
 

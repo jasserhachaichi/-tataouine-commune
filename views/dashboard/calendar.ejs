@@ -1505,6 +1505,7 @@
     color: var(--phoenix-btn-hover-color);
     background-color: rgb(218, 226, 222)
   }
+
   [data-bs-theme=dark] .active-view {
     color: var(--phoenix-btn-hover-color);
     background-color: #216632 !important;
@@ -2525,9 +2526,24 @@
       .then(data => {
         const {
           dayjs: dayjs
-        } = window, currentDay = dayjs && dayjs().format("DD"), currentMonth = dayjs && dayjs().format("MM"), prevMonth = dayjs && dayjs().subtract(1, "month").format("MM"), nextMonth = dayjs && dayjs().add(1, "month").format("MM"), currentYear = dayjs && dayjs().format("YYYY"), events = data.events;
+        } = window, currentDay = dayjs && dayjs().format("DD"), currentMonth = dayjs && dayjs().format("MM"), prevMonth = dayjs && dayjs().subtract(1, "month").format("MM"), nextMonth = dayjs && dayjs().add(1, "month").format("MM"), currentYear = dayjs && dayjs().format("YYYY"),         events = data.events.map(event => ({
+          ...event,
+          start: new Date(event.start), // Convert start to Date object
+          end: event.end ? new Date(event.end) : null // Convert end to Date object if it exists
+        }));
+
+        // Function to convert ISO date to "YYYY-MM-DD hh:mm:ss" format
+        function convertToFormattedDate(isoDate) {
+          let date = new Date(isoDate);
+          return date.toISOString(); // This will give you "YYYY-MM-DDTHH:mm:ss.sssZ"
+        }
 
 
+
+
+
+        // Output the converted events
+        console.log(events);
         const getTemplate = n => `\n<div class="modal-header ps-card border-bottom">\n  <div>\n    <h4 class="modal-title text-body-highlight mb-0">${n.title}</h4>\n ${n.extendedProps.organizers ? `<p class="mb-0 fs-9 mt-1">\n organized by <p>${n.extendedProps.organizers}</p>\n</p>` : ""}\n${n.extendedProps.sponsors ? `<p class="mb-0 fs-9 mt-1">\n Sponsored by <p>${n.extendedProps.sponsors}</p>\n</p>` : ""}\n</div>\n  <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close">\n    <span class='fas fa-times fs-8'></span>\n  </button>\n\n</div>\n\n<div class="modal-body px-card pb-card pt-1 fs-9">\n  ${n.extendedProps.description ? `\n      <div class="mt-3 border-bottom pb-3">\n        <h5 class='mb-0 text-body-secondary'>Description</h5>\n        <p class="mb-0 mt-2">\n          ${n.extendedProps.description.split(" ").slice(0, 30).join(" ")}\n        </p>\n      </div>\n    ` : ""} \n  <div class="mt-4 ${n.extendedProps.location ? "border-bottom pb-3" : ""}">\n    <h5 class='mb-0 text-body-secondary'>Date and Time</h5>\n    <p class="mb-1 mt-2">\n    ${window.dayjs && window.dayjs(n.start).format("dddd, MMMM D, YYYY, h:mm A")} \n    ${n.end ? `– ${window.dayjs && window.dayjs(n.end).subtract(1, "day").format("dddd, MMMM D, YYYY, h:mm A")}` : ""}\n  </p>\n\n  </div>\n  ${n.extendedProps.location ? `\n        <div class="mt-4 ">\n          <h5 class='mb-0 text-body-secondary'>Location</h5>\n          <p class="mb-0 mt-2">${n.extendedProps.location}</p>\n        </div>\n      ` : ""}\n  ${n.schedules ? `\n      <div class="mt-3">\n        <h5 class='mb-0 text-body-secondary'>Schedule</h5>\n        <ul class="list-unstyled timeline mt-2 mb-0">\n          ${n.schedules.map((n => `<li>${n.title}</li>`)).join("")}\n        </ul>\n      </div>\n      ` : ""}\n  </div>\n</div>\n\n<div class="modal-footer d-flex justify-content-end px-card pt-0 border-top-0">\n  <button class="btn btn-danger btn-sm removeEven" data-calendar-event-remove="${n.extendedProps._id}${ n.url!= "" && n.url!= undefined ? n.url : ""}" >\n    <i class="bi bi-trash3-fill"></i> Delete\n  </button>\n ${ n.url!= "" && n.url!= undefined ? ` <a href="${n.url}" class="btn btn-secondary btn-sm"> View Details </a> ` : ""}</div>\n`;
         //const getTemplate = n => ` <div class="modal-header ps-card border-bottom"> <div> <h4 class="modal-title text-body-highlight mb-0">${n.title}</h4> ${n.extendedProps.organizer ? `<p class="mb-0 fs-9 mt-1"> by <a href="#!">${n.extendedProps.organizer}</a> </p>` : ""} </div> <button type="button" class="btn p-1 fw-bolder" data-bs-dismiss="modal" aria-label="Close"> <span class='fas fa-times fs-8'></span> </button> </div> <div class="modal-body px-card pb-card pt-1 fs-9"> ${n.extendedProps.description ? ` <div class="mt-3 border-bottom pb-3"> <h5 class='mb-0 text-body-secondary'>Description</h5> <p class="mb-0 mt-2"> ${n.extendedProps.description.split(" ").slice(0, 30).join(" ")} </p> </div> ` : ""} <div class="mt-4 ${n.extendedProps.location ? "border-bottom pb-3" : ""}"> <h5 class='mb-0 text-body-secondary'>Date and Time</h5> <p class="mb-1 mt-2"> ${window.dayjs && window.dayjs(n.start).format("dddd, MMMM D, YYYY, h:mm A")} ${n.end ? `– ${window.dayjs && window.dayjs(n.end).subtract(1, "day").format("dddd, MMMM D, YYYY, h:mm A")}` : ""} </p> </div> ${n.extendedProps.location ? ` <div class="mt-4 "> <h5 class='mb-0 text-body-secondary'>Location</h5> <p class="mb-0 mt-2">${n.extendedProps.location}</p> </div> ` : ""} ${n.schedules ? ` <div class="mt-3"> <h5 class='mb-0 text-body-secondary'>Schedule</h5> <ul class="list-unstyled timeline mt-2 mb-0"> ${n.schedules.map((n => `<li>${n.title}</li>`)).join("")} </ul> </div> ` : ""} </div> <div class="modal-footer d-flex justify-content-end px-card pt-0 border-top-0"> <button class="btn btn-danger btn-sm removeEven" data-calendar-event-remove="${n.extendedProps._id}"> <i class="bi bi-trash3-fill"></i> Delete </button> ${n.extendedProps.url ? ` <a href="${n.extendedProps.url}" class="btn btn-danger btn-sm"> View Details </a> ` : ""} </div>`;
         const appCalendarInit = () => {
@@ -2600,27 +2616,27 @@
               events: p,
               eventClick: e => {
                 e.jsEvent.preventDefault();
-                  const t = getTemplate(e.event);
-                  var elmdetail = document.querySelector(i);
-                  elmdetail.innerHTML = t;
-                  var modaldetail = new window.bootstrap.Modal(S);
-                  modaldetail.show();
-                  S.querySelector(".removeEven").addEventListener("click", function() {
-                    var btn = this;
-                    $.ajax({
-                      url: "/calendarmanagement/events/" + btn.getAttribute("data-calendar-event-remove"),
-                      type: "DELETE",
-                      success: function(response) {
-                        e.event.remove();
-                        modaldetail.hide();
-                      },
-                      error: function(xhr, status, error) {
-                        console.error("Error deleting event:", error); // Log error message
-                        // Handle error, if needed
-                      }
-                    });
+                const t = getTemplate(e.event);
+                var elmdetail = document.querySelector(i);
+                elmdetail.innerHTML = t;
+                var modaldetail = new window.bootstrap.Modal(S);
+                modaldetail.show();
+                S.querySelector(".removeEven").addEventListener("click", function() {
+                  var btn = this;
+                  $.ajax({
+                    url: "/calendarmanagement/events/" + btn.getAttribute("data-calendar-event-remove"),
+                    type: "DELETE",
+                    success: function(response) {
+                      e.event.remove();
+                      modaldetail.hide();
+                    },
+                    error: function(xhr, status, error) {
+                      console.error("Error deleting event:", error); // Log error message
+                      // Handle error, if needed
+                    }
                   });
-                
+                });
+
               },
               dateClick(e) {
                 new window.bootstrap.Modal(D).show();

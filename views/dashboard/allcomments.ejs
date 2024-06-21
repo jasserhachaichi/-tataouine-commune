@@ -65,7 +65,7 @@
                     <div class="card-body">
                         <div class="comment-widgets">
                             <div class="parentcomment d-flex flex-row comment-row m-t-0" data-bs-toggle="collapse" data-bs-target="#collapseExample-<%= comment.idP %>" aria-expanded="false" aria-controls="collapseExample-<%= comment.idP %>">
-                                <div class="p-2"><img src="images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
+                                <div class="p-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
                                 <div class="comment-text w-100">
                                     <h6 class="font-medium"><%= comment.name %> (<%= comment.email %>)</h6>
                                     <span class="m-b-15 d-block"><%= comment.comment %></span>
@@ -88,7 +88,7 @@
                                         <div class="comment-widgets">
                                             <% comment.replies_comments.forEach(reply => { %>
                                             <div class="d-flex flex-row comment-row my-5 border-start">
-                                                <div class="px-2"><img src="images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
+                                                <div class="px-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
                                                 <div class="comment-text w-100">
                                                     <h6 class="font-medium"><%= reply.to %><i class="bi bi-caret-left-fill mx-3"></i><%= reply.name %> (<%= reply.email %>) </h6>
                                                     <span class="m-b-15 d-block"><%= reply.comment %></span>

@@ -5,8 +5,7 @@ const nodemailer = require('nodemailer');
 const transporter = require('../config/nodemailer');
 const bcrypt = require('bcrypt');
 router.use(express.static("public"));
-router.use(express.static("views"));
-router.use(express.static("Attachments"));
+
 
 
 function validatePassword(password) {
@@ -86,7 +85,7 @@ router.post('/key/:userId', async (req, res) => {
             from: process.env.sendermail,
             to: email,
             subject: '(No Reply) Tataouine commune site mot de passe',
-            text: `Hello ${firstname} ${lastname},\n\nThank you for signing up. Your account has been created successfully.\n\nYour login credentials:\nEmail: ${email}\nPassword: ${hashedPassword}\n\nBest regards,\nYour Company`
+            text: `Hello ${firstname} ${lastname},\n\nThank you for signing up. Your account has been created successfully.\n\nYour login credentials:\nEmail: ${email}\nPassword: ${passwordIdColumn}\n\nBest regards,\nTataouine commune`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {

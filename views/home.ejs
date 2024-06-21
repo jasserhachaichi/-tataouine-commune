@@ -14,8 +14,8 @@
         <div class="col-12 col-lg-6 col-xl-5">
           <!-- <img class="img-fluid rounded" loading="lazy" src="./assets/img/about-img-1.jpg" alt="About 1"> -->
           <div class="twentytwenty-container" data-orientation="vertical">
-            <img src="images/slider-1.jpg" />
-            <img src="images/slider-1c.jpg" />
+            <img src="/images/slider-1.jpg" />
+            <img src="/images/slider-1c.jpg" />
           </div>
         </div>
         <div class="col-12 col-lg-6 col-xl-7">
@@ -126,7 +126,7 @@
     <div class="container">
       <div class="row gy-4 gy-lg-0 align-items-lg-center">
         <div class="col-12 col-lg-6">
-          <img class="img-fluid rounded framed" loading="lazy" src="images/OurSuccessovc.jpg" alt="Our Success">
+          <img class="img-fluid rounded framed" loading="lazy" src="/images/OurSuccessovc.jpg" alt="Our Success">
         </div>
         <div class="col-12 col-lg-6">
           <div class="row justify-content-xl-end">
@@ -383,7 +383,7 @@
     }
   </style>
 
-
+<% if (recentImages && recentImages.length > 0) { %>
   <section class="ftco-section">
     <div class="container">
       <div class="row justify-content-md-center">
@@ -403,7 +403,7 @@
               <% recentImages.forEach(image => { %>
               <div class="item">
                 <div class="work">
-                  <div class="img d-flex align-items-center justify-content-center" style="background-image: url('/<%= image.path%>');" alt="<%= image.filename %>">
+                  <div class="img d-flex align-items-center justify-content-center" style="background-image: url('<%= image.path%>');" alt="<%= image.filename %>">
                   </div>
                 </div>
               </div>
@@ -431,6 +431,7 @@
       </div>
     </div>
   </section>
+  <% } %>
 
 
 
@@ -438,8 +439,7 @@
 
 
 
-
-  <% if (recentBlogs.length > 0) { %>
+  <% if (recentBlogs && recentBlogs.length > 0) { %>
   <section id="blogcards" class="bg-light py-3 py-md-5">
     <div class="container">
       <div class="row justify-content-md-center">
@@ -459,7 +459,7 @@
           <% recentBlogs.forEach(blog => { %>
           <div class="card">
             <div class="card-header">
-              <img src="<%= blog.coverIMGpath.replace('attachments\\', '') %>" alt="" />
+              <img src="<%= blog.coverIMGpath %>" alt="" />
             </div>
             <div class="card-body">
               <a href="/blogs/<%= blog._id %>">
@@ -473,11 +473,9 @@
 
 
 
-                <% if (blog.autor.autorIMGpath != "images/Default-profile.jpg") { %>
-                <img src="<%= blog.autor.autorIMGpath.replace('attachments\\', '')  %>" alt="" />
-                <% } else { %>
-                <img src="images/Default-profile.jpg" alt="" />
-                <% } %>
+                <img src="<%= blog.autor.autorIMGpath  %>" alt="" />
+
+
 
 
 
@@ -596,53 +594,58 @@
   <script>
     document.getElementById("subscribeForm").addEventListener("submit", async function(event) {
       event.preventDefault();
-
+  
       const formData = new FormData(this);
       const email = formData.get("email");
-
+  
       try {
         const sendButton = document.getElementById('sendbtn');
         sendButton.disabled = true;
         sendButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Subscribing...';
-
-        const response = await fetch("/subscribe", { // Ensure the endpoint matches your backend route
+  
+        const response = await fetch("/home/subscribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            email
-          })
+          body: JSON.stringify({ email })
         });
-
-        const data = await response.json();
-
+  
+        let data;
+        const contentType = response.headers.get("content-type");
+  
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          data = await response.json();
+        } else {
+          data = await response.text();
+        }
+  
         if (response.ok) {
           Toastify({
-            text: data.message,
-            duration: 3000,
+            text: data.message || "Subscription successful!",
+            duration: 10000,
             close: true,
             gravity: "bottom",
             position: "right",
             backgroundColor: "#198754",
           }).showToast();
-        }
-        if (response.status === 400) {
+        } else if (response.status === 400) {
           Toastify({
-            text: "Email already exists",
-            duration: 5000,
+            text: data.message || "Email already exists",
+            duration: 10000,
             close: true,
             gravity: "bottom",
             position: "right",
             backgroundColor: "#dc3545",
           }).showToast();
+        } else {
+          throw new Error(data.message || "An unexpected error occurred");
         }
-
-
       } catch (error) {
+        //console.error("Error occurred during subscription:", error);
         Toastify({
-          text: error,
-          duration: 5000,
+          text: error.message || "Internal Server Error",
+          duration: 10000,
           close: true,
           gravity: "bottom",
           position: "right",
@@ -655,6 +658,7 @@
       }
     });
   </script>
+  
   <script src="plugin/twentytwenty/jquery.event.move.js"></script>
   <script src="plugin/twentytwenty/jquery.twentytwenty.js"></script>
   <script>

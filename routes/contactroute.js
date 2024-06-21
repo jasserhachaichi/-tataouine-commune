@@ -7,7 +7,7 @@ const Recaptcha = require('express-recaptcha').RecaptchaV3;
 const Email = require('./../models/Email');
 
 // Create a new instance of Recaptcha
-const recaptcha = new Recaptcha(process.env.RECAPTCHA_SITE_KEY, process.env.RECAPTCHA_SECRET_KEY);
+//const recaptcha = new Recaptcha(process.env.RECAPTCHA_SITE_KEY, process.env.RECAPTCHA_SECRET_KEY);
 
 router.get("/", (req, res) => {
     var siteKey = process.env.RECAPTCHA_SITE_KEY;
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 // Configure multer for handling file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'Attachments/email/') // Destination folder for uploaded files
+        cb(null, 'attachments/email/') // Destination folder for uploaded files
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() +"ETC"+file.originalname)

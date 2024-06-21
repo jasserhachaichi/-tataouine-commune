@@ -66,22 +66,21 @@ router.post('/', async (req, res) => {
             attachaaray = req.files['filepond2'].map(file => ({
                 originalname: file.originalname,
                 filename: file.filename,
-                path: file.path,
+                path: file.path.replace(/\\/g, '/').replace('attachments/', '/'),
             }));
         }
 
         try {
             var newPath;
             if (req.files['filepond'] && req.files['filepond'].length > 0) {
-                const coverPath = req.files['filepond'][0].path;
-                newPath = coverPath.substring(coverPath.indexOf('AnnouncementIMG'));
+                 newPath = req.files['filepond'][0].path.replace(/\\/g, '/').replace('attachments/', '/');
             }
             // Create new announcement instance
             const newAnnouncement = new Announcement({
                 title: titleColumn,
                 appel: appel,
                 expiredDate: expiredDate,
-                path: newPath,
+                path:  newPath,
                 details: req.body.summernote,
                 attachments: attachaaray,
             });

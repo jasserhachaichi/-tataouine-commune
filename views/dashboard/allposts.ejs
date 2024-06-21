@@ -35,7 +35,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-
+                  <% if (announcements && announcements.length > 0) { %>
                   <form action="/allposts" method="GET" class="container">
                     <div class="col-8 mx-auto">
                       <div class="input-group mb-3">
@@ -52,7 +52,7 @@
                         <!-- Card for each announcement -->
                         <div class="col-md-6 col-sm-12">
                           <div class="card">
-                            <a href="/allposts/<%= announcement._id %>" class="card-content">
+                            <a href="/allannouncement/<%= announcement._id %>" class="card-content">
                               <!-- Display announcement details -->
                               <img class="card-img-bottom img-fluid" src="<%= announcement.path %>" alt="Card image cap" style="height: 20rem; object-fit: cover;">
                               <div class="card-body">
@@ -90,7 +90,9 @@
                         <% } %>
                     </ul>
                 </nav>
-                
+                <% } else { %>
+                  <p>Aucune annonce disponible</p>
+                <% } %>     
 
                 </div>
               </div>

@@ -17,11 +17,12 @@
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
-  <%- include('./partials/sectionhero', { titre: 'Les annonces' ,bgimage:'images/cta-image-1.JPG'}) %>
+  <%- include('./partials/sectionhero', { titre: 'Les annonces' ,bgimage:'/images/cta-image-1.jpg'}) %>
 
   <section>
     <!--  class="bsb-blog-5 py-3 py-md-5 py-xl-8" -->
     <div class="container">
+      <% if (announcements  && announcements.length > 0) { %>
       <form action="/allannouncement" method="GET" class="my-5">
         <div class="row">
 
@@ -109,7 +110,9 @@
         </nav>
       </div>
 
-
+      <% } else { %>
+        <p>Aucune annonce disponible</p>
+      <% } %>
     </div>
   </section>
 

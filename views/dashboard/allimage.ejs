@@ -36,14 +36,19 @@
                 <div class="card-body">
                   <div class="container">
                     <div class="row gallery">
+                      <% if (images.length > 0) { %>
                       <% images.forEach((image, index) => { %>
-                        <div class="col-6 col-sm-6 col-lg-3 mt-2 mt-md-0 mb-md-0 mb-2">
-                          <img class="w-100" src="<%= image.resizedPath %>" loading="lazy" alt="<%= image.filename %>">
-                          <form action="/allimage/delete-image/<%= image._id %>" method="POST"> <!-- Assuming you have a route to handle delete requests -->
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                          </form>
-                        </div>
+                      <div class="col-6 col-sm-6 col-lg-3 mt-2 mt-md-0 mb-md-0 mb-2">
+                        <img class="w-100" src="<%= image.resizedPath %>" loading="lazy" alt="<%= image.filename %>">
+                        <form action="/allimage/delete-image/<%= image._id %>" method="POST">
+                          <!-- Assuming you have a route to handle delete requests -->
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                      </div>
                       <% }); %>
+                      <% } else { %>
+                      <p>Aucune image disponible</p>
+                      <% } %>
                     </div>
 
                     <div class="row mt-4 pt-2">
@@ -75,14 +80,12 @@
                 </div>
                 <div class="card-footer">
 
-                  
+
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-        
 
 
 
@@ -99,7 +102,6 @@
 
 
   <%- include('./commun/scripts') %>
-
 
 
 

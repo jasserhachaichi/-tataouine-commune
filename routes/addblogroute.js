@@ -75,7 +75,7 @@ router.post('/', async (req, res) => {
                 attachaaray = req.files['filepond2'].map(file => ({
                     originalname: file.originalname,
                     filename: file.filename,
-                    path: file.path,
+                    path: file.path.replace(/\\/g, '/').replace('attachments/', '/'),
                 }));
             }
 
@@ -84,7 +84,7 @@ router.post('/', async (req, res) => {
                 Autor = {
                     fullname: fullname,
                     expertise: expertise,
-                    autorIMGpath: req.files['filepond3'] && req.files['filepond3'].length > 0 ? req.files['filepond3'][0].path : "images/Default-profile.jpg",
+                    autorIMGpath: req.files['filepond3'] && req.files['filepond3'].length > 0 ? req.files['filepond3'][0].path.replace(/\\/g, '/').replace('attachments/', '/') : "/images/Default-profile.jpg",
                     socialmedia: {
                         linkedin,
                         facebook,
@@ -101,7 +101,7 @@ router.post('/', async (req, res) => {
             const newBlog = new Blog({
                 title,
                 subtitle,
-                coverIMGpath: req.files['filepond'] && req.files['filepond'].length > 0 ? req.files['filepond'][0].path : "images/Default-cover.jpg",
+                coverIMGpath: req.files['filepond'] && req.files['filepond'].length > 0 ? req.files['filepond'][0].path.replace(/\\/g, '/').replace('attachments/', '/') : "/images/Default-cover.jpg",
                 autor: Autor,
                 details: req.body.summernote,
                 attachments: attachaaray,
@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
             });
 
             await newBlog.save();
-            //console.log(newBlog);
+            console.log(newBlog);
 
             return res.status(200).send('Blog posted successfully');
         } catch (error) {

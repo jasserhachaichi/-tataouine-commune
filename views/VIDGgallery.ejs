@@ -69,7 +69,7 @@
 
 <body>
   <%- include('./partials/navbar') %>
-  <%- include('./partials/sectionhero', { titre: 'Nos Videos' ,bgimage:'images/cta-image-1.JPG'}) %>
+  <%- include('./partials/sectionhero', { titre: 'Nos Videos' ,bgimage:'/images/cta-image-1.jpg'}) %>
 
 
 
@@ -166,9 +166,9 @@
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="input-group">
-            <input class="form-control border-end-0 border" name="search" type="search" placeholder="Search..." id="search-input">
+            <input class="form-control border-end-0 border" name="search" type="search" placeholder="Recherche..." id="search-input">
             <span class="input-group-append">
-              <button class="btn btn-primary" type="submit">Search</button>
+              <button class="btn btn-primary" type="submit">Recherche</button>
             </span>
           </div>
         </div>
@@ -176,16 +176,15 @@
     </form>
     <div class="container">
       <div id="gallery" class="row">
+        <% if (videos.length > 0) { %>
         <% videos.forEach(video => { %>
         <div class="col-lg-4 col-md-6">
           <div class="card shadow-costum p-3 mb-5 bg-body rounded">
             <a href="<%= video.url %>" class="mfp-iframe position-relative">
 
               <% if (video.thumbnail !== "images/Default-profile.jpg") { %>
-                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail.replace('attachments\\', '') %>">
-                <% } else { %>
-                  <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
-                <% } %>
+                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
+                <% }%>
 
               <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
                 <i class="fa-solid fa-circle-play"></i>
@@ -198,6 +197,9 @@
           </div>
         </div>
         <% }); %>
+        <% } else { %>
+        <p>Aucune video disponible</p>
+        <% } %>
       </div>
       <div class="row">
         <!-- Pagination Links -->

@@ -4,7 +4,7 @@ const FormData = require('./../models/FormData');
 const Visitor = require('./../models/Visitor');
 const { authorize, createFolder, createSheet } = require('./../config/googledrive');
 router.use(express.static("public"));
-router.use(express.static("views"));
+
 
 router.get("/", (req, res) => {
     return res.render("dashboard/createassistance");

@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 router.use(express.static("public"));
-router.use(express.static("Attachments"));
 
 // GET route for rendering all announcements
 router.get("/", async (req, res) => {
@@ -29,6 +28,7 @@ router.get("/", async (req, res) => {
         const skip = (pageNumber - 1) * perPage;
 
         const announcements = await Announcement.find(query)
+        .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
         
@@ -42,26 +42,7 @@ router.get("/", async (req, res) => {
         return res.redirect("/404");
     }
 });
-// GET route for showing Announcement content by ID
-router.get("/:id", async (req, res) => {
-    try {
-        const announcementId = req.params.id; // Get the announcement ID from the request parameters
 
-        // Find the Announcement by ID in the database
-        const announcement = await Announcement.findById(announcementId);
-
-        if (!announcement) {
-            // If no announcement is found, redirect to a 404 page or handle the error appropriately
-            return res.redirect("/404");
-        }
-
-        // Render the EJS template with the announcement data
-        return res.render("dashboard/post", { announcement });
-    } catch (err) {
-        console.error(err);
-        return res.redirect("/404");
-    }
-});
 
 
 

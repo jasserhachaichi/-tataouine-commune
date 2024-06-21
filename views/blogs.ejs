@@ -580,9 +580,12 @@
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
-  <%- include('./partials/sectionhero', { titre: 'Tous les blogs' ,bgimage:'images/cta-image-1.JPG'}) %>
+  <%- include('./partials/sectionhero', { titre: 'Tous les blogs' ,bgimage:'/images/cta-image-1.jpg'}) %>
   <section>
     <div class="container">
+
+      <% if (blogs && blogs.length > 0) { %>
+      
       <div class="row">
         <div class="col-12">
           <div class="section-title text-center mb-4">
@@ -613,7 +616,7 @@
           <div class="card blog blog-list border-0 shadow position-relative overflow-hidden rounded h-100">
             <div class="d-md-flex h-100">
               <div class="blog-list-img position-relative overflow-hidden shadow flex-md-shrink-0">
-                <img src="<%= blog.coverIMGpath.replace('attachments\\', '') %>" class="img-fluid h-100 w-100" alt="">
+                <img src="<%= blog.coverIMGpath %>" class="img-fluid h-100 w-100" alt="">
               </div>
               <div class="card-body content p-3 d-flex flex-column  align-items-start justify-content-between">
                 <div class="w-100 d-flex align-items-center justify-content-between">
@@ -629,16 +632,7 @@
 
                 <% if (blog.autor && blog.autor.fullname) { %>
                 <div class="d-flex align-items-center mt-3">
-
-                  <% if (blog.autor.autorIMGpath !== "images/Default-profile.jpg") { %>
-                  <img src="<%= blog.autor.autorIMGpath.replace('attachments\\', '') %>" class="img-fluid rounded-circle avatar avatar-small" alt="">
-                  <% } else { %>
                   <img src="<%= blog.autor.autorIMGpath %>" class="img-fluid rounded-circle avatar avatar-small" alt="">
-                  <% } %>
-
-
-
-
                   <div class="ms-2">
                     <p class="h6 mb-0"><%= blog.autor.fullname %></p>
                     <p class="text-muted mb-0 expertise"><%= blog.autor.expertise %></p>
@@ -675,6 +669,12 @@
           </ul>
         </nav>
       </div>
+
+      <% } else { %>
+        <p>Aucune blog disponible</p>
+      <% } %>
+
+
     </div>
   </section>
 

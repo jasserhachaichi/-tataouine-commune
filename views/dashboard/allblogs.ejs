@@ -72,7 +72,7 @@
               <div class="card">
                 <div class="card-body">
 
-
+                  <% if (blogs && blogs.length > 0) { %>
                   <form action="/allblogs" method="GET" class="container">
                     <div class="col-8 mx-auto">
                       <div class="input-group mb-3">
@@ -86,11 +86,12 @@
 
                   <div class="container">
                     <div class="row mb-4">
+
                       <% blogs.forEach(blog => { %>
                         <div class="col-lg-4 mt-4 pt-2">
                           <div class="position-relative overflow-hidden blog rounded shadow">
                             <div class="position-relative overflow-hidden">
-                              <img src="<%= blog.coverIMGpath.replace('attachments\\', '') %>" class="img-fluid blog-img" alt="">
+                              <img src="<%= blog.coverIMGpath %>" class="img-fluid blog-img" alt="">
                               <div class="blog-tag">
                                 <% if (isNewBlog(blog.createdAt)) { %>
                                   <span class="badge bg-primary fw-light">New</span>
@@ -117,15 +118,10 @@
                     
                               <a href="/blogs/<%= blog._id %>" class="title  d-block mt-2 h5"><%= blog.title %></a>
                               <p class="text-muted"><%= blog.subtitle %></p>
+    
                               <% if (blog.autor && blog.autor.fullname) { %>
                                 <div class="d-flex align-items-center mt-3">
-
-                                  <% if (blog.autor.autorIMGpath !== "images/Default-profile.jpg") { %>
-                                    <img src="<%= blog.autor.autorIMGpath.replace('attachments\\', '') %>" class="img-fluid rounded-circle avatar avatar-small" alt="">
-                                  <% } else { %>
                                     <img src="<%= blog.autor.autorIMGpath %>" class="img-fluid rounded-circle avatar avatar-small" alt="">
-                                  <% } %>
-
                                   <div class="ms-2">
                                     <p class="h6 author"><%= blog.autor.fullname %></p>
                                     <p class="text-muted mb-0"><%= blog.autor.expertise %></p>
@@ -144,7 +140,8 @@
                             </div>
                           </div>
                         </div>
-                      <% }); %>
+                        <% }); %>
+
                     </div>
                     
                   </div>
@@ -173,7 +170,9 @@
                     </div>
                   </div>
 
-
+                  <% } else { %>
+                    <p>Aucune blog disponible</p>
+                  <% } %>
 
 
 

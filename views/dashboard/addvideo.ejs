@@ -205,8 +205,8 @@
       // Get the uploaded file
       const thumbnailFile = formData.get('thumbnail-column');
 
-      // Check if a file was uploaded
-      if (thumbnailFile) {
+      // Check if a file was uploaded and the input is not empty
+      if (thumbnailFile && thumbnailFile.name.trim().length > 0) {
         // Resize the image
         const resizedThumbnail = await resizeImage(thumbnailFile);
         // Replace the original file with the resized one
@@ -308,8 +308,8 @@
       // Get the uploaded file
       const thumbnailFile = formData.get('thumbnail-column');
 
-      // Check if a file was uploaded
-      if (thumbnailFile) {
+      // Check if a file was uploaded and the input is not empty
+      if (thumbnailFile && thumbnailFile.name.trim().length > 0) {
         // Resize the image
         const resizedThumbnail = await resizeImage(thumbnailFile);
         // Replace the original file with the resized one

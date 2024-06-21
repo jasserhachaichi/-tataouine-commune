@@ -14,7 +14,7 @@ const AnnouncementSchema = new mongoose.Schema({
     },
     path: {
         type: String,
-        default: "images/Default-thumbnail.png",
+        default: "/images/Default-thumbnail.png",
     },
     details: {
         type: String,

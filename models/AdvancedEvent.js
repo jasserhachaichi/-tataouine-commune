@@ -38,7 +38,7 @@ const AdvancedEventSchema = new mongoose.Schema({
     ],
     coverpath:{
         type:String,
-        default: "images/BgEvent-default.jpg",
+        default: "/images/BgEvent-default.jpg",
     },
 });
 

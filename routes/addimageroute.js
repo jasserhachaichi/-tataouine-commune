@@ -35,9 +35,10 @@ router.post('/', upload.array('filepond'), async (req, res) => {
     const savedFiles = await Promise.all(files.map(async (file) => {
       const image = new Image({
         filename: file.originalname,
-        path: file.path,
+        path: file.path.replace(/\\/g, '/').replace('attachments/', '/'),
       });
       await delay(300);
+      console.log(image.path);
       return await image.save();
     }));
 

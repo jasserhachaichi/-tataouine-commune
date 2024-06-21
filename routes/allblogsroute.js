@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 router.use(express.static("public"));
-router.use(express.static("Attachments"));
+
 // Define isNewBlog function
 function isNewBlog(createdAt) {
     const blogCreationDate = new Date(createdAt);
@@ -37,6 +37,7 @@ router.get("/", async (req, res) => {
         const skip = (pageNumber - 1) * perPage;
 
         const blogs = await Blog.find(query)
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
 
@@ -54,7 +55,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/delete/:id", async (req, res) => {
     const blogId = req.params.id.toLowerCase(); // Use lowercase for variable names
-    console.log(blogId);
+    //console.log(blogId);
 
     try {
         // Find the blog by ID
@@ -62,25 +63,27 @@ router.get("/delete/:id", async (req, res) => {
 
         // Delete attachments from the server
         blogToDelete.attachments.forEach(attachment => {
-            const attachmentPath = path.join(__dirname, '../', attachment.path);
+            //console.log("attachement:"   + __dirname+'../attachments'+attachment.path );
+            const attachmentPath = path.join(__dirname, '../attachments', attachment.path);
             if (fs.existsSync(attachmentPath)) {
                 fs.unlinkSync(attachmentPath);
             }
         });
 
 
-        if (blogToDelete.coverIMGpath != "images/Default-cover.jpg") {
+        if (blogToDelete.coverIMGpath != "/images/Default-cover.jpg") {
+            //console.log("cover:"  + __dirname+ '../attachments'+ blogToDelete.coverIMGpath );
             // Delete cover image from the server
-            const coverImagePath = path.join(__dirname, '../', blogToDelete.coverIMGpath);
+            const coverImagePath = path.join(__dirname, '../attachments', blogToDelete.coverIMGpath);
             if (fs.existsSync(coverImagePath)) {
                 fs.unlinkSync(coverImagePath);
             }
         }
 
-        if (blogToDelete.autor.autorIMGpath != "images/Default-profile.jpg") {
-
+        if (blogToDelete.autor.autorIMGpath != "/images/Default-profile.jpg") {
+            //console.log("autor:" +    __dirname+'../attachments'+blogToDelete.autor.autorIMGpath);
             // Delete author profile image from the server
-            const autorImagePath = path.join(__dirname, '../', blogToDelete.autor.autorIMGpath);
+            const autorImagePath = path.join(__dirname, '../attachments', blogToDelete.autor.autorIMGpath);
             if (fs.existsSync(autorImagePath)) {
                 fs.unlinkSync(autorImagePath);
             }

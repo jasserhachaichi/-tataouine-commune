@@ -131,6 +131,7 @@
                       </div>
    -->
                       <!-- Loop through videos and display each video card -->
+                  <% if (videos.length > 0) { %>
                       <% videos.forEach(video => { %>
                       <div class="col-md-4 col-sm-12">
                         <div class="card elm shadow-costum p-3 mb-5 rounded">
@@ -138,10 +139,9 @@
                             <a href="<%= video.url %>" class="mfp-iframe position-relative">
                               <!-- Display video thumbnail -->
                               <% if (video.thumbnail !== "images/Default-profile.jpg") { %>
-                                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail.replace('attachments\\', '') %>">
-                                <% } else { %>
-                                  <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
-                                <% } %>
+                                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
+                                <% }%>
+
                               <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
                                 <i class="bi bi-play-circle-fill"></i>
                               </div>
@@ -158,6 +158,9 @@
                         </div>
                       </div>
                       <% }); %>
+                  <% } else { %>
+                  <p>Aucune video disponible</p>
+                  <% } %>
 
 
                     </div>

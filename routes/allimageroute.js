@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require("path");
 const router = express.Router();
 const fs = require('fs'); // Import the file system module
 const Image = require('./../models/Image'); // Assuming you have a Mongoose model for images
@@ -13,9 +14,13 @@ router.get("/", async (req, res) => {
     const skip = (pageNumber - 1) * perPage;
 
     const images = await Image.find({}, 'path').sort({ createdAt: -1 }).skip(skip).limit(perPage);
+    images.forEach(image => {
+      image.path = "attachments" + image.path;
+    });
 
     const resizedImages = await Promise.all(images.map(async (image) => {
-      const resizedImageBuffer = await sharp(image.path)
+      const absolutePath = path.join(__dirname, '..', image.path);
+      const resizedImageBuffer = await sharp(absolutePath)
         .resize({ width: 400 }) // Resize to desired dimensions
         .toBuffer();
       return {

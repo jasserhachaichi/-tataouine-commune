@@ -8,8 +8,7 @@ const transporter = require('../config/nodemailer');
 const followerModel = require('./../models/Follower');
 
 router.use(express.static('public'));
-router.use(express.static("Attachments"));
-router.use(express.static("views"));
+
 
 // Set up Multer for handling file uploads
 const storage = multer.memoryStorage();

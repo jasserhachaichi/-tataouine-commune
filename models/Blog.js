@@ -6,11 +6,19 @@ const BlogSchema = new mongoose.Schema({
         required: true
     },
     subtitle: String,
-    coverIMGpath: String,
+    coverIMGpath: {
+        type:String,
+        default:"/images/Default-cover.jpg",
+        required:true
+    },
     autor: {
         fullname: String,
         expertise: String,
-        autorIMGpath: String,
+        autorIMGpath: {
+            type:String,
+            default:"/images/Default-profile.jpg",
+            required:true
+        },
         socialmedia: {
             linkedin: String,
             facebook: String,

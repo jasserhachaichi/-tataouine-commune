@@ -94,14 +94,14 @@ router.post('/', async (req, res) => {
             var slogospath = [];
             if (sfilepondFiles && sfilepondFiles.length > 0) {
                 sfilepondFiles.forEach(file => {
-                    slogospath.push(file.path);
+                    slogospath.push(file.path.replace(/\\/g, '/').replace('attachments/', '/'));
                 });
             }
 
             var ologospath = [];
             if (ofilepondFiles && ofilepondFiles.length > 0) {
                 ofilepondFiles.forEach(file => {
-                    ologospath.push(file.path);
+                    ologospath.push(file.path.replace(/\\/g, '/').replace('attachments/', '/'));
                 });
             }
 
@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
             if (attachments && attachments.length > 0) {
                 formattedAttachments = attachments.map(file => ({
                     filename: file.originalname,
-                    path: file.path,
+                    path: file.path.replace(/\\/g, '/').replace('attachments/', '/'),
                 }));
             }
             //console.log(formattedAttachments)
@@ -136,9 +136,9 @@ router.post('/', async (req, res) => {
                 slogospath: slogospath,
                 ologospath: ologospath,
                 attachements: formattedAttachments,
-                coverpath: cfilepondFiles ? cfilepondFiles.path : "images/BgEvent-default.jpg",
+                coverpath: cfilepondFiles ? cfilepondFiles.path.replace(/\\/g, '/').replace('attachments/', '/') : "/images/BgEvent-default.jpg",
             });
-            console.log(newEvent);
+            //console.log(newEvent);
             await newEvent.save();
   
             const newEventcalendar = new Event({

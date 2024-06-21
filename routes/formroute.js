@@ -4,7 +4,7 @@ const FormData = require('../models/FormData');
 const { authorize, uploadFile, appendToSheet, deleteFolder } = require('./../config/googledrive');
 const fs = require('fs');
 router.use(express.static("public"));
-router.use(express.static("views"));
+
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

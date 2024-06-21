@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 router.use(express.static("public"));
 const AdvancedEvent = require('./../models/AdvancedEvent');
-router.use(express.static("Attachments"));
+
 router.get('/', (req, res) => {
     res.render("events");
 })
 router.get('/:id', async (req, res) => {
     try {
         const eventId = req.params.id;
-        const event = await AdvancedEvent.findById(eventId);
+        var event = await AdvancedEvent.findById(eventId);
 
         // Current date
         const now = new Date();
@@ -23,7 +23,10 @@ router.get('/:id', async (req, res) => {
             ]
         })
         .sort({ start: 1 }) // Sort by start date ascending
-        .limit(2);
+        .limit(2)
+        .select("title start end participation venue country state city regDead organizers sponsors");
+
+        console.log(latestEvents)
 
 
          res.render('event', { event:event,latestEvents:latestEvents});

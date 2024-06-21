@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Announcement = require('../models/Announcement');
 const fs = require('fs');
-const path = require('path');
 
 router.use(express.static("public"));
-router.use(express.static("Attachments"));
 
 // GET route for rendering all announcements
 router.get("/", async (req, res) => {
@@ -42,7 +40,7 @@ router.get("/", async (req, res) => {
         // Calculate skip value based on current page number
         const skip = (pageNumber - 1) * perPage;
         // Determine sort order
-        let sortOption = {};
+        let sortOption = { createdAt: -1 };
         if (sortOrder === "up") {
             sortOption = { createdAt: 1 }; // Ascending order
         } else if (sortOrder === "down") {
@@ -53,6 +51,13 @@ router.get("/", async (req, res) => {
             .sort(sortOption)
             .skip(skip)
             .limit(perPage); // Limit number of results per page
+
+            announcements.forEach(announce => {
+                announce.path =announce.path;
+              });
+
+
+
 
         return res.render("allannouncement", {
             announcements: announcements,
@@ -74,6 +79,10 @@ router.get("/:id", async (req, res) => {
 
         // Find the Announcement by ID in the database
         const announcement = await Announcement.findById(announcementId);
+
+        announcement.attachments.forEach(att => {
+            att.path =  att.path.replace(/\\/g, '/').replace('attachments/', '/');
+        });
 
         if (!announcement) {
             // If no announcement is found, redirect to a 404 page or handle the error appropriately

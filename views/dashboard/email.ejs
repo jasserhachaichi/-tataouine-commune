@@ -72,7 +72,7 @@
 
                         <% email.attachments.forEach(attachment => { %>
                           <div class="col-4">
-                            <a href="<%- attachment.path.replace('Attachments\\', '') %> " download="<%= attachment.filename %>">
+                            <a href="<%- attachment.path.replace('attachments\\', '\\') %> " download="<%= attachment.filename %>">
                               <div class="row">
                                 <div class="col-1 fs-5 ">
                                   <% if (attachment.filename.endsWith('.eps')) { %>

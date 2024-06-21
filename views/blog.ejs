@@ -629,11 +629,9 @@
               <li class="list-inline-item">
                 <figure class="image-profile">
 
-                  <% if (blog.autor.autorIMGpath !== "images/Default-profile.jpg") { %>
-                  <img src="<%= blog.autor.autorIMGpath.replace('attachments\\', '') %>" alt="">
-                  <% } else { %>
                   <img src="<%= blog.autor.autorIMGpath %>" alt="">
-                  <% } %>
+
+
 
                 </figure>
               </li>
@@ -646,13 +644,7 @@
               <% } %>
             </ul>
           </div>
-
-          <% if (blog.coverIMGpath !== "images/Default-cover.jpg") { %>
-            <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="<%= blog.coverIMGpath.replace('attachments\\', '')%>" alt=" Cover Image" style="max-height: 960px; width: auto;">
-            <% } else { %>
-              <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="images/Default-cover.jpg" alt=" Cover Image" style="max-height: 960px; width: auto;">
-              <% } %>
-
+            <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="<%= blog.coverIMGpath%>" alt=" Cover Image" style="max-height: 960px; width: auto;">
           <div class="wrap__article-detail-content ">
             <div class="total-views">
               <div class="total-views-read">
@@ -725,7 +717,7 @@
               <% blog.attachments.forEach(function(attachment) { %>
               <li>
                 <i class="fa-solid fa-paperclip"></i>
-                <a href="<%= attachment.path.replace('attachments\\', '') %>"><%= attachment.originalname %></a>
+                <a href="<%= attachment.path %>"><%= attachment.originalname %></a>
               </li>
               <% }); %>
             </ul>
@@ -768,13 +760,7 @@
               <div class="wrap__profile">
                 <div class="wrap__profile-author">
                   <figure>
-
-                    <% if (blog.autor.autorIMGpath !== "images/Default-profile.jpg") { %>
-                    <img src="<%= blog.autor.autorIMGpath.replace('attachments\\', '') %>" alt="">
-                    <% } else { %>
                     <img src="<%= blog.autor.autorIMGpath %>" alt="">
-                    <% } %>
-
                   </figure>
                   <div class="wrap__profile-author-detail">
                     <div class="wrap__profile-author-detail-name">author</div>
@@ -855,7 +841,7 @@
                     <aside class="comment-body">
                       <div class="comment-meta">
                         <div class="comment-author">
-                          <img src="images/Default-profile.jpg" class="avatar" alt="image">
+                          <img src="/images/Default-profile.jpg" class="avatar" alt="image">
                           <p><b class="fn" data-toid="<%= comment.principale_comment.idP %>"><%= comment.principale_comment.name %></b></p>
                         </div>
                         <div class="comment-metadata">
@@ -880,7 +866,7 @@
                         <aside class="comment-body">
                           <div class="comment-meta">
                             <div class="comment-author">
-                              <img src="images/Default-profile.jpg" class="avatar" alt="image">
+                              <img src="/images/Default-profile.jpg" class="avatar" alt="image">
                               <p><b class="fn" data-toid="<%= reply.idR %>"><%= reply.name %></b><i class=" fa-regular fa-reply"></i> <%= reply.to %></p>
               </div>
               <div class="comment-metadata">
@@ -1106,7 +1092,7 @@
               const comment = parsedFormData.get('comment');
               const name = parsedFormData.get('name');
               const email = parsedFormData.get('email');
-              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn" data-toid="${response.idP}">${name}</b></p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.idP}">Reply</a> </div> </aside> <ol class="children"></ol> </li>`;
+              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="/images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn" data-toid="${response.idP}">${name}</b></p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.idP}">Reply</a> </div> </aside> <ol class="children"></ol> </li>`;
 
               $('.comment-list').append(commentBlock);
               incrementValue();
@@ -1277,7 +1263,7 @@
 
 
               // Construct the HTML block
-              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn" data-toid="${IDR}">${name}</b> ${to_dest} </p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.data_idP}">Reply</a> </div> </aside>  </li>`;
+              const commentBlock = `<li class="comment"> <aside class="comment-body"> <div class="comment-meta"> <div class="comment-author"> <img src="/images/Default-profile.jpg" class="avatar" alt="image"> <p><b class="fn" data-toid="${IDR}">${name}</b> ${to_dest} </p> </div> <div class="comment-metadata"> <span>${response.pDate}</span> </div> </div> <div class="comment-content"> <p>${comment}</p> </div> <div class="reply"> <a class="comment-reply-link" data-idP="${response.data_idP}">Reply</a> </div> </aside>  </li>`;
 
 
               if (htmlElm && htmlElm.attr('class') != undefined) {
@@ -1317,7 +1303,7 @@
       <aside class="comment-body">
         <div class="comment-meta">
           <div class="comment-author">
-            <img src="images/Default-profile.jpg" class="avatar" alt="image">
+            <img src="/images/Default-profile.jpg" class="avatar" alt="image">
             <b class="fn" data-toid="${commentData.principale_comment.idP}">${commentData.principale_comment.name}</b>
           </div>
           <div class="comment-metadata">
@@ -1339,7 +1325,7 @@
               <aside class="comment-body">
                 <div class="comment-meta">
                   <div class="comment-author">
-                    <img src="images/Default-profile.jpg" class="avatar" alt="image">
+                    <img src="/images/Default-profile.jpg" class="avatar" alt="image">
                     <p><b class="fn" data-toid=${reply.idR}>${reply.name}</b><i class="fa-regular fa-reply"></i> ${reply.to}</p>
                   </div>
                   <div class="comment-metadata">

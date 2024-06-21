@@ -6,19 +6,21 @@
 
 <body class="overflow-x-hidden">
   <%- include('./partials/navbar') %>
-  <%- include('./partials/sectionhero', { titre: 'NOS INITIATIVES EN IMAGES' ,bgimage:'images/cta-image-1.JPG'}) %>
+  <%- include('./partials/sectionhero', { titre: 'NOS INITIATIVES EN IMAGES' ,bgimage:'/images/cta-image-1.jpg'}) %>
 
   <section>
     <div id="imageslist" class="container">
       <div class="row">
-        <div id="lightgallery0" class="pictures">
-
+        <div id="lightgallery" class="pictures">
+          <% if (images.length > 0) { %>
           <% images.forEach(image => { %>
-          <a href="<%= image.path.replace('attachments\\', '') %>">
+          <a href="<%= image.path %>">
             <img class="picture" src="<%= image.resizedPath %>" loading="lazy" />
           </a>
           <% }); %>
-
+          <% } else { %>
+          <p>Aucune image disponible</p>
+          <% } %>
 
         </div>
       </div>
@@ -61,16 +63,16 @@
 
 
   <script src="plugin/jquery-tjgallery.min.js"></script>
+
+  <script type="text/javascript">
+    lightGallery(document.getElementById('lightgallery'));
+  </script>
   <script>
     // waiting for loading page
     $(window).on('load', function() {
       $('.pictures').tjGallery();
     })
   </script>
-  <script type="text/javascript">
-    lightGallery(document.getElementById('lightgallery0'));
-  </script>
-
 
 
 </body>

@@ -4,7 +4,6 @@ const Blog = require('./../models/Blog');
 const transporter = require('../config/nodemailer');
 
 router.use(express.static("public"));
-router.use(express.static("Attachments"));
 
 // Define isNewBlog function
 function isNewBlog(createdAt) {
@@ -47,7 +46,8 @@ router.get("/", async (req, res) => {
         // Calculate skip value based on current page number
         const skip = (pageNumber - 1) * perPage;
 
-        const blogs = await Blog.find(query)
+        var blogs = await Blog.find(query)
+        .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
 
@@ -69,7 +69,10 @@ router.get('/:id', async (req, res) => {
 
     try {
         //const blog = await Blog.findById(blogId).select('-comments');
-        const blog = await Blog.findByIdAndUpdate(blogId, { $inc: { nb_views: 1 } }, { new: true }).select('-comments');
+        var blog = await Blog.findByIdAndUpdate(blogId, { $inc: { nb_views: 1 } }, { new: true }).select('-comments');
+        blog.attachments.forEach(att => {
+            att.path = att.path.replace(/\\/g, '/').replace('attachments/', '/');
+        });
         if (!blog) {
             return res.redirect("/404");
         }
@@ -353,7 +356,7 @@ router.post("/:id/Rcomment", async (req, res) => {
             email_dest = replycommentelm.email;
             name_dest = replycommentelm.name;
             console.log("replycommentelm" + replycommentelm.receive_news);
-        } else{
+        } else {
             console.log("ok");
             email_dest = parentComment.principale_comment.email;
             name_dest = parentComment.principale_comment.name;

@@ -67,17 +67,21 @@ router.get("/delete/:id", async (req, res) => {
 
         // If video type is "local", delete associated files
         if (video.type === "local") {
+            console.log("local");
+
             // Delete video file
             fs.unlinkSync(path.join(__dirname, '../attachments', video.url));
         }
         // Delete thumbnail file if not default
-        if (video.thumbnail !== 'images/Default-thumbnail.png') {
-            fs.unlinkSync(path.join(__dirname, '../', video.thumbnail));
+        if (video.thumbnail !== '/images/Default-thumbnail.png') {
+            console.log("jasser yt");
+
+            fs.unlinkSync(path.join(__dirname, '../attachments', video.thumbnail));
         }
         // Delete video from the database
         await Videog.findByIdAndDelete(videoId);
 
-        res.redirect("/allvideos");
+        return res.redirect("/allvideos");
     } catch (err) {
         console.error(err);
         //return res.status(500).json({ message: "Internal server error" });

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const router = express.Router();
 const Event = require("./../models/Event");
 const AdvancedEvent = require('./../models/AdvancedEvent');
@@ -83,13 +84,28 @@ router.delete("/events/:id1/events/:id2", async (req, res) => {
 
       // Find the event by ID
       const event = await AdvancedEvent.findById(eventId2);
+      // Remove associated files
+      const filesToDelete = [
+        ...event.slogospath,
+        ...event.ologospath,
+        event.coverpath,
+        ...event.attachements.map(att => att.path),
+      ];
 
-      // Delete associated image files from local storage
-      if (event.logospath && event.logospath.length > 0) {
-        event.logospath.forEach(filePath => {
-          fs.unlinkSync(filePath);
-        });
-      }
+      filesToDelete.forEach(filePath => {
+        if (filePath != "/images/BgEvent-default.jpg") {
+          const fullPath = path.join(__dirname, '..', 'attachments', filePath);
+          fs.unlink(fullPath, (err) => {
+            if (err) {
+              console.error(`Failed to delete file: ${fullPath}`, err);
+            } else {
+              console.log(`File deleted: ${fullPath}`);
+            }
+          });
+        }
+      });
+
+
       await event.deleteOne(); // Use deleteOne instead of remove
     }
     res.status(200).json({ message: "Event deleted successfully" });
@@ -102,7 +118,7 @@ router.delete("/events/:id1/", async (req, res) => {
   try {
     console.log(req.params.id1);
     const eventId1 = req.params.id1;
-    await Event.findByIdAndDelete(eventId1);
+    //await Event.findByIdAndDelete(eventId1);
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Failed to delete event", error: error.message });
@@ -145,6 +161,7 @@ router.post("/addevents", async (req, res) => {
       description: eventData.description,
       organizer: eventData.organizer
     });
+    console.log(newEvent);
     newEvent.save();
   } catch (error) {
     res.status(500).json({ message: "Failed to save event", error: error.message });

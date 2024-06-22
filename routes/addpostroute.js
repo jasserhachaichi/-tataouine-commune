@@ -22,7 +22,8 @@ const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name
 
 // GET route for rendering the form
 router.get("/", (req, res) => {
-    res.render("dashboard/addpost");
+    const isUser = req.user.userRole;
+    res.render("dashboard/addpost", {isUser});
 });
 
 // POST route for submitting the form

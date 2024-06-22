@@ -6,7 +6,8 @@ const User = require('./../models/User');
 const jwt = require('jsonwebtoken');
 router.use(express.static("public"));
 router.get("/", (req, res) => {
-    return res.render("dashboard/login");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/login", {isUser});
 });
 
 router.post("/verif", [
@@ -58,10 +59,10 @@ router.post("/verif", [
             req.session.token = token;
         }
 
-        res.json({ message: 'Login successful' });
+        return res.json({ message: 'Login successful' });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 });
 

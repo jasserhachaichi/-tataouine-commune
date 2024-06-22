@@ -108,7 +108,7 @@ router.post("/subscribe", async (req, res) => {
     console.log(`New subscription: ${email}`);
 
     // Send a successful subscription response
-    res.send({ message: "Subscription successful!" });
+    return res.send({ message: "Subscription successful!" });
   } catch (error) {
     console.error("Error occurred during subscription:", error);
     res.status(500).send("Internal Server Error");

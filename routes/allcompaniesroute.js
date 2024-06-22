@@ -6,6 +6,7 @@ router.use(express.static("public"));
 // GET route for displaying all companies with filters and pagination
 router.get("/", async (req, res) => {
   try {
+    const isUser = req.user.userRole;
     const { page = 1, location, domain, search } = req.query;
     const limit = 12; // Number of companies per page
 
@@ -33,7 +34,7 @@ router.get("/", async (req, res) => {
     // Count total number of companies (for pagination)
     const totalCompanies = await Company.countDocuments(query);
 
-    res.render("dashboard/allcompanies", {
+    return res.render("dashboard/allcompanies", {
       companies,
       currentPage: page,
       totalPages: Math.ceil(totalCompanies / limit),
@@ -41,7 +42,7 @@ router.get("/", async (req, res) => {
       domain,
       search,
       locations, selectedLocation: req.query.location,
-      domains,selectedDomain: req.query.domain,
+      domains,selectedDomain: req.query.domain, isUser
     });
   } catch (err) {
     console.error(err);

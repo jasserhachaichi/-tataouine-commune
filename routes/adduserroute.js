@@ -8,7 +8,8 @@ const transporter = require('../config/nodemailer');
 router.use(express.static("public"));
 
 router.get("/", (req, res) => {
-    return res.render("dashboard/adduser");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/adduser", {isUser});
 });
 
 // POST endpoint to handle form submission with validation

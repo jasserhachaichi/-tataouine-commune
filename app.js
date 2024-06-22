@@ -57,10 +57,10 @@ app.get('/', (req, res) => {
 app.use("/home", require("./routes/homeroute"));
 
 app.get('/404', (req, res) => {
-    res.render("404");
+    return res.render("404");
 })
 app.get('/blog', (req, res) => {
-    res.render("blogpage");
+    return res.render("blogpage");
 })
 app.get('/logout', (req, res) => {
     // Clear the token from cookie
@@ -71,7 +71,7 @@ app.get('/logout', (req, res) => {
         req.session.token = null;
     }
 
-    res.redirect("/login");
+    return res.redirect("/login");
 });
 app.use("/forms", require("./routes/formsroute"));
 app.use("/termsofuse" , require("./routes/termsofuseroute"));
@@ -88,15 +88,15 @@ app.get("/allevents", async (req, res) => {
     console.log("jasser");
     try {
         const events = await Event.find({}, { __v: 0 });
-        res.status(200).json({ events: events });
+        return res.status(200).json({ events: events });
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch events", error: error.message });
+        return res.status(500).json({ message: "Failed to fetch events", error: error.message });
     }
 });
 
 app.use("/faq", require("./routes/faqroute"));
 app.get('/about', (req, res) => {
-    res.render("about");
+    return res.render("about");
 })
 //Dashboard
 const authenticateToken = require('./middleware/authenticate');
@@ -104,11 +104,11 @@ const authenticatelogin = require('./middleware/authenticatelogin');
 const checkUserRole = require("./middleware/checkUserRole");
 
 app.use("/dashhome", authenticateToken, require("./routes/dashhomeroute.js"));
-app.use("/addvideo", authenticateToken, require("./routes/addvideoroute"));
-app.use("/allvideos", authenticateToken, require("./routes/allvideosroute"));
+app.use("/addvideo", authenticateToken, checkUserRole, require("./routes/addvideoroute"));
+app.use("/allvideos", authenticateToken, checkUserRole, require("./routes/allvideosroute"));
 
-app.use("/addimage", authenticateToken, require("./routes/addimageroute"));
-app.use("/allimage", authenticateToken, require("./routes/allimageroute"));
+app.use("/addimage", authenticateToken, checkUserRole, require("./routes/addimageroute"));
+app.use("/allimage", authenticateToken, checkUserRole, require("./routes/allimageroute"));
 
 app.use("/emailbox", authenticateToken, checkUserRole, require("./routes/emailroute"));
 
@@ -139,6 +139,9 @@ app.use("/updateachievement", authenticateToken, checkUserRole, require("./route
 
 app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
 app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));
+
+app.use("/teamform", authenticateToken , require("./routes/teamformroute"));
+
 app.use("/form", /* authenticateToken, checkUserRole, */ require("./routes/formroute"));
 app.get(
     '/auth/google/form',
@@ -162,9 +165,9 @@ app.get('/auth/protected', (req, res) => {
     //console.log("2 hhhhhh");
     //console.log(req.user);
     const userCookie = JSON.stringify(req.user);
-    res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 60 * 24 * 60 * 60 * 1000 });
+    res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 15 * 24 * 60 * 60 * 1000 });
     //res.send(`Cookie set: ${userCookie}`);
-    res.redirect("/assistances");
+    return res.redirect("/forms");
 });
 
 
@@ -188,7 +191,7 @@ app.use("/failure" , require("./routes/failureroute"));
 
 // Gestionnaire de route pour les routes non définies
 app.use((req, res, next) => {
-    res.redirect("/404");
+    return res.redirect("/404");
 });
 
 // Running The Server

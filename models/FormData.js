@@ -33,6 +33,13 @@ const formDataSchema = new mongoose.Schema({
     }],
     FolderID:{ type: String },
     SHEETID: { type: String, required: true },
+    target: {
+        type: String,
+        enum: ["team", "public"],
+        default: "public",
+        required:true,
+    },
+
 },{
     timestamps: true
 });

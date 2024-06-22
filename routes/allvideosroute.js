@@ -17,6 +17,7 @@ const path = require('path');
     }
 }); */
 router.get("/", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -47,10 +48,10 @@ router.get("/", async (req, res) => {
             videos: videos,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
-            search: search
+            search: search, isUser
         });
     } catch (err) {
-        res.redirect("/404");
+        return res.redirect("/404");
     }
 });
 
@@ -84,7 +85,7 @@ router.get("/delete/:id", async (req, res) => {
         return res.redirect("/allvideos");
     } catch (err) {
         console.error(err);
-        //return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 });
 

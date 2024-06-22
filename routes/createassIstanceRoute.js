@@ -7,11 +7,13 @@ router.use(express.static("public"));
 
 
 router.get("/", (req, res) => {
-    return res.render("dashboard/createassistance");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/createassistance", {isUser});
 });
 
 router.post('/saveFormData', async (req, res) => {
     const title = req.body.title;
+    const target = req.body.target || "public";
     let fields;
 
     // Validate title
@@ -35,12 +37,13 @@ router.post('/saveFormData', async (req, res) => {
     // Create a new form data instance
     const newFormData = new FormData({
         titleForm: title,
-        attributes: fields
+        attributes: fields,
+        target:target,
     });
     //console.log(newFormData._id);
 
     try {
-        //console.log(newFormData);
+         //console.log(newFormData);
         const authClient = await authorize();
         // Create a new folder
         const folderName = newFormData._id;
@@ -66,15 +69,16 @@ router.post('/saveFormData', async (req, res) => {
         // Save the form data to the database
         await newFormData.save();
 
-        res.status(200).json({ message: 'Form created successfully' });
+        return res.status(200).json({ message: 'Form created successfully' });
     } catch (error) {
         console.error('Error saving form data:', error);
-        res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error');
     }
 });
 
 
 router.get("/visitors", async (req, res) => {
+    const isUser = req.user.userRole;
     let query = {};
     const { search, page } = req.query;
     const perPage = 10; // Number of visitors per page
@@ -103,7 +107,7 @@ router.get("/visitors", async (req, res) => {
         visitors: visitors,
         currentPage: pageNumber,
         totalPages: Math.ceil(totalVisitors / perPage),
-        search: search,
+        search: search, isUser
     });
 });
 

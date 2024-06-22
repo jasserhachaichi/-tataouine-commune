@@ -39,7 +39,8 @@ const upload = multer({ storage: storage }).fields([{ name: 'video-column', maxC
 const uploady = multer({ storage: storage });
 
 router.get("/", (req, res) => {
-    return res.render("dashboard/addvideo");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/addvideo", {isUser});
 });
 
 
@@ -150,10 +151,10 @@ router.post('/youtube', uploady.single('thumbnail-column'), async (req, res) => 
             thumbnail: thumbnailPath
         });
          await video.save();
-        res.json({ message: 'Video uploaded successfully!' });
+        return res.json({ message: 'Video uploaded successfully!' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ errors: 'Internal server error' });
+        return res.status(500).json({ errors: 'Internal server error' });
     }
 });
 

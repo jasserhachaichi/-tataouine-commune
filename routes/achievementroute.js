@@ -21,15 +21,16 @@ const upload = multer({ storage: storage });
 
 
 router.get("/", async (req, res) => {
+  const isUser = req.user.userRole;
   try {
     // Fetch achievement data from the database
     const achievement = await Achievement.findOne({});
 
     // Render the EJS template and pass the achievement data to it
-    res.render("dashboard/achievement", { achievement });
+    return res.render("dashboard/achievement", { achievement, isUser });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: 'Erreur' });
+    return res.status(500).json({ success: false, error: 'Erreur' });
   }
 });
 router.post('/', upload.array('filepond'), async (req, res) => {
@@ -73,10 +74,10 @@ router.post('/', upload.array('filepond'), async (req, res) => {
 
     //console.log(achiev);
 
-    res.json({ success: "Uploaded successfully" });
+    return res.json({ success: "Uploaded successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: 'Erreur' });
+    return res.status(500).json({ success: false, error: 'Erreur' });
   }
 });
 

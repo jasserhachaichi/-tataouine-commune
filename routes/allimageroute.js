@@ -7,6 +7,7 @@ const sharp = require('sharp');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
+  const isUser = req.user.userRole;
   try {
     const page = req.query.page;
     const perPage = 10; // Number of images per page
@@ -30,10 +31,10 @@ router.get("/", async (req, res) => {
       };
     }));
 
-    return res.render("dashboard/allimage", { images: resizedImages, currentPage: pageNumber, totalPages });
+    return res.render("dashboard/allimage", { images: resizedImages, currentPage: pageNumber, totalPages, isUser });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).send('Internal Server Error');
   }
 });
 

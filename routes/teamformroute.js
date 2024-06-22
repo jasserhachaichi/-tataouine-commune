@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const FormData = require('./../models/FormData');
+const FormData = require('../models/FormData');
 router.use(express.static("public"));
 
 router.get('/', async (req, res) => {
     const isUser = req.user.userRole;
-    let query = {};
+    let query = { target: "team" };
     const { search, page } = req.query;
     const perPage = 10; // Number of forms per page
     const pageNumber = parseInt(page) || 1; // Current page number, default to 1
@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
         query = {
             $or: [
                 { titleForm: { $regex: search, $options: 'i' } },
+                { target: "team" }
             ]
         };
     }
@@ -27,13 +28,12 @@ router.get('/', async (req, res) => {
             .limit(perPage) // Limit number of results per page
             .select('titleForm _id FolderID SHEETID target');
 
-        //console.log(allFormData);
-
-        return res.render("dashboard/assistances", {
+        return res.render("dashboard/teamform", {
             formData: allFormData,
             currentPage: pageNumber,
             totalPages: Math.ceil(await FormData.countDocuments(query) / perPage),
-            search: search, isUser
+            search: search,
+            isUser
         });
     } catch (error) {
         console.error('Error fetching form data:', error);

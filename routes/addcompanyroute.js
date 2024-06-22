@@ -14,7 +14,8 @@ const validationRules = [
 ];
 
 router.get("/", (req, res) => {
-  return res.render("dashboard/addcompany");
+  const isUser = req.user.userRole;
+  return res.render("dashboard/addcompany", {isUser});
 });
 
 router.post('/', validationRules, async (req, res) => {

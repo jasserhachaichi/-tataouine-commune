@@ -16,6 +16,7 @@ function isNewBlog(createdAt) {
 }
 
 router.get("/", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -46,7 +47,7 @@ router.get("/", async (req, res) => {
             currentPage: pageNumber,
             totalPages: Math.ceil(await Blog.countDocuments(query) / perPage),
             search: search,
-            isNewBlog: isNewBlog
+            isNewBlog: isNewBlog, isUser
         });
     } catch (err) {
         console.error(err);
@@ -102,6 +103,7 @@ router.get("/delete/:id", async (req, res) => {
     }
 });
 router.get('/:id', async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         const blogId = req.params.id;
         //let query = {};
@@ -151,7 +153,7 @@ router.get('/:id', async (req, res) => {
             currentPage: pageNumber,
             totalPages,
             search,
-            page
+            page, isUser
         });
     } catch (error) {
         console.error(error);

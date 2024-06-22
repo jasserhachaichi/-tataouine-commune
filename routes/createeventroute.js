@@ -25,7 +25,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }, { name: 'filepond3' }, { name: 'filepond4' }]);
 
 router.get('/', (req, res) => {
-    res.render("dashboard/createEvent");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/createEvent", {isUser});
 })
 
 router.post('/', async (req, res) => {

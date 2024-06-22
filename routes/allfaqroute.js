@@ -5,6 +5,7 @@ const Faq = require('./../models/FAQ');
 router.use(express.static("public"));
 
 router.get('/', async (req, res) => {
+    const isUser = req.user.userRole;
     let query = {};
     const  search= req.query.search;
 
@@ -35,7 +36,7 @@ router.get('/', async (req, res) => {
 
         return res.render("dashboard/allfaq", { 
             groupedFaqs,
-            search: search,
+            search: search, isUser
          });
     } catch (error) {
         console.error('Error fetching FAQs:', error);
@@ -45,8 +46,9 @@ router.get('/', async (req, res) => {
 
 
 router.get('/addfaq', async (req, res) => {
+    const isUser = req.user.userRole;
     try {
-        return res.render("dashboard/addfaq");
+        return res.render("dashboard/addfaq", {isUser});
     } catch (error) {
         console.error('Error fetching form data:', error);
         return res.status(500).send('Internal Server Error');

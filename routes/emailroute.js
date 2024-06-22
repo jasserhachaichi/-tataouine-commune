@@ -21,6 +21,7 @@ router.use(methodOverride('_method'));
 
 // Backend route for searching emails
 router.get('/', async (req, res) => {
+    const isUser = req.user.userRole;
     const page = req.query.page || 1;
     const perPage = 10;
     const skip = (page - 1) * perPage;
@@ -46,21 +47,23 @@ router.get('/', async (req, res) => {
 
         const totalPages = Math.ceil(totalCount / perPage);
 
-        res.render("dashboard/inbox", { emails, currentPage: page, perPage, totalCount, totalPages });
+        return res.render("dashboard/inbox", { emails, currentPage: page, perPage, totalCount, totalPages, isUser });
     } catch (err) {
         console.error(err);
         return res.redirect("/404");
     }
 });
 router.get("/emailcreator", (req, res) => {
-    //console.log("azeeeeeeeeee")
-    return res.render("dashboard/emailcreator");
+    //console.log("azeeeeeeeeee");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/emailcreator", {isUser});
 });
 
 router.get("/followers", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         const followers = await followerModel.find({});
-        return res.render("dashboard/allfollowers", { followers });
+        return res.render("dashboard/allfollowers", { followers, isUser });
     } catch (error) {
         console.error(error);
         return res.status(500).send("An error occurred while fetching followers.");
@@ -81,6 +84,7 @@ router.get('/follower/:id', async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
+        const isUser = req.user.userRole;
         const emailId = req.params.id;
         const email = await Email.findById(emailId);
 
@@ -93,7 +97,7 @@ router.get("/:id", async (req, res) => {
             await email.save();
         }
 
-        return res.render('dashboard/email', { email });
+        return res.render('dashboard/email', { email, isUser });
     } catch (error) {
         console.error(error);
         return res.redirect("/404");
@@ -119,10 +123,10 @@ router.delete('/:id', async (req, res) => {
             }
         });
 
-        res.redirect("/emailbox");
+        return res.redirect("/emailbox");
     } catch (err) {
         console.error(err);
-        res.redirect("/emailbox");
+        return res.redirect("/emailbox");
     }
 });
 
@@ -153,15 +157,15 @@ router.post('/emailcreator', upload.array('filepond'), async (req, res) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error(error);
-          res.status(500).send('Error sending email');
+          return res.status(500).send('Error sending email');
         } else {
           console.log('Email sent: ' + info.response);
-          res.status(200).send('Emails sent successfully');
+          return res.status(200).send('Emails sent successfully');
         }
       });
     } catch (error) {
       console.error(error);
-      res.status(500).send('Error retrieving followers or sending email');
+      return res.status(500).send('Error retrieving followers or sending email');
     }
     
 });

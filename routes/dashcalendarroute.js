@@ -7,6 +7,7 @@ const fs = require('fs');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
+  const isUser = req.user.userRole;
   try {
     /*    const events = [
           {
@@ -66,11 +67,11 @@ router.get("/", async (req, res) => {
         }); */
 
 
-    res.render("dashboard/calendar");
+    return res.render("dashboard/calendar", {isUser});
   } catch (error) {
     // Handle errors
     console.error("Error fetching events:", error);
-    res.redirect("/404");
+    return res.redirect("/404");
   }
 });
 
@@ -109,10 +110,10 @@ router.delete("/events/:id1/events/:id2", async (req, res) => {
 
       await event.deleteOne(); // Use deleteOne instead of remove
     }
-    res.status(200).json({ message: "Event deleted successfully" });
+    return res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Failed to delete event", error: error.message });
+    return res.status(500).json({ message: "Failed to delete event", error: error.message });
   }
 });
 router.delete("/events/:id1/", async (req, res) => {
@@ -120,17 +121,17 @@ router.delete("/events/:id1/", async (req, res) => {
     console.log(req.params.id1);
     const eventId1 = req.params.id1;
     //await Event.findByIdAndDelete(eventId1);
-    res.status(200).json({ message: "Event deleted successfully" });
+    return res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete event", error: error.message });
+    return res.status(500).json({ message: "Failed to delete event", error: error.message });
   }
 });
 router.get("/events", async (req, res) => {
   try {
     const events = await Event.find({}, { __v: 0 });
-    res.status(200).json({ events: events });
+    return res.status(200).json({ events: events });
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch events", error: error.message });
+    return res.status(500).json({ message: "Failed to fetch events", error: error.message });
   }
 });
 /* router.put("/events/:eventId", async (req, res) => {
@@ -165,7 +166,7 @@ router.post("/addevents", async (req, res) => {
     console.log(newEvent);
     newEvent.save();
   } catch (error) {
-    res.status(500).json({ message: "Failed to save event", error: error.message });
+    return res.status(500).json({ message: "Failed to save event", error: error.message });
   }
 });
 

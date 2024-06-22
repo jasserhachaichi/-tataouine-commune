@@ -18,6 +18,7 @@ const followerModel = require('./../models/Follower');
 const jwt = require('jsonwebtoken');
 
 router.get("/", async (req, res) => {
+    const isUser = req.user.userRole;
     const token = req.cookies.token || req.session.token;
     const decoded = jwt.decode(token);
 
@@ -56,7 +57,7 @@ router.get("/", async (req, res) => {
         eventCount,
         followerCount,
         topBlogs,
-        Events
+        Events, isUser
     });
 });
 

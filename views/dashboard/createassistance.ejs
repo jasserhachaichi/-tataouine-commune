@@ -78,6 +78,18 @@
                     <input type="text" id="title-form" class="form-control" placeholder="title" name="title-form"  data-parsley-required="true">
                   </div>
                 </div>
+                <div class="col-3">
+                  <div class="form-group  mandatory">
+                    <div class="input-group mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Cible</label>
+                      <select class="form-select" id="inputGroupSelect01" name="target">
+                          <option value="public" selected>Publique</option>
+                          <option value="team">Équipe</option>
+                      </select>
+                  </div>
+                  </div>
+                </div>
+
                 <div class="col-12">
                   <div id="build-wrap"></div>
                 </div>
@@ -112,160 +124,7 @@
     });
   </script> -->
   <script>
-    var formDataggg = [{
-      "type": "header",
-      "subtype": "h1",
-      "label": "Header"
-    }, {
-      "type": "paragraph",
-      "subtype": "p",
-      "label": "Paragraph"
-    }, {
-      "type": "text",
-      "required": true,
-      "label": "Text Field",
-      "description": "777",
-      "placeholder": "777",
-      "className": "form-control",
-      "name": "text-1718202295546-0",
-      "value": "777",
-      "subtype": "text",
-      "maxlength": 7
-    }, {
-      "type": "textarea",
-      "required": true,
-      "label": "Text Area",
-      "description": "88",
-      "placeholder": "888",
-      "className": "form-control",
-      "name": "textarea-1718202346218-0",
-      "value": "888",
-      "subtype": "textarea",
-      "maxlength": 5,
-      "rows": 5
-    }, {
-      "type": "number",
-      "required": false,
-      "label": "Number",
-      "description": "77",
-      "placeholder": "77",
-      "className": "form-control",
-      "name": "number-1718202392330-0",
-      "value": "77",
-      "subtype": "number",
-      "min": 2,
-      "max": 5,
-      "step": 2
-    }, {
-      "type": "select",
-      "required": true,
-      "label": "Select",
-      "description": "999",
-      "placeholder": "999",
-      "className": "form-control",
-      "name": "select-1718202426740-0",
-      "multiple": true,
-      "values": [{
-        "label": "Option 1",
-        "value": "option-1",
-        "selected": true
-      }, {
-        "label": "Option 2",
-        "value": "option-2",
-        "selected": false
-      }]
-    }, {
-      "type": "checkbox-group",
-      "required": true,
-      "label": "Checkbox Group",
-      "description": "999",
-      "toggle": true,
-      "inline": true,
-      "name": "checkbox-group-1718202457242-0",
-      "other": true,
-      "values": [{
-        "label": "Option 1",
-        "value": "option-1",
-        "selected": true
-      }, {
-        "label": "Option 2",
-        "value": "option-2",
-        "selected": false
-      }]
-    }, {
-      "type": "radio-group",
-      "required": true,
-      "label": "Radio Group",
-      "description": "rr",
-      "inline": true,
-      "name": "radio-group-1718202512050-0",
-      "other": true,
-      "values": [{
-        "label": "Option 1",
-        "value": "option-1",
-        "selected": true
-      }, {
-        "label": "Option 2",
-        "value": "option-2",
-        "selected": false
-      }, {
-        "label": "Option 3",
-        "value": "option-3",
-        "selected": false
-      }]
-    }, {
-      "type": "date",
-      "required": true,
-      "label": "Date Field",
-      "description": "pp",
-      "placeholder": "pp",
-      "className": "form-control",
-      "name": "date-1718202531802-0",
-      "value": "55",
-      "subtype": "date",
-      "min": "55",
-      "max": "555",
-      "step": "5"
-    }, {
-      "type": "file",
-      "required": true,
-      "label": "File Upload",
-      "description": "777",
-      "placeholder": "777",
-      "className": "form-control",
-      "name": "file-1718202558547-0",
-      "multiple": true
-    }, {
-      "type": "autocomplete",
-      "required": true,
-      "label": "Autocomplete",
-      "description": "pppp",
-      "placeholder": "pppp",
-      "className": "form-control",
-      "name": "autocomplete-1718202590236-0",
-      "requireValidOption": true,
-      "values": [{
-        "label": "Option 1",
-        "value": "option-1",
-        "selected": true
-      }, {
-        "label": "Option 2",
-        "value": "option-2",
-        "selected": false
-      }]
-    }, {
-      "type": "hidden",
-      "name": "hidden-1718202622045-0",
-      "value": "pppppp"
-    }, {
-      "type": "button",
-      "subtype": "submit",
-      "label": "Button",
-      "className": "btn-primary btn",
-      "name": "button-1718202572866-0",
-      "value": "pp",
-      "style": "primary"
-    }]
+    var formDataggg = [{"type":"header","subtype":"h1","label":"Coordinator of Waste Management and Sustainability Programs","required":null,"description":null,"placeholder":null,"className":null,"name":null,"value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c78"},"values":[]},{"type":"text","subtype":"text","label":"Nom","required":false,"description":null,"placeholder":null,"className":"form-control","name":"text-1718927399727-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c79"},"values":[]},{"type":"textarea","subtype":"textarea","label":"Prenom","required":false,"description":null,"placeholder":null,"className":"form-control","name":"textarea-1718927401444-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c7a"},"values":[]},{"type":"button","subtype":"submit","label":"Button","required":null,"description":null,"placeholder":null,"className":"btn-primary btn","name":"button-1718927422636-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":"primary","access":null,"_id":{"$oid":"6674c04de89caf319cca1c7b"},"values":[]}]
 
     function showMessage(msg, duration, color) {
       Toastify({
@@ -289,6 +148,7 @@
           loaderContainer.classList.remove('d-none');
           loaderContainer.classList.add('flex');
           const titleForm = $('#title-form').val();
+          const target = $('#inputGroupSelect01').val();
 
 
 
@@ -298,6 +158,7 @@
             contentType: 'application/json',
             data: JSON.stringify({
               title: titleForm,
+              target:target,
               formData: formData
             }),
             success: function(response) {
@@ -336,7 +197,7 @@
           'file',
           'button'
         ],
-        /* defaultFields: formDataggg, */
+         defaultFields: formDataggg,
 
 
 

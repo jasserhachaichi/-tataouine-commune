@@ -52,6 +52,7 @@
                 </li>
                 <li class="sidebar-title">Gestion</li>
 
+                <% if(isUser && isUser != "user" && isUser === "admin"){  %>
                 <li class="sidebar-item  has-sub">
                     <span class='sidebar-link'>
                         <i class="bi bi-people-fill"></i>
@@ -131,6 +132,7 @@
 
 
                 </li>
+                <%  }%>
                  <li class="sidebar-item  has-sub">
                     <span class='sidebar-link'>
                         <i class="bi bi-file-text-fill"></i>
@@ -139,23 +141,26 @@
                     </span>
 
                     <ul class="submenu ">
-
+                        <% if(isUser && isUser != "user" && isUser === "admin"){  %>
                         <li class="submenu-item  ">
                             <a href="/createassistance" class="submenu-link">Créer un formulaire</a>
                         </li>
-
                         <li class="submenu-item  ">
-                            <a href="/assistances" class="submenu-link">Toutes les formes</a>
+                            <a href="/assistances" class="submenu-link">Toutes les formulaire</a>
                         </li>
                         <li class="submenu-item  ">
                             <a href="/createassistance/visitors" class="submenu-link">Visiteurs</a>
                         </li>
-
+                        <%  }%>
+                        <li class="submenu-item  ">
+                            <a href="/teamform" class="submenu-link">Équipe formulaire</a>
+                        </li>
                     </ul>
 
 
 
                 </li>
+                <% if(isUser && isUser != "user" && isUser === "admin"){  %>
                 <li class="sidebar-item  has-sub">
                     <span class='sidebar-link'>
                         <i class="bi bi-megaphone-fill"></i>
@@ -244,9 +249,10 @@
 
 
                 </li>
+                <%  }%>
                 <hr>
                 <li class="sidebar-title">Paramètres</li>
-
+                <% if(isUser && isUser != "user" && isUser === "admin"){  %>
                 <li class="sidebar-item ">
                     <a href="/updateachievement" class='sidebar-link'>
                         <i class="bi bi-trophy-fill"></i>
@@ -289,7 +295,7 @@
                         <span>Administrateur</span>
                     </a>
                 </li>
-
+                <%  }%>
                 <li class="sidebar-item ">
                     <a href="/logout" class='sidebar-link'>
                         <i class="bi bi-box-arrow-left"></i>

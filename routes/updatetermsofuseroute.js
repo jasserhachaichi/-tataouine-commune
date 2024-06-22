@@ -7,7 +7,8 @@ router.use(express.static("public"));
 const upload = multer();
 
 router.get("/", (req, res) => {
-    return res.render("dashboard/termsofuse");
+    const isUser = req.user.userRole;
+    return res.render("dashboard/termsofuse", {isUser});
 });
 
 router.post('/terms', upload.none(), async (req, res) => {

@@ -23,14 +23,15 @@ const upload = multer({ storage: storage });
 
 
 router.get("/", (req, res) => {
-    return res.render("dashboard/addimage");
+  const isUser = req.user.userRole;
+    return res.render("dashboard/addimage", {isUser});
 });
 router.post('/', upload.array('filepond'), async (req, res) => {
   try {
     // Récupérer les informations sur les fichiers téléchargés
     const files = req.files;
 
-    console.log(files);
+    //console.log(files);
 
     // Enregistrer les informations des fichiers dans MongoDB
     const savedFiles = await Promise.all(files.map(async (file) => {
@@ -44,10 +45,10 @@ router.post('/', upload.array('filepond'), async (req, res) => {
     }));
 
     // Répondre avec les informations des fichiers enregistrés
-    res.json({ success: "Uploaded successfully" });
+    return res.json({ success: "Uploaded successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement des fichiers.' });
+    return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement des fichiers.' });
   }
 });
 

@@ -18,15 +18,17 @@ function validatePassword(password) {
 }
 
 router.get("/", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         const users = await User.find();
-        return res.render("dashboard/users", { users });
+        return res.render("dashboard/users", { users, isUser });
 
     } catch (error) {
-        res.redirect("/404");
+        return res.redirect("/404");
     }
 });
 router.get("/admin", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         // Find the admin user
         const adminUser = await User.findOne({ position: 'admin' });
@@ -38,12 +40,12 @@ router.get("/admin", async (req, res) => {
         }
 
         // Render the admin dashboard template and pass the admin user data to it
-        return res.render("dashboard/admin", { adminUser });
+        return res.render("dashboard/admin", { adminUser, isUser });
 
     } catch (error) {
         // If an error occurs, redirect to a 404 page or handle it as you see fit
         console.error(error);
-        res.redirect("/404");
+        return res.redirect("/404");
     }
 });
 
@@ -56,7 +58,7 @@ router.get("/delete/:userId", async (req, res) => {
         return res.redirect("/users");
     } catch (error) {
         //console.error(error);
-        res.status(500).send("Internal Server Error");
+        return res.status(500).send("Internal Server Error");
     }
 });
 
@@ -103,7 +105,7 @@ router.post('/key/:userId', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        return res.status(500).send('Internal Server Error');
     }
 });
 

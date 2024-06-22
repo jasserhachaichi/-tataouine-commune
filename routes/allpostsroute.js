@@ -8,6 +8,7 @@ router.use(express.static("public"));
 
 // GET route for rendering all announcements
 router.get("/", async (req, res) => {
+    const isUser = req.user.userRole;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -36,7 +37,7 @@ router.get("/", async (req, res) => {
             announcements: announcements,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
-            search: search
+            search: search, isUser
         });
     } catch (err) {
         return res.redirect("/404");

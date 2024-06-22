@@ -6,8 +6,7 @@ const User = require('./../models/User');
 const jwt = require('jsonwebtoken');
 router.use(express.static("public"));
 router.get("/", (req, res) => {
-    const isUser = req.user.userRole;
-    return res.render("dashboard/login", {isUser});
+    return res.render("dashboard/login");
 });
 
 router.post("/verif", [

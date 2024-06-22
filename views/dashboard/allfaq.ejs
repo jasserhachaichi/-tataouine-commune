@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Tous les Questions et reponces</h3>
+              <p class="text-subtitle text-muted">Upload and publish new video, Youtube and Local, content on the
+                website or platform.</p>
+            </div>
+
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Video
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+        <section>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form action="/allfaq" method="GET" class="container">
+                    <div class="col-8 mx-auto">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="search" placeholder="Recherche..." aria-label="Recherche..." aria-describedby="button-addon2" value="<%= search || '' %>">
+                        <button class="btn btn-primary" type="submit">Recherche</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+
+
+            <% Object.keys(groupedFaqs).forEach((title,index) => { %>
+
+            <div class="col-12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+
+
+                    <h3 class="card-title mb-5"><%= title %></h3>
+
+                    <div class="container">
+                      <div class="row ">
+                        <div class="col-12">
+                          <div class="accordion accordion-flush" id="<%= "faqserie"+ index %>">
+
+                            <% groupedFaqs[title].forEach((faq,index1) => { %>
+                            <div class="accordion-item bg-transparent border-top border-bottom py-3">
+                              <h2 class="accordion-header" id="<%= "faqserie"+ index1+ index %>Heading"><button class="accordion-button collapsed bg-transparent fw-bold shadow-none link-primary" type="button" data-bs-toggle="collapse" data-bs-target="#<%= "faqserie"+ index1+ index %>Collapse" aria-expanded="false" aria-controls="<%= "faqserie"+ index1+ index %>Collapse"><%= faq.question %></button></h2>
+                              <div id="<%= "faqserie"+ index1+ index %>Collapse" class="accordion-collapse collapse" aria-labelledby="<%= "faqserie"+ index1+ index %>Heading">
+                                <div class="accordion-body">
+                                  <p><%= faq.answer %></p>
+                                  <div>
+                                    <a class="btn btn-danger" href="/allfaq/deletefaq/<%=  faq._id %>">Delete</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <% }) %>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <% }) %>
+
+
+
+
+
+          </div>
+
+
+        </section>
+
+      </div>
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+
+
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./commun/head') %>
+<link rel="stylesheet" href="assets/extensions/filepond/filepond.css">
+<link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
+
+<body>
+  <script src="assets/static/js/initTheme.js"></script>
+  <div id="app">
+    <%- include('./partials/sidebar') %>
+    <div id="main">
+      <%- include('./partials/header') %>
+      <div class="page-heading">
+        <div class="page-title">
+          <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+              <h3>Réalisation</h3>
+              <p class="text-subtitle text-muted">Upload and publish new images on the website.</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+              <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Image</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+
+
+          <div class="row match-height">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <form id="Form" action="/updateachievement" class="form" method="post">
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="titrec1" class="form-label">Titre de carte 1</label>
+                            <input type="text" id="titrec1" class="form-control" name="titrec1" value=" <%= achievement.titrec1 %>">
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="valc1" class="form-label">Valeur de carte 1</label>
+                            <input type="number" id="valc1" class="form-control" name="valc1" value="<%= achievement.valc1 %>">
+                          </div>
+                        </div>
+
+
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="titrec2" class="form-label">Titre de carte 2</label>
+                            <input type="text" id="titrec2" class="form-control" name="titrec2" value="<%= achievement.titrec2 %>">
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="valc2" class="form-label">Valeur de carte 2</label>
+                            <input type="number" id="valc2" class="form-control" name="valc2" value="<%= achievement.valc2 %>">
+                          </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="titrec3" class="form-label">Titre de carte 3</label>
+                            <input type="text" id="titrec3" class="form-control" name="titrec3" value="<%= achievement.titrec3 %>">
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="valc3" class="form-label">Valeur de carte 3</label>
+                            <input type="number" id="valc3" class="form-control" name="valc3" value="<%= achievement.valc3 %>">
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="titrec4" class="form-label">Titre de carte 4</label>
+                            <input type="text" id="titrec4" class="form-control" name="titrec4" value="<%= achievement.titrec4 %>">
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                          <div class="form-group">
+                            <label for="valc4" class="form-label">Valeur de carte 4</label>
+                            <input type="number" id="valc4" class="form-control" name="valc4" value="<%= achievement.valc4 %>">
+                          </div>
+                        </div>
+
+
+                        <div class="divider">
+                          <div class="divider-text">Image de couverture</div>
+                        </div>
+
+                        <div class="col-12">
+                          <input id="filepondinput" type="file" name="filepond" />
+                        </div>
+
+
+                        <div class="col-12 d-flex justify-content-end">
+                          <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Update</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+
+
+
+      <%- include('./partials/footer') %>
+    </div>
+  </div>
+
+
+  <%- include('./commun/scripts') %>
+  <script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
+  <script src="assets/extensions/filepond/filepond.js"></script>
+  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+  <script>
+    function showMessage(msg, duration, color) {
+      Toastify({
+        text: msg,
+        close: true,
+        duration: duration,
+        gravity: "bottom",
+        position: "right",
+        backgroundColor: color,
+      }).showToast()
+    }
+
+    function clearFormFields() {
+      var fileInput = document.getElementById("filepondinput");
+      if (fileInput) {
+        // Supprime tous les fichiers sélectionnés
+        pond.removeFiles();
+      }
+    }
+
+    // FilePond plugin registration and initialization
+    FilePond.registerPlugin(FilePondPluginFileValidateSize);
+    const pond = FilePond.create(document.getElementById("filepondinput"), {
+      maxFileSize: '10MB',
+      credits: null,
+    });
+
+    document.getElementById('Form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating...');
+
+      const files = pond.getFiles();
+      const formData = new FormData(this);
+
+      if (files.length > 0) {
+        formData.append('filepond', files[0].file);
+      }
+
+
+
+      fetch('/updateachievement', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          clearFormFields();
+          showMessage(data.success, -1, "#4fbe87");
+          $('#submit-button').prop('disabled', false).html('Update');
+        })
+        .catch(error => {
+          showMessage(error, 3000, "#dc3545");
+          $('#submit-button').prop('disabled', false).html('Update');
+        });
+
+    });
+  </script>
+
+
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Videog = require('../models/Videog');
+router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
     try {

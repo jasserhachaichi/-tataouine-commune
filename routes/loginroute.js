@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const User = require('./../models/User');
 const jwt = require('jsonwebtoken');
-
+router.use(express.static("public"));
 router.get("/", (req, res) => {
     return res.render("dashboard/login");
 });

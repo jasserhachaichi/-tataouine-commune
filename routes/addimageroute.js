@@ -6,6 +6,7 @@ const Image = require('./../models/Image');
 const { promisify } = require('util');
 const delay = promisify(setTimeout);
 const path = require('path');
+router.use(express.static("public"));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

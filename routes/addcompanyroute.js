@@ -2,6 +2,7 @@ const express = require("express");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const CompanyInfo = require('./../models/Company');
+router.use(express.static("public"));
 
 // Validation rules using Express Validator
 const validationRules = [

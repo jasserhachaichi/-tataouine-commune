@@ -4,6 +4,7 @@ const router = express.Router();
 const fs = require('fs'); // Import the file system module
 const Image = require('./../models/Image'); // Assuming you have a Mongoose model for images
 const sharp = require('sharp');
+router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
   try {

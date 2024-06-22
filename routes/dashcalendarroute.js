@@ -4,6 +4,7 @@ const router = express.Router();
 const Event = require("./../models/Event");
 const AdvancedEvent = require('./../models/AdvancedEvent');
 const fs = require('fs');
+router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
   try {

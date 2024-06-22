@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Company = require('./../models/Company');
+router.use(express.static("public"));
 
 // GET route for displaying all companies with filters and pagination
 router.get("/", async (req, res) => {

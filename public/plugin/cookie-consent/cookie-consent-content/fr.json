@@ -1,0 +1,32 @@
+{
+    "title": "Paramètres de confidentialité",
+    "body": "Nous utilisons des cookies et des technologies similaires qui sont nécessaires pour faire fonctionner le site web. Des cookies supplémentaires ne sont utilisés qu'avec votre consentement. Vous êtes libre de donner ou de retirer votre consentement à tout moment en utilisant le lien \"paramètres des cookies\" en bas de chaque page. Vous pouvez consentir à notre utilisation des cookies en cliquant sur \"Accepter\". Pour plus d'informations sur les données collectées et la manière dont elles sont partagées avec nos partenaires, veuillez lire notre --privacy-policy--.",
+    "privacyPolicy": "Déclaration de protection des données",
+    "legalNotice": "Mentions légales",
+    "mySettings": "Mes paramètres",
+    "buttonNotAgree": "Seulement nécessaire",
+    "buttonAgree": "Accepter",
+    "buttonSaveSelection": "Enregistrer la sélection",
+    "buttonAgreeAll": "Tout accepter",
+    "categories": {
+      "necessary": {
+        "title": "Nécessaire",
+        "description": ["Requis pour faire fonctionner le site web"]
+      },
+      "statistics": {
+        "title": "Statistiques",
+        "description": ["Suivi de l'utilisation du site web et optimisation de l'expérience utilisateur"]
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": ["Évaluation des actions marketing"]
+      },
+      "personalization": {
+        "title": "Personnalisation",
+        "description": ["Stockage de vos préférences lors de vos visites précédentes",
+          "Collecte des retours des utilisateurs pour améliorer notre site web",
+          "Enregistrement de vos intérêts afin de fournir un contenu et des offres personnalisés"]
+      }
+    }
+  }
+  

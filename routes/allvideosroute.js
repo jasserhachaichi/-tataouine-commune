@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Videog = require('../models/Videog');
-
+router.use(express.static("public"));
 const fs = require('fs');
 const path = require('path');
 

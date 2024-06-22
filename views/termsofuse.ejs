@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./commun/head') %>
+<style>
+  .title_section {
+    color: var(--primary-color-2);
+    font-weight: bold;
+  }
+
+  ul strong {
+    color: var(--primary-color-1);
+  }
+</style>
+
+<body class="bg-light">
+  <%- include('./partials/navbar') %>
+  <%- include('./partials/sectionhero', { titre: "Conditions d'utilisation" ,bgimage:'/images/cta-image-1.jpg'}) %>
+
+
+  <section>
+    
+    <section>
+      <% if (terms) { %>
+          
+          <div class="container">
+            <div class="row">
+              <p class="fw-bold primary-color-2">Dernière mise à jour: <%= new Date(terms.updatedAt).toLocaleDateString() %></p>
+              <hr>
+            </div>
+            <div class="row">
+                <%- terms.details %>
+            </div>
+
+          </div>
+      <% } else { %>
+          <div class="container">
+              <div class="row">
+                  Aucun terme disponible
+              </div>
+          </div>
+      <% } %>
+  </section>
+
+
+  <%- include('./commun/footer') %>
+
+</body>
+
+</html>

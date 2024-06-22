@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const Recaptcha = require('express-recaptcha').RecaptchaV3;
 const Email = require('./../models/Email');
+router.use(express.static("public"));
 
 // Create a new instance of Recaptcha
 //const recaptcha = new Recaptcha(process.env.RECAPTCHA_SITE_KEY, process.env.RECAPTCHA_SECRET_KEY);

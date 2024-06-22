@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const FormData = require('./../models/FormData');
-
+router.use(express.static("public"));
 
 
 router.get('/', async (req, res) => {

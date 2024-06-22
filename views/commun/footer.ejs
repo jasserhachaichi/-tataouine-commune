@@ -192,7 +192,7 @@
       <div class="row">
         <div class="col">
           <div class="footer-copyright-wrapper text-center">
-            &copy; 2024. Tous droits réservés.
+            &copy; 2024. Tous droits réservés. <a href="/termsofuse" class="link-primary primary-color-1">Conditions d'utilisation</a>, <a  href="#" class="link-primary primary-color-1" onclick="cookieSettings.showDialog()">paramètres des cookies</a>
           </div>
           <div class="credits text-secondary text-center mt-2 fs-6">
             Designed & Developed By <a href="https://www.linkedin.com/in/jasser-hachaichi-85b469204/" class="link-secondary text-decoration-none primary-color-1 fw-bold">Jasser Hachaichi</a></span>
@@ -275,5 +275,8 @@
 
   })(jQuery);
 </script>
-
-
+<!--   cookie consent plugin -->
+<script src="/plugin/cookie-consent/bootstrap-cookie-consent-settings.js"></script>
+<script>
+var cookieSettings = new BootstrapCookieConsentSettings({privacyPolicyUrl: "/termsofuse",legalNoticeUrl: "/termsofuse",})
+</script>

@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const FormData = require('./../models/FormData');
+router.use(express.static("public"));
 
 // Multer storage configuration
 const storage = multer.diskStorage({

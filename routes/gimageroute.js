@@ -3,6 +3,7 @@ const path = require("path");
 const router = express.Router();
 const Image = require('./../models/Image');
 const sharp = require('sharp');
+router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+router.use(express.static("public"));
 const Visitor = require('./../models/Visitor');
 const Blog = require('./../models/Blog');
 const Company = require('./../models/Company');

@@ -107,7 +107,9 @@
     }
   </style>
 
-  <!-- Fact 3 - Bootstrap Brain Component -->
+
+
+<% if (achievement) { %>
   <section class="bg-light py-3 py-md-5">
     <div class="container">
       <div class="row justify-content-md-center">
@@ -125,40 +127,62 @@
     </style>
     <div class="container">
       <div class="row gy-4 gy-lg-0 align-items-lg-center">
+
+        
         <div class="col-12 col-lg-6">
-          <img class="img-fluid rounded framed" loading="lazy" src="/images/OurSuccessovc.jpg" alt="Our Success">
+          <% if (achievement.path) { %>
+          <img class="img-fluid rounded framed" loading="lazy" src="<%= achievement.path %>" alt="Our Success">
+          <% } else { %>
+            <img class="img-fluid rounded framed" loading="lazy" src="/images/Default-thumbnail.png" alt="Our Success">
+            <% } %>
         </div>
+
+
         <div class="col-12 col-lg-6">
           <div class="row justify-content-xl-end">
             <div class="col-12 col-xl-11">
               <div class="row gy-4 gy-sm-0 overflow-hidden">
                 <div class="col-12 col-sm-6">
+
+                  <% if (achievement.titrec1 && achievement.valc1) { %>
                   <div class="card border-0 border-bottom border-primary shadow-sm mb-4">
                     <div class="card-body text-center p-4 p-xxl-5">
-                      <h3 class="display-2 fw-bold mb-2">0</h3>
-                      <p class="fs-5 mb-0 text-secondary">Projets terminés</p>
+                      <h3 class="display-2 fw-bold mb-2"><%= achievement.valc1 %></h3>
+                      <p class="fs-5 mb-0 text-secondary"><%= achievement.titrec1 %></p>
                     </div>
                   </div>
+                  <% } %>
+
+                  <% if (achievement.titrec2 && achievement.valc2) { %>
                   <div class="card border-0 border-bottom border-primary shadow-sm">
                     <div class="card-body text-center p-4 p-xxl-5">
-                      <h3 class="display-2 fw-bold mb-2">0</h3>
-                      <p class="fs-5 mb-0 text-secondary">Problèmes résolus</p>
+                      <h3 class="display-2 fw-bold mb-2"><%= achievement.valc2 %></h3>
+                      <p class="fs-5 mb-0 text-secondary"><%= achievement.titrec2 %></p>
                     </div>
                   </div>
+                  <% } %>
+
+
                 </div>
                 <div class="col-12 col-sm-6">
+
+                  <% if (achievement.titrec3 && achievement.valc3) { %>
                   <div class="card border-0 border-bottom border-primary shadow-sm mt-lg-6 mt-xxl-8 mb-4">
                     <div class="card-body text-center p-4 p-xxl-5">
-                      <h3 class="display-2 fw-bold mb-2">0</h3>
-                      <p class="fs-5 mb-0 text-secondary">Citoyens satisfaits</p>
+                      <h3 class="display-2 fw-bold mb-2"><%= achievement.valc3 %></h3>
+                      <p class="fs-5 mb-0 text-secondary"><%= achievement.titrec3 %></p>
                     </div>
                   </div>
+                  <% } %>
+                  <% if (achievement.titrec4 && achievement.valc4) { %>
                   <div class="card border-0 border-bottom border-primary shadow-sm">
                     <div class="card-body text-center p-4 p-xxl-5">
-                      <h3 class="display-2 fw-bold mb-2">0</h3>
-                      <p class="fs-5 mb-0 text-secondary">attestation</p>
+                      <h3 class="display-2 fw-bold mb-2"><%= achievement.valc4 %></h3>
+                      <p class="fs-5 mb-0 text-secondary"><%= achievement.titrec4 %></p>
                     </div>
                   </div>
+                  <% } %>
+
                 </div>
               </div>
             </div>
@@ -167,6 +191,8 @@
       </div>
     </div>
   </section>
+  <% } %>
+
 
   <style>
     .ftco-section {

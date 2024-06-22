@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const AdvancedEvent = require('./../models/AdvancedEvent');
 const Event = require("./../models/Event");
+router.use(express.static("public"));
 
 //const { Console } = require("console");
 

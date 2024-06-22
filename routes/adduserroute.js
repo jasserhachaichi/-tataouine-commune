@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const User = require('./../models/User');
 const nodemailer = require('nodemailer');
 const transporter = require('../config/nodemailer');
+router.use(express.static("public"));
 
 router.get("/", (req, res) => {
     return res.render("dashboard/adduser");

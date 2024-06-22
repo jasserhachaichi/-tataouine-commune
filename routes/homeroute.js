@@ -4,6 +4,7 @@ const router = express.Router();
 const followerModel = require('./../models/Follower');
 const Blog = require('./../models/Blog');
 const Image = require('./../models/Image');
+const Achievement = require('./../models/Achievement');
 
 router.use(express.static("public"));
 
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
     // Fetch the five most recent images
     const recentImages = await Image.find().sort({ createdAt: -1 }).limit(4);
 
-    console.log(recentImages);
+    //console.log(recentImages);
   
 
 
@@ -39,7 +40,10 @@ router.get("/", async (req, res) => {
     // Fetch the total count of images
     const totalImagesCount = await Image.countDocuments();
 
-    return res.render("home", { recentBlogs, recentImages:recentImages, resizedImages: resizedImages, totalImagesCount });
+        // Fetch achievement data from the database
+        const achievement = await Achievement.findOne({});
+
+    return res.render("home", { recentBlogs, recentImages:recentImages, resizedImages: resizedImages, totalImagesCount,achievement });
 
 
 

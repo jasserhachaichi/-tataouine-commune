@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 //const { Console } = require("console");
+router.use(express.static("public"));
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -110,7 +111,7 @@ router.post('/', async (req, res) => {
             });
 
             await newBlog.save();
-            console.log(newBlog);
+            //console.log(newBlog);
 
             return res.status(200).send('Blog posted successfully');
         } catch (error) {

@@ -1,0 +1,39 @@
+{
+  "title": "Privacy Settings",
+  "body": "We use cookies and similar technologies that are necessary to operate the website. Additional cookies are only used with your consent. You are free to give or withdraw your consent at any time by using the \"cookie settings\" link at the bottom of each page. You can consent to our use of cookies by clicking \"Agree\". For more information about what information is collected and how it is shared with our partners, please read our --privacy-policy--.",
+  "privacyPolicy": "Data Protection Statement",
+  "legalNotice": "Legal Notice",
+  "mySettings": "My Settings",
+  "buttonNotAgree": "Only necessary",
+  "buttonAgree": "Agree",
+  "buttonSaveSelection": "Save selection",
+  "buttonAgreeAll": "Agree to all",
+  "categories": {
+    "necessary": {
+      "title": "Necessary",
+      "description": [
+        "Required to run the website"
+      ]
+    },
+    "statistics": {
+      "title": "Statistics",
+      "description": [
+        "Monitoring website usage and optimizing the user experience"
+      ]
+    },
+    "marketing": {
+      "title": "Marketing",
+      "description": [
+        "Evaluation of marketing actions"
+      ]
+    },
+    "personalization": {
+      "title": "Personalization",
+      "description": [
+        "Storage of your preferences from previous visits",
+        "Collecting user feedback to improve our website",
+        "Recording of your interests in order to provide customised content and offers"
+      ]
+    }
+  }
+}

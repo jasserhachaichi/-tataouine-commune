@@ -4,6 +4,7 @@ const router = express.Router();
 const Video = require('../models/Videog');
 const multer = require('multer');
 const path = require('path');
+router.use(express.static("public"));
 
 /* const ffmpeg = require('fluent-ffmpeg');*/
 const fs = require('fs');

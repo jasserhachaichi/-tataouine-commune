@@ -74,6 +74,7 @@ app.get('/logout', (req, res) => {
     res.redirect("/login");
 });
 app.use("/forms", require("./routes/formsroute"));
+app.use("/termsofuse" , require("./routes/termsofuseroute"));
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
@@ -93,9 +94,7 @@ app.get("/allevents", async (req, res) => {
     }
 });
 
-app.get('/faq', (req, res) => {
-    res.render("faq");
-})
+app.use("/faq", require("./routes/faqroute"));
 app.get('/about', (req, res) => {
     res.render("about");
 })
@@ -131,6 +130,12 @@ app.use("/allblogs", authenticateToken, checkUserRole, require("./routes/allblog
 
 app.use("/calendarmanagement", authenticateToken, checkUserRole, require("./routes/dashcalendarroute"));
 app.use("/createevent", authenticateToken, checkUserRole, require("./routes/createeventroute"));
+
+app.use("/updatetermsofuse", authenticateToken, checkUserRole, require("./routes/updatetermsofuseroute"));
+
+
+app.use("/allfaq", authenticateToken, checkUserRole, require("./routes/allfaqroute"));
+app.use("/updateachievement", authenticateToken, checkUserRole, require("./routes/achievementroute"));
 
 app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
 app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));

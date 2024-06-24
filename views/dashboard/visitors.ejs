@@ -4,7 +4,7 @@
 <%- include('./commun/head') %>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -56,13 +56,13 @@
                   </thead>
                   <tbody>
                     <% visitors.forEach(visitor => { %>
-                        <tr>
-                            <td><%= visitor.googleId %></td>
-                            <td><%= visitor.name %></td>
-                            <td><%= visitor.email %></td>
-                        </tr>
+                    <tr>
+                      <td><%= visitor.googleId %></td>
+                      <td><%= visitor.name %></td>
+                      <td><%= visitor.email %></td>
+                    </tr>
                     <% }); %>
-                </tbody>
+                  </tbody>
                 </table>
               </div>
             </div>

@@ -9,10 +9,12 @@
   ul {
     list-style-type: none;
   }
-  .required{
+
+  .required {
     color: red;
     font-weight: bold;
   }
+
   .wrap__article-detail-content p {
     line-height: 28px;
     color: #333;
@@ -86,17 +88,22 @@
     display: none;
   }
 
-  .breadcrumbs__item i {
+  .breadcrumbs__item svg {
+    margin-right: 5px;
     font-size: 14px;
   }
 
   .breadcrumbs__item:after {
-    content: "\f105";
-    font-family: FontAwesome;
+    /*     content: "\f105";
+    font-family: FontAwesome; */
     display: inline-block;
     position: relative;
     font-size: 14px;
     margin: 0 6px;
+  }
+
+  .breadcrumbs__url:hover {
+    color: var(--primary-color-2) !important;
   }
 
   .breadcrumbs__url {
@@ -124,7 +131,6 @@
     margin-right: 10px;
     text-align: center;
     position: relative;
-    color: #c00;
   }
 
   .blog-tags .list-inline .list-inline-item span {
@@ -293,7 +299,7 @@
     font-weight: 700;
   }
 
-  .comments-area .comment-author i {
+  .comments-area .comment-author svg {
     margin-left: 10px;
     color: #495057;
   }
@@ -455,17 +461,30 @@
     margin-right: 0;
   }
 
-  .wrap__article-detail-info .list-inline .list-inline-item .image-profile {
+  /* .wrap__article-detail-info .list-inline .list-inline-item .image-profile {
     width: 40px;
     max-width: 100%;
     margin-bottom: 0;
     margin-right: 8px;
   }
 
-  .wrap__article-detail-info .list-inline .list-inline-item .image-profile img {
+   .wrap__article-detail-info .list-inline .list-inline-item .image-profile img {
     position: relative;
     width: 100%;
     height: auto;
+    border-radius: 50%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  } */
+  .wrap__article-detail-info .list-inline .list-inline-item .image-profile {
+    margin-bottom: 0;
+    margin-right: 8px;
+  }
+
+  .wrap__article-detail-info .list-inline .list-inline-item .image-profile img {
+    position: relative;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     -o-object-fit: cover;
     object-fit: cover;
@@ -566,10 +585,12 @@
   .single_navigation-prev {
     display: block;
   }
+
   .single_navigation-next a:hover,
   .single_navigation-prev a :hover {
     color: var(--primary-color-2) !important;
   }
+
   .single_navigation-next a,
   .single_navigation-prev a {
     color: #000;
@@ -605,12 +626,19 @@
       <ul class="breadcrumbs mb-4 text-center">
         <li class="breadcrumbs__item">
           <a class='breadcrumbs__url' href='/home'>
-            <i class="fa fa-home"></i> Home</a>
+            <svg style="margin-bottom: 5px;" xmlns="http://www.w3.org/2000/svg" width="1.13em" height="1em" viewBox="0 0 576 512">
+              <path fill="black" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40h-16c-1.1 0-2.2 0-3.3-.1c-1.4.1-2.8.1-4.2.1H392c-22.1 0-40-17.9-40-40v-88c0-17.7-14.3-32-32-32h-64c-17.7 0-32 14.3-32 32v88c0 22.1-17.9 40-40 40h-55.9c-1.5 0-3-.1-4.5-.2c-1.2.1-2.4.2-3.6.2h-16c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9.1-2.8v-69.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7l255.4 224.5c8 7 12 15 11 24" />
+            </svg>Accueil</a>
         </li>
         <li class="breadcrumbs__item">
-          <a class='breadcrumbs__url' href='/blogs'>Blogs</a>
+          <a class='breadcrumbs__url' href='/blogs'><svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="1em" viewBox="0 0 320 512">
+              <path fill="black" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256L73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+            </svg>Blogs</a>
         </li>
         <li class="breadcrumbs__item breadcrumbs__item--current">
+          <svg xmlns="http://www.w3.org/2000/svg" width="0.63em" height="1em" viewBox="0 0 320 512">
+            <path fill="black" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256L73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+          </svg>
           <%= blog.title%>
         </li>
       </ul>
@@ -636,15 +664,15 @@
                 </figure>
               </li>
               <li class="list-inline-item">
-                Created by 
+                Created by
                 <span class="primary-color-1 fw-bold"> <%= blog.autor.fullname%> </span>
-                 on
+                on
                 <span><%= blog.updatedAt.toDateString()%></span>
               </li>
               <% } %>
             </ul>
           </div>
-            <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="<%= blog.coverIMGpath%>" alt=" Cover Image" style="max-height: 960px; width: auto;">
+          <img class="rounded w-100 mb-5 mb-md-6 mb-xl-8  fit-cover " src="<%= blog.coverIMGpath%>" alt=" Cover Image" style="max-height: 960px; width: auto;">
           <div class="wrap__article-detail-content ">
             <div class="total-views">
               <div class="total-views-read">
@@ -658,42 +686,58 @@
               <ul class="list-inline">
                 <li class="list-inline-item">
                   <a class="btn btn-social-o facebook shfacebook" target="blank">
-                    <i class="fa-brands fa-facebook-f"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <path fill="white" fill-rule="evenodd" d="M9.945 22v-8.834H7V9.485h2.945V6.54c0-3.043 1.926-4.54 4.64-4.54c1.3 0 2.418.097 2.744.14v3.18h-1.883c-1.476 0-1.82.703-1.82 1.732v2.433h3.68l-.736 3.68h-2.944L13.685 22" />
+                    </svg>
                     <span>Facebook</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
                   <a class="btn btn-social-o twitter shtwitter" target="blank">
-                    <i class="fa-brands fa-twitter"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <path fill="white" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.2 4.2 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.52 8.52 0 0 1-5.33 1.84q-.51 0-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23" />
+                    </svg>
                     <span>Twitter</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
                   <a class="btn btn-social-o whatsapp shwhatsapp" target="blank">
-                    <i class="fa-brands fa-whatsapp"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <path fill="white" d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z" />
+                    </svg>
                     <span>WhatsApp</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
                   <a class="btn btn-social-o telegram shtelegram" target="blank">
-                    <i class="fa-brands fa-telegram"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <g fill="none" fill-rule="evenodd">
+                        <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                        <path fill="white" d="M19.777 4.43a1.5 1.5 0 0 1 2.062 1.626l-2.268 13.757c-.22 1.327-1.676 2.088-2.893 1.427c-1.018-.553-2.53-1.405-3.89-2.294c-.68-.445-2.763-1.87-2.507-2.884c.22-.867 3.72-4.125 5.72-6.062c.785-.761.427-1.2-.5-.5c-2.302 1.738-5.998 4.381-7.22 5.125c-1.078.656-1.64.768-2.312.656c-1.226-.204-2.363-.52-3.291-.905c-1.254-.52-1.193-2.244-.001-2.746z" />
+                      </g>
+                    </svg>
                     <span>Telegram</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
                   <a class="btn btn-linkedin-o linkedin shlinkedin" target="blank">
-                    <i class="fa-brands fa-linkedin-in"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <path fill="white" d="M20.47 2H3.53a1.45 1.45 0 0 0-1.47 1.43v17.14A1.45 1.45 0 0 0 3.53 22h16.94a1.45 1.45 0 0 0 1.47-1.43V3.43A1.45 1.45 0 0 0 20.47 2M8.09 18.74h-3v-9h3ZM6.59 8.48a1.56 1.56 0 1 1 0-3.12a1.57 1.57 0 1 1 0 3.12m12.32 10.26h-3v-4.83c0-1.21-.43-2-1.52-2A1.65 1.65 0 0 0 12.85 13a2 2 0 0 0-.1.73v5h-3v-9h3V11a3 3 0 0 1 2.71-1.5c2 0 3.45 1.29 3.45 4.06Z" />
+                    </svg>
                     <span>LinkedIn</span>
                   </a>
                 </li>
 
                 <li class="list-inline-item">
                   <a class="btn btn-social-o instagram shinstagram" target="blank">
-                    <i class="fa-brands fa-instagram"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <path fill="white" d="M12 8.75a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5" />
+                      <path fill="white" fill-rule="evenodd" d="M6.77 3.082a47.472 47.472 0 0 1 10.46 0c1.899.212 3.43 1.707 3.653 3.613a45.67 45.67 0 0 1 0 10.61c-.223 1.906-1.754 3.401-3.652 3.614a47.468 47.468 0 0 1-10.461 0c-1.899-.213-3.43-1.708-3.653-3.613a45.672 45.672 0 0 1 0-10.611C3.34 4.789 4.871 3.294 6.77 3.082M17 6a1 1 0 1 0 0 2a1 1 0 0 0 0-2m-9.75 6a4.75 4.75 0 1 1 9.5 0a4.75 4.75 0 0 1-9.5 0" clip-rule="evenodd" />
+                    </svg>
                     <span>Instagram</span>
                   </a>
                 </li>
@@ -711,12 +755,12 @@
             </div>
 
             <% if (blog.attachments && blog.attachments.length > 0) { %>
-              <br><br>
+            <br><br>
             <h2 class="primary-color-1 fw-bold">Attachments</h2>
             <ul>
               <% blog.attachments.forEach(function(attachment) { %>
               <li>
-                <i class="fa-solid fa-paperclip"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="black" d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4"/></svg>
                 <a href="<%= attachment.path %>"><%= attachment.originalname %></a>
               </li>
               <% }); %>
@@ -735,8 +779,9 @@
                 <div class="blog-tags">
                   <ul class="list-inline">
                     <li class="list-inline-item">
-                      <i class="fa fa-tags">
-                      </i>
+                      <svg class="fa-tags" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                        <path fill="#ff0000" d="m345 39.1l127.8 129.3c52.4 53 52.4 138.2 0 191.2l-112 113.3c-9.3 9.4-24.5 9.5-33.9.2s-9.5-24.5-.2-33.9l111.9-113.3c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6.2-33.9s24.6-9.2 33.9.2zM0 229.5V80c0-26.5 21.5-48 48-48h149.5c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5M144 144a32 32 0 1 0-64 0a32 32 0 1 0 64 0" />
+                      </svg>
                     </li>
 
                     <% blog.tags.forEach(tag => { %>
@@ -771,14 +816,18 @@
                       <% if (blog.autor.socialmedia.facebook) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.facebook %>" class="btn btn-social btn-social-o facebook ">
-                          <i class="fa-brands fa-facebook-f"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="white" fill-rule="evenodd" d="M9.945 22v-8.834H7V9.485h2.945V6.54c0-3.043 1.926-4.54 4.64-4.54c1.3 0 2.418.097 2.744.14v3.18h-1.883c-1.476 0-1.82.703-1.82 1.732v2.433h3.68l-.736 3.68h-2.944L13.685 22" />
+                          </svg>
                         </a>
                       </li>
                       <% } %>
                       <% if (blog.autor.socialmedia.twitter) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.twitter %>" class="btn btn-social btn-social-o twitter ">
-                          <i class="fa-brands fa-twitter"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="white" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.2 4.2 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.52 8.52 0 0 1-5.33 1.84q-.51 0-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23" />
+                          </svg>
                         </a>
                       </li>
                       <% } %>
@@ -786,7 +835,10 @@
                       <% if (blog.autor.socialmedia.instagram) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.instagram %>" class="btn btn-social btn-social-o instagram ">
-                          <i class="fa-brands fa-instagram"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="white" d="M12 8.75a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5" />
+                            <path fill="white" fill-rule="evenodd" d="M6.77 3.082a47.472 47.472 0 0 1 10.46 0c1.899.212 3.43 1.707 3.653 3.613a45.67 45.67 0 0 1 0 10.61c-.223 1.906-1.754 3.401-3.652 3.614a47.468 47.468 0 0 1-10.461 0c-1.899-.213-3.43-1.708-3.653-3.613a45.672 45.672 0 0 1 0-10.611C3.34 4.789 4.871 3.294 6.77 3.082M17 6a1 1 0 1 0 0 2a1 1 0 0 0 0-2m-9.75 6a4.75 4.75 0 1 1 9.5 0a4.75 4.75 0 0 1-9.5 0" clip-rule="evenodd" />
+                          </svg>
                         </a>
                       </li>
                       <% } %>
@@ -794,7 +846,9 @@
                       <% if (blog.autor.socialmedia.whatsapp) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.whatsapp %>" class="btn btn-social btn-social-o whatsapp ">
-                          <i class="fa-brands fa-whatsapp"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="white" d="M12.001 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.95 9.95 0 0 1-5.03-1.355L2.005 22l1.352-4.968A9.95 9.95 0 0 1 2.001 12c0-5.523 4.477-10 10-10M8.593 7.3l-.2.008a1 1 0 0 0-.372.1a1.3 1.3 0 0 0-.294.228c-.12.113-.188.211-.261.306A2.73 2.73 0 0 0 6.9 9.62c.002.49.13.967.33 1.413c.409.902 1.082 1.857 1.97 2.742c.214.213.424.427.65.626a9.45 9.45 0 0 0 3.84 2.046l.568.087c.185.01.37-.004.556-.013a2 2 0 0 0 .833-.231a5 5 0 0 0 .383-.22q.001.002.125-.09c.135-.1.218-.171.33-.288q.126-.13.21-.302c.078-.163.156-.474.188-.733c.024-.198.017-.306.014-.373c-.004-.107-.093-.218-.19-.265l-.582-.261s-.87-.379-1.402-.621a.5.5 0 0 0-.176-.041a.48.48 0 0 0-.378.127c-.005-.002-.072.055-.795.931a.35.35 0 0 1-.368.13a1.4 1.4 0 0 1-.191-.066c-.124-.052-.167-.072-.252-.108a6 6 0 0 1-1.575-1.003c-.126-.11-.243-.23-.363-.346a6.3 6.3 0 0 1-1.02-1.268l-.059-.095a1 1 0 0 1-.102-.205c-.038-.147.061-.265.061-.265s.243-.266.356-.41c.11-.14.203-.276.263-.373c.118-.19.155-.385.093-.536q-.42-1.026-.868-2.041c-.059-.134-.234-.23-.393-.249q-.081-.01-.162-.016a3 3 0 0 0-.403.004z" />
+                          </svg>
                         </a>
                       </li>
                       <% } %>
@@ -802,7 +856,12 @@
                       <% if (blog.autor.socialmedia.telegram) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.telegram %>" class="btn btn-social btn-social-o telegram ">
-                          <i class="fa-brands fa-telegram"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <g fill="none" fill-rule="evenodd">
+                              <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                              <path fill="white" d="M19.777 4.43a1.5 1.5 0 0 1 2.062 1.626l-2.268 13.757c-.22 1.327-1.676 2.088-2.893 1.427c-1.018-.553-2.53-1.405-3.89-2.294c-.68-.445-2.763-1.87-2.507-2.884c.22-.867 3.72-4.125 5.72-6.062c.785-.761.427-1.2-.5-.5c-2.302 1.738-5.998 4.381-7.22 5.125c-1.078.656-1.64.768-2.312.656c-1.226-.204-2.363-.52-3.291-.905c-1.254-.52-1.193-2.244-.001-2.746z" />
+                            </g>
+                          </svg>
                         </a>
                       </li>
                       <% } %>
@@ -810,7 +869,9 @@
                       <% if (blog.autor.socialmedia.linkedin) { %>
                       <li class="list-inline-item">
                         <a href="<%= blog.autor.socialmedia.linkedin %>" class="btn btn-social btn-social-o linkedin ">
-                          <i class="fa-brands fa-linkedin-in"></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="white" d="M20.47 2H3.53a1.45 1.45 0 0 0-1.47 1.43v17.14A1.45 1.45 0 0 0 3.53 22h16.94a1.45 1.45 0 0 0 1.47-1.43V3.43A1.45 1.45 0 0 0 20.47 2M8.09 18.74h-3v-9h3ZM6.59 8.48a1.56 1.56 0 1 1 0-3.12a1.57 1.57 0 1 1 0 3.12m12.32 10.26h-3v-4.83c0-1.21-.43-2-1.52-2A1.65 1.65 0 0 0 12.85 13a2 2 0 0 0-.1.73v5h-3v-9h3V11a3 3 0 0 1 2.71-1.5c2 0 3.45 1.29 3.45 4.06Z" />
+                          </svg>
                         </a>
                       </li>
                       <% } %>
@@ -867,7 +928,7 @@
                           <div class="comment-meta">
                             <div class="comment-author">
                               <img src="/images/Default-profile.jpg" class="avatar" alt="image">
-                              <p><b class="fn" data-toid="<%= reply.idR %>"><%= reply.name %></b><i class=" fa-regular fa-reply"></i> <%= reply.to %></p>
+                              <p><b class="fn" data-toid="<%= reply.idR %>"><%= reply.name %></b><svg  class="fa-reply" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="black" d="M205 34.8c11.5 5.1 19 16.6 19 29.2v64h112c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96h-96v64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4"/></svg> <%= reply.to %></p>
               </div>
               <div class="comment-metadata">
                 <span><%= new Date(reply.date_reply).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %> AT <%= new Date(reply.date_reply).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' }) %></span>
@@ -887,7 +948,7 @@
             <%  if(replycount > 1){%>
             <div class="row">
               <div class="col-12 text-center">
-                <a class="load-more-reply" onclick="show_replies(this)">Show More Replies (<%= replycount-1 %>)</a>
+                <a class="load-more-reply">Show More Replies (<%= replycount-1 %>)</a>
               </div>
             </div>
             <%}%>
@@ -990,7 +1051,7 @@
 
   <%- include('./commun/footer') %>
   <!-- 
-  <script>
+  <script nonce="<%= nonce %>" >
     document.addEventListener('DOMContentLoaded', function() {
       const ngrokUrl = "https://61fc-102-156-53-177.ngrok-free.app"; // Ngrok URL from your session
       const msg = encodeURIComponent(document.querySelector('.Blog-detail-Block').textContent);
@@ -1000,7 +1061,7 @@
     });
   </script> -->
 
-  <script>
+  <script nonce="<%= nonce %>">
     document.addEventListener('DOMContentLoaded', function() {
       const ngrokUrl = encodeURI(window.location.href); //"https://97e0-102-156-53-177.ngrok-free.app"; // Ngrok URL from your session
       const msg = encodeURIComponent(document.querySelector('.Blog-detail-Block').textContent);
@@ -1019,7 +1080,30 @@
       document.querySelector('.shinstagram').href = `https://www.instagram.com/share?url=${ngrokUrl}/blogs/660499cd76cccf5f73cb22af&title=${title}`;
     });
   </script>
-  <script>
+
+
+
+  <script nonce="<%= nonce %>">
+    document.querySelectorAll('.load-more-reply').forEach(elm => {
+      elm.addEventListener('click', function() {
+        show_replies(this)
+      });
+    });
+
+    let listallremoveFormspan = document.querySelectorAll('.removeFormspan');
+
+    listallremoveFormspan.forEach(elm => {
+      elm.addEventListener('click', function() {
+        removeForm(this)
+      });
+    });
+  </script>
+
+
+
+
+
+  <script nonce="<%= nonce %>">
     function clearFormFields() {
       var fieldsToClear = document.querySelectorAll('input[type=text], input[type=email], textarea, input[type=url]');
       fieldsToClear.forEach(function(input) {
@@ -1054,7 +1138,7 @@
       return toast;
     }
   </script>
-  <script>
+  <script nonce="<%= nonce %>">
     function incrementValue() {
       // Get the span element by its ID
       var spanElement = document.getElementById('TCC');
@@ -1110,7 +1194,7 @@
     });
   </script>
 
-  <script>
+  <script nonce="<%= nonce %>">
     function removeForm(elm) {
       const formElement = elm.closest('.rcomment-respond');
       const replyLink = formElement.previousElementSibling.querySelector('.comment-reply-link');
@@ -1147,18 +1231,27 @@
               const commentRespond = document.createElement('div');
               commentRespond.classList.add('comment-respond', 'rcomment-respond');
               const dataIdPValue = event.target.getAttribute('data-idP');
-              commentRespond.innerHTML = `<form id="commentRForm" action="/blogs/" method="post" class="comment-form" data-toid="${toid}" data-to="${nameto}"  data-idP="${dataIdPValue}"> <p class="comment-form-comment"> <label for="comment">Comment</label> <textarea name="comment" id="comment" cols="25" rows="3" maxlength="65525" required="required"></textarea> </p> <p class="comment-form-author"> <label>Name <span class="required">*</span></label> <input type="text" name="name" required="required"> </p> <p class="comment-form-email"> <label for="email">Email <span class="required">*</span></label> <input type="email" id="email" name="email" required="required"> </p> <p class="comment-form-url"> <label for="url">Website</label> <input type="url" id="url" name="website"> </p> <p class="comment-form-cookies-consent"> <input type="checkbox" value="yes" name="receive_news" id="wp-comment-cookies-consent"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next span I comment.</label> </p> <p class="form-submit"> <button type="submit" id="submit" class="submit">Replay</button> <span onclick="removeForm(this)">Cancel</span> </p> </form>`;
+              commentRespond.innerHTML = `<form id="commentRForm" action="/blogs/" method="post" class="comment-form" data-toid="${toid}" data-to="${nameto}"  data-idP="${dataIdPValue}"> <p class="comment-form-comment"> <label for="comment">Comment</label> <textarea name="comment" id="comment" cols="25" rows="3" maxlength="65525" required="required"></textarea> </p> <p class="comment-form-author"> <label>Name <span class="required">*</span></label> <input type="text" name="name" required="required"> </p> <p class="comment-form-email"> <label for="email">Email <span class="required">*</span></label> <input type="email" id="email" name="email" required="required"> </p> <p class="comment-form-url"> <label for="url">Website</label> <input type="url" id="url" name="website"> </p> <p class="comment-form-cookies-consent"> <input type="checkbox" value="yes" name="receive_news" id="wp-comment-cookies-consent"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next span I comment.</label> </p> <p class="form-submit"> <button type="submit" id="submit" class="submit">Replay</button> <span  class="removeFormspan" >Cancel</span> </p> </form>`;
 
               // Append the new element to the closest "comment" ancestor
               closestComment.appendChild(commentRespond);
+
+              document.querySelector('#commentRForm .removeFormspan').addEventListener('click', function() {
+                removeForm(this);
+              });
+
+
+
+
             }
           }
-        }
+        };
+
       });
     });
   </script>
 
-  <!--   <script>
+  <!--   <script nonce="<%= nonce %>" >
     $(document).ready(function() {
       $('#commentRForm').submit(function(e) {
         e.preventDefault(); // Prevent default form submission
@@ -1194,7 +1287,7 @@
     });
   </script>
  -->
-  <script>
+  <script nonce="<%= nonce %>">
     $(document).ready(function() {
       // Event listener for submitting the reply form via AJAX
       $(document).on('submit', '#commentRForm', function(e) {
@@ -1259,7 +1352,7 @@
               const email = parsedFormData.get('email');
               const IDR = response.idR;
 
-              const to_dest = '<i class="fa-regular fa-reply"></i> ' + response.data_to;
+              const to_dest = '<svg  class="fa-reply" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="black" d="M205 34.8c11.5 5.1 19 16.6 19 29.2v64h112c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96h-96v64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4"/></svg> ' + response.data_to;
 
 
               // Construct the HTML block
@@ -1295,7 +1388,7 @@
   </script>
 
 
-  <script>
+  <script nonce="<%= nonce %>">
     function createCommentHTML(commentData) {
       let replycount = 0;
       const commentHTML = `
@@ -1326,7 +1419,7 @@
                 <div class="comment-meta">
                   <div class="comment-author">
                     <img src="/images/Default-profile.jpg" class="avatar" alt="image">
-                    <p><b class="fn" data-toid=${reply.idR}>${reply.name}</b><i class="fa-regular fa-reply"></i> ${reply.to}</p>
+                    <p><b class="fn" data-toid=${reply.idR}>${reply.name}</b><svg  class="fa-reply" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="black" d="M205 34.8c11.5 5.1 19 16.6 19 29.2v64h112c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96h-96v64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4"/></svg> ${reply.to}</p>
                   </div>
                   <div class="comment-metadata">
                     <span>${new Date(reply.date_reply).toLocaleString()}</span>
@@ -1346,7 +1439,7 @@
       ${replycount > 1 ? `
         <div class="row">
           <div class="col-12 text-center">
-            <a class="load-more-reply" onclick="show_replies(this)">Show More Replies (${replycount - 1})</a>
+            <a class="load-more-reply">Show More Replies (${replycount - 1})</a>
           </div>
         </div>
       ` : ''}
@@ -1388,13 +1481,12 @@
       }
 
     }
-if(loadMoreButton){
-  loadMoreButton.addEventListener('click', loadMoreComments);
-}
-
+    if (loadMoreButton) {
+      loadMoreButton.addEventListener('click', loadMoreComments);
+    }
   </script>
 
-  <script>
+  <script nonce="<%= nonce %>">
     function show_replies(elm) {
       // Get the parent ol element with the class "comment"
       var parentOl = elm.closest('.comment');

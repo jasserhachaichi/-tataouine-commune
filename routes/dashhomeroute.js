@@ -8,8 +8,6 @@ const Image = require('./../models/Image');
 const FormData = require('./../models/FormData');
 const Video = require('../models/Videog');
 const Announcement = require('../models/Announcement');
-
-const AdvancedEvent = require('./../models/AdvancedEvent');
 const Event = require("./../models/Event");
 
 const followerModel = require('./../models/Follower');
@@ -18,7 +16,8 @@ const followerModel = require('./../models/Follower');
 const jwt = require('jsonwebtoken');
 
 router.get("/", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     const token = req.cookies.token || req.session.token;
     const decoded = jwt.decode(token);
 
@@ -29,7 +28,6 @@ router.get("/", async (req, res) => {
     const formDataCount = await FormData.countDocuments();
     const videoCount = await Video.countDocuments();
     const announcementCount = await Announcement.countDocuments();
-    const advancedEventCount = await AdvancedEvent.countDocuments();
     const eventCount = await Event.countDocuments();
     const followerCount = await followerModel.countDocuments();
 
@@ -38,7 +36,6 @@ router.get("/", async (req, res) => {
     //console.log(topBlogs);
 
     // Fetch upcoming events from both collections { startDate: { $gte: new Date() } }
-    //const Events = await AdvancedEvent.find().select('title startDate').sort({ start: 1 }).limit(3);
     const Events = await Event.find({ start: { $gte: new Date() } }).select('title start').sort({ start: 1 }).limit(3);
 
     //console.log(Events);
@@ -53,11 +50,10 @@ router.get("/", async (req, res) => {
         formDataCount,
         videoCount,
         announcementCount,
-        advancedEventCount,
         eventCount,
         followerCount,
         topBlogs,
-        Events, isUser
+        Events, isUser,nonce
     });
 });
 

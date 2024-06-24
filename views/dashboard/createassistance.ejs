@@ -18,7 +18,7 @@
   .The-loader-container-form {
     margin: 0;
     padding: 0;
-    background-color:white;
+    background-color: white;
     position: fixed;
     z-index: 9999999;
     inset: 0;
@@ -40,7 +40,7 @@
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -75,18 +75,18 @@
                 <div class="col-12">
                   <div class="form-group  mandatory">
                     <label for="title-form" class="form-label">Title</label>
-                    <input type="text" id="title-form" class="form-control" placeholder="title" name="title-form"  data-parsley-required="true">
+                    <input type="text" id="title-form" class="form-control" placeholder="title" name="title-form" data-parsley-required="true">
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-md-4">
                   <div class="form-group  mandatory">
                     <div class="input-group mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Cible</label>
                       <select class="form-select" id="inputGroupSelect01" name="target">
-                          <option value="public" selected>Publique</option>
-                          <option value="team">Équipe</option>
+                        <option value="public" selected>Publique</option>
+                        <option value="team">Équipe</option>
                       </select>
-                  </div>
+                    </div>
                   </div>
                 </div>
 
@@ -114,96 +114,19 @@
 
 
   <%- include('./commun/scripts') %>
-  <script src="plugin/jquery-ui/jquery-ui.min.js"></script>
-  <script src="plugin/form-builder/form-builder.min.js"></script>
-  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
-  <!--   <script>
+  <script nonce="<%= nonce %>" src="plugin/jquery-ui/jquery-ui.min.js"></script>
+  <script nonce="<%= nonce %>" src="plugin/form-builder/form-builder.min.js"></script>
+  <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
+
+  <!--   <script nonce="<%= nonce %>" src="https://formbuilder.online/assets/js/form-builder.min.js"></script> -->
+  <!--   <script nonce="<%= nonce %>" >
     jQuery($ => {
       const fbTemplate = document.getElementById('build-wrap');
       $(fbTemplate).formBuilder();
     });
   </script> -->
-  <script>
-    var formDataggg = [{"type":"header","subtype":"h1","label":"Coordinator of Waste Management and Sustainability Programs","required":null,"description":null,"placeholder":null,"className":null,"name":null,"value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c78"},"values":[]},{"type":"text","subtype":"text","label":"Nom","required":false,"description":null,"placeholder":null,"className":"form-control","name":"text-1718927399727-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c79"},"values":[]},{"type":"textarea","subtype":"textarea","label":"Prenom","required":false,"description":null,"placeholder":null,"className":"form-control","name":"textarea-1718927401444-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":null,"access":null,"_id":{"$oid":"6674c04de89caf319cca1c7a"},"values":[]},{"type":"button","subtype":"submit","label":"Button","required":null,"description":null,"placeholder":null,"className":"btn-primary btn","name":"button-1718927422636-0","value":null,"maxlength":null,"rows":null,"min":null,"max":null,"step":null,"multiple":null,"toggle":null,"inline":null,"other":null,"requireValidOption":null,"style":"primary","access":null,"_id":{"$oid":"6674c04de89caf319cca1c7b"},"values":[]}]
 
-    function showMessage(msg, duration, color) {
-      Toastify({
-        text: msg,
-        close: true,
-        duration: duration,
-        gravity: "bottom",
-        position: "right",
-        backgroundColor: color,
-      }).showToast()
-    }
-    // Wait for the document to be fully loaded
-    $(document).ready(() => {
-      const fbTemplate = $('#build-wrap');
-      const formBuilder = fbTemplate.formBuilder({
-        controlPosition: 'left',
-        disabledActionButtons: ['data'],
-        disabledAttrs: ["className", "name", "access"],
-        onSave: function(evt, formData) {
-          const loaderContainer = document.querySelector('.The-loader-container-form');
-          loaderContainer.classList.remove('d-none');
-          loaderContainer.classList.add('flex');
-          const titleForm = $('#title-form').val();
-          const target = $('#inputGroupSelect01').val();
-
-
-
-          $.ajax({
-            url: '/createassistance/saveFormData',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-              title: titleForm,
-              target:target,
-              formData: formData
-            }),
-            success: function(response) {
-              formBuilder.actions.clearFields();
-              $('#title-form').val('');
-              showMessage(response.message, -1, "#4fbe87");
-              setTimeout(() => {
-                window.location.href = "/assistances";
-              }, 1000); // 3 second delay before redirect
-              //console.log('Form data saved successfully:', response);
-              // Handle success response here if needed
-            },
-            error: function(xhr, status, error) {
-              loaderContainer.classList.remove('flex');
-              loaderContainer.classList.add('d-none');
-              showMessage(error, -1, "#dc3545");
-              //console.error('Error saving form data:', error);
-              // Handle error response here if needed
-            }
-          });
-
-
-
-
-        },
-        controlOrder: [
-          'header',
-          'paragraph',
-          'text',
-          'textarea',
-          'number',
-          'select',
-          'checkbox-group',
-          'radio-group',
-          'date',
-          'file',
-          'button'
-        ],
-         defaultFields: formDataggg,
-
-
-
-      });
-    });
-  </script>
+  <script nonce="<%= nonce %>" src="pages/jsca.js"></script>
 
 
 

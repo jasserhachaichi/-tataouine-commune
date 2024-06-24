@@ -7,8 +7,9 @@ router.use(express.static("public"));
 
 
 router.get("/", (req, res) => {
-    const isUser = req.user.userRole;
-    return res.render("dashboard/createassistance", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    return res.render("dashboard/createassistance", {isUser,nonce});
 });
 
 router.post('/saveFormData', async (req, res) => {
@@ -78,7 +79,8 @@ router.post('/saveFormData', async (req, res) => {
 
 
 router.get("/visitors", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     let query = {};
     const { search, page } = req.query;
     const perPage = 10; // Number of visitors per page
@@ -107,7 +109,7 @@ router.get("/visitors", async (req, res) => {
         visitors: visitors,
         currentPage: pageNumber,
         totalPages: Math.ceil(totalVisitors / perPage),
-        search: search, isUser
+        search: search, isUser,nonce
     });
 });
 

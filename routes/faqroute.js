@@ -5,6 +5,7 @@ const Faq = require('../models/FAQ');
 router.use(express.static("public"));
 
 router.get('/', async (req, res) => {
+    const nonce = res.locals.nonce;
     let query = {};
     const  search= req.query.search;
 
@@ -35,7 +36,7 @@ router.get('/', async (req, res) => {
 
         return res.render("faq", { 
             groupedFaqs,
-            search: search,
+            search: search,nonce
          });
     } catch (error) {
         console.error('Error fetching FAQs:', error);

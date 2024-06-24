@@ -5,19 +5,9 @@ router.use(express.static("public"));
 const fs = require('fs');
 const path = require('path');
 
-/* router.get("/", async (req, res) => {
-    try {
-        // Fetch all videos from the database
-        const videos = await Videog.find();
-
-        // Render the EJS file and pass the videos data
-        return res.render("dashboard/allvideos", { videos: videos });
-    } catch (err) {
-        res.redirect("/404");
-    }
-}); */
 router.get("/", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -48,7 +38,7 @@ router.get("/", async (req, res) => {
             videos: videos,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
-            search: search, isUser
+            search: search, isUser, nonce
         });
     } catch (err) {
         return res.redirect("/404");
@@ -69,15 +59,19 @@ router.get("/delete/:id", async (req, res) => {
         // If video type is "local", delete associated files
         if (video.type === "local") {
             console.log("local");
-
-            // Delete video file
-            fs.unlinkSync(path.join(__dirname, '../attachments', video.url));
+            const urlvid = path.join(__dirname, '../attachments', video.url);
+            if (fs.existsSync(urlvid)) {
+                // Delete video file
+                fs.unlinkSync(urlvid);
+            }
         }
         // Delete thumbnail file if not default
         if (video.thumbnail !== '/images/Default-thumbnail.png') {
             console.log("jasser yt");
-
-            fs.unlinkSync(path.join(__dirname, '../attachments', video.thumbnail));
+            const thimg = path.join(__dirname, '../attachments', video.thumbnail);
+            if (fs.existsSync(thimg)) {
+                fs.unlinkSync(thimg);
+            }
         }
         // Delete video from the database
         await Videog.findByIdAndDelete(videoId);

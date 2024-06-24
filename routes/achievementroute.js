@@ -6,14 +6,18 @@ router.use(express.static("public"));
 const fs = require('fs');
 const Achievement = require('./../models/Achievement');
 
+function getRandomNumber(maxLength) {
+  const max = Math.pow(10, maxLength) - 1;
+  return Math.floor(Math.random() * max);
+}
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'attachments/Achievement/');
   },
   filename: function (req, file, cb) {
-    //cb(null, file.originalname);
     const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + Date.now() + ext);
+    const randomNum = getRandomNumber(7);
+    cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
   }
 });
 
@@ -21,13 +25,14 @@ const upload = multer({ storage: storage });
 
 
 router.get("/", async (req, res) => {
-  const isUser = req.user.userRole;
+  const isUser = req.userRole;
+  const nonce = res.locals.nonce;
   try {
     // Fetch achievement data from the database
     const achievement = await Achievement.findOne({});
 
     // Render the EJS template and pass the achievement data to it
-    return res.render("dashboard/achievement", { achievement, isUser });
+    return res.render("dashboard/achievement", { achievement, isUser, nonce });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: 'Erreur' });
@@ -52,15 +57,11 @@ router.post('/', upload.array('filepond'), async (req, res) => {
       // Find the existing document
       const existingDoc = await Achievement.findOne({});
       if (existingDoc && existingDoc.path) {
-        //console.log("attachments" + existingDoc.path);
-        // Remove the existing file
-        fs.unlink("attachments" + existingDoc.path, (err) => {
-          if (err) {
-            console.error(`Failed to delete old file: ${err.message}`);
-          } else {
-            console.log(`Old file ${existingDoc.path} deleted`);
-          }
-        });
+        const ImagePath = path.join(__dirname, '../attachments', existingDoc.path);
+        console.log(ImagePath);
+        if (fs.existsSync(ImagePath)) {
+          fs.unlinkSync(ImagePath);
+        }
       }
       // Update the path with the new file
       updateData.path = image[0].path.replace(/\\/g, '/').replace('attachments/', '/');

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./commun/head') %>
+  
+<%- include('./commun/head',{nonce}) %>
 <link rel="stylesheet" href="plugin/twentytwenty/twentytwenty.css">
 
 <body class="bg-light">
-  <%- include('./partials/navbar') %>
-  <%- include('./partials/hero') %>
+  <%- include('./partials/navbar',{nonce}) %>
+  <%- include('./partials/hero',{nonce}) %>
 
   <!-- About 1 - Bootstrap Brain Component -->
   <section class="py-3 py-md-5">
@@ -616,8 +617,8 @@
 
 
 
-  <%- include('./commun/footer') %>
-  <script>
+  <%- include('./commun/footer',{nonce}) %>
+  <script nonce="<%= nonce %>" >
     document.getElementById("subscribeForm").addEventListener("submit", async function(event) {
       event.preventDefault();
   
@@ -685,9 +686,9 @@
     });
   </script>
   
-  <script src="plugin/twentytwenty/jquery.event.move.js"></script>
-  <script src="plugin/twentytwenty/jquery.twentytwenty.js"></script>
-  <script>
+  <script nonce="<%= nonce %>" src="plugin/twentytwenty/jquery.event.move.js"></script>
+  <script nonce="<%= nonce %>" src="plugin/twentytwenty/jquery.twentytwenty.js"></script>
+  <script nonce="<%= nonce %>" >
     $(function() {
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({
         default_offset_pct: 0.5,

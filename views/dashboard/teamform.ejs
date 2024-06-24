@@ -4,7 +4,7 @@
 <%- include('./commun/head') %>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>"  src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -62,17 +62,8 @@
                 <div class="card-content">
                   <div class="card-body">
                     <h3 class="card-title"><%= form.titleForm %></h3>
-                    <p class="card-text"><strong>Nom de Dossier Google Drive: </strong> <%= form._id || 'N/A' %> <br>
-                      <strong>ID Dossier Google Drive: </strong> <%= form.FolderID || 'N/A' %> <br>
-                      
-                      <strong>Nom de Sheet dans Google Drive: </strong><%= form.titleForm || 'N/A' %> <br>
-                        <strong>ID Sheet dans Google Drive: </strong> <%= form.SHEETID || 'N/A' %></p>
-
                     <div>
                       <a class="btn btn-primary" href="/form/<%= form._id %>">Voir</a>
-                      <a class="btn btn-danger" href="/form/delete/<%= form._id %>">Delete</a>
-                      <a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/<%= form.SHEETID %>/"  target="_blank">SHEET</a>
-                      <a class="btn btn-light" href="https://drive.google.com/drive/u/0/folders/<%= form.FolderID %>"  target="_blank">Dossier</a>
                     </div>
                   </div>
                 </div>

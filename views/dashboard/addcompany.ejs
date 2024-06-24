@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -155,67 +155,8 @@
 
 
   <%- include('./commun/scripts') %>
-  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
-
-
-  <script>
-    document.getElementById('companyInfoForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-      // Disable the submit button and show loading text
-      $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
-  
-      const formData = new FormData(this);
-      const requestData = Object.fromEntries(formData.entries());
-  
-      try {
-        const response = await fetch('/addcompany', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestData)
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          //$('.formy').trigger('reset');
-          Toastify({
-            text: data.message,
-            duration: 3000,
-            close: true,
-            gravity: "bottom",
-            position: "right",
-            backgroundColor: "#198754",
-          }).showToast();
-        } else {
-          const errorData = await response.json();
-          errorData.errors.forEach(error => {
-            Toastify({
-              text: error.msg,
-              duration: 5000,
-              close: true,
-              gravity: "bottom",
-              position: "right",
-              backgroundColor: "#dc3545",
-            }).showToast(); // Log each error separately
-          });
-        }
-      } catch (error) {
-        Toastify({
-          text: error,
-          duration: 5000,
-          close: true,
-          gravity: "bottom",
-          position: "right",
-          backgroundColor: "#dc3545",
-        }).showToast();
-        console.error('An error occurred:', error);
-      }
-  
-      $('#submit-button').prop('disabled', false).html('Submit');
-    });
-  </script>
-  
+  <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script nonce="<%= nonce %>" src="pages/jsac.js"></script>
 
 
 

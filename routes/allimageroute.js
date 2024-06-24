@@ -7,12 +7,13 @@ const sharp = require('sharp');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
-  const isUser = req.user.userRole;
+  const isUser = req.userRole;
+  const nonce = res.locals.nonce;
   try {
     const page = req.query.page;
     const perPage = 10; // Number of images per page
     const pageNumber = parseInt(page) || 1; // Current page number, default to 1
-    const totalPages = Math.ceil(await Image.countDocuments()/perPage);
+    const totalPages = Math.ceil(await Image.countDocuments() / perPage);
     const skip = (pageNumber - 1) * perPage;
 
     const images = await Image.find({}, 'path').sort({ createdAt: -1 }).skip(skip).limit(perPage);
@@ -31,7 +32,7 @@ router.get("/", async (req, res) => {
       };
     }));
 
-    return res.render("dashboard/allimage", { images: resizedImages, currentPage: pageNumber, totalPages, isUser });
+    return res.render("dashboard/allimage", { images: resizedImages, currentPage: pageNumber, totalPages, isUser, nonce });
   } catch (error) {
     console.error(error);
     return res.status(500).send('Internal Server Error');
@@ -41,17 +42,18 @@ router.get("/", async (req, res) => {
 router.post("/delete-image/:id", async (req, res) => {
   try {
     const imageId = req.params.id;
-    const image = await Image.findByIdAndDelete(imageId); // Delete the image record from MongoDB
+    const image = await Image.findById(imageId);
 
-    // Remove the image file from the server file system
-    fs.unlink(image.path, (err) => {
-      if (!err) {
-        /*         console.error(err);
-                return res.redirect("/404"); 
-              } else { */
-        return res.redirect("/allimage");
-      }
-    });
+    const ImagePath = path.join(__dirname, '../attachments', image.path);
+    console.log(ImagePath);
+    if (fs.existsSync(ImagePath)) {
+      // Remove the image file from the server file system
+      fs.unlinkSync(ImagePath);
+    }
+    await Image.findByIdAndDelete(imageId);
+    return res.redirect("/allimage");
+
+
   } catch (error) {
     console.error(error);
     return res.redirect("/404");

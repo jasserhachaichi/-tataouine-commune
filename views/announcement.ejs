@@ -7,7 +7,14 @@
   <%- include('./partials/navbar') %>
   <%- include('./partials/sectionhero', { titre: 'Annonce' ,bgimage:'/images/cta-image-1.jpg'}) %>
 
-
+  <%  function formatDateTime(dateTimeString) {
+  const options = {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: 'numeric', minute: 'numeric',
+      hour12: true // Use 12-hour format with AM/PM
+  };
+  return new Date(dateTimeString).toLocaleString('en-US', options);
+} %>
 
   <article class="mb-4">
     <div class="container px-4 px-lg-5">
@@ -16,8 +23,8 @@
           <div class="card">
             <div class="card-body">
               <h2 class="card-title fw-bold"><%= announcement.title %></h2>
-              <h5><strong>Posted Date:</strong> <%= announcement.createdAt.toDateString() %></h5>
-              <h5><strong>Expired Date:</strong> <%= announcement.expiredDate.toDateString() %></h5>
+              <h5><strong>Posted Date:</strong> <%= formatDateTime(announcement.createdAt) %></h5>
+              <h5><strong>Expired Date:</strong> <%= formatDateTime(announcement.expiredDate) %></h5>
               <% if (announcement.appel) { %>
               <h5><strong>Appel au: </strong><%= announcement.appel %></h5>
               <% } %>

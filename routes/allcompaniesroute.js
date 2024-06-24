@@ -6,7 +6,8 @@ router.use(express.static("public"));
 // GET route for displaying all companies with filters and pagination
 router.get("/", async (req, res) => {
   try {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     const { page = 1, location, domain, search } = req.query;
     const limit = 12; // Number of companies per page
 
@@ -42,12 +43,21 @@ router.get("/", async (req, res) => {
       domain,
       search,
       locations, selectedLocation: req.query.location,
-      domains,selectedDomain: req.query.domain, isUser
+      domains,selectedDomain: req.query.domain, isUser,nonce
     });
   } catch (err) {
     console.error(err);
     return res.redirect("/404");
   }
 });
-
+router.get("/delete/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Company.findByIdAndDelete(id);
+    return res.redirect("/allcompanies");
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error deleting company" });
+  }
+});
 module.exports = router;

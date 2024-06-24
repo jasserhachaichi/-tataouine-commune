@@ -5,6 +5,7 @@ router.use(express.static("public"));
 
 
 router.get('/', async (req, res) => {
+    const nonce = res.locals.nonce;
     let query = {};
     const { search, page } = req.query;
     const perPage = 10; // Number of forms per page
@@ -33,7 +34,7 @@ router.get('/', async (req, res) => {
             formData: allFormData,
             currentPage: pageNumber,
             totalPages: Math.ceil(await FormData.countDocuments(query) / perPage),
-            search: search,
+            search: search,nonce
         });
     } catch (error) {
         console.error('Error fetching form data:', error);

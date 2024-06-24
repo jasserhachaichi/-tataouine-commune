@@ -4,6 +4,7 @@ const User = require('../models/User');
 const nodemailer = require('nodemailer');
 const transporter = require('../config/nodemailer');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 router.use(express.static("public"));
 
 
@@ -18,17 +19,20 @@ function validatePassword(password) {
 }
 
 router.get("/", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
-        const users = await User.find();
-        return res.render("dashboard/users", { users, isUser });
+        // Fetch users whose position is not "admin" and exclude the password field
+        const users = await User.find({ position: { $ne: 'admin' } }, '-password');
+        return res.render("dashboard/users", { users, isUser, nonce });
 
     } catch (error) {
         return res.redirect("/404");
     }
 });
 router.get("/admin", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         // Find the admin user
         const adminUser = await User.findOne({ position: 'admin' });
@@ -40,7 +44,7 @@ router.get("/admin", async (req, res) => {
         }
 
         // Render the admin dashboard template and pass the admin user data to it
-        return res.render("dashboard/admin", { adminUser, isUser });
+        return res.render("dashboard/admin", { adminUser, isUser, nonce });
 
     } catch (error) {
         // If an error occurs, redirect to a 404 page or handle it as you see fit
@@ -51,10 +55,14 @@ router.get("/admin", async (req, res) => {
 
 
 router.get("/delete/:userId", async (req, res) => {
+    const idu = req.params.userId;
+    console.log(idu);
     try {
-        //const user = await User.findById(req.params.userId);
-        await User.deleteOne({ _id: req.params.userId });
-
+        if (mongoose.Types.ObjectId.isValid(idu)) {
+            //return res.status(400).json({ message: "Invalid user ID format" });
+            //const user = await User.findById(req.params.userId);
+            await User.deleteOne({ _id: idu });
+        }
         return res.redirect("/users");
     } catch (error) {
         //console.error(error);
@@ -65,6 +73,11 @@ router.get("/delete/:userId", async (req, res) => {
 router.post('/key/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
+        // Validate userId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: "Invalid user ID format" });
+        }
+
         const { 'password-id-column': passwordIdColumn } = req.body;
         // Check if user exists
         const existingUser = await User.findOne({ _id: userId });
@@ -111,6 +124,7 @@ router.post('/key/:userId', async (req, res) => {
 
 
 router.post("/forgot-password", async (req, res) => {
+    console.log("test 1 2 3 ");
     try {
         const adminUser = await User.findOne({ position: 'admin' });
 
@@ -186,7 +200,7 @@ router.post('/updateadmin', async (req, res) => {
                     from: process.env.sendermail,
                     to: destemail,
                     subject: '(No Reply) Tataouine commune Platform',
-                    text:text
+                    text: text
                 };
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
@@ -198,7 +212,7 @@ router.post('/updateadmin', async (req, res) => {
                     }
                 });
             } else {
-                return res.status(400).json({ errors:'Old password incorrect'});
+                return res.status(400).json({ errors: 'Old password incorrect' });
             }
 
 

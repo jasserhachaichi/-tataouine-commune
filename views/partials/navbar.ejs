@@ -76,7 +76,7 @@
 </nav>
 
 
-<script>
+<script nonce="<%= nonce %>">
   /* const activePage = window.location.pathname;
 const navLinks = document.querySelectorAll('#topnavbar a').forEach(link => {
   if((link.href.includes(`${activePage}`)) && (activePage.toString() !== "/")){
@@ -84,7 +84,7 @@ const navLinks = document.querySelectorAll('#topnavbar a').forEach(link => {
   }
 }) */
 </script>
-<script>
+<script nonce="<%= nonce %>">
   document.addEventListener('DOMContentLoaded', () => {
     const activePage = window.location.pathname;
     const navLinks = document.querySelectorAll('#topnavbar .collapse a');

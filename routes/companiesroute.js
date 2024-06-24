@@ -5,6 +5,7 @@ router.use(express.static("public"));
 
 // GET route for displaying all companies with filters and pagination
 router.get("/", async (req, res) => {
+  const nonce = res.locals.nonce;
   try {
     const { page = 1, location, domain, search } = req.query;
     const limit = 12; // Number of companies per page
@@ -41,7 +42,7 @@ router.get("/", async (req, res) => {
       domain,
       search,
       locations, selectedLocation: req.query.location,
-      domains,selectedDomain: req.query.domain,
+      domains,selectedDomain: req.query.domain,nonce
     });
   } catch (err) {
     console.error(err);

@@ -8,7 +8,8 @@ router.use(express.static("public"));
 
 // GET route for rendering all announcements
 router.get("/", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -29,15 +30,15 @@ router.get("/", async (req, res) => {
         const skip = (pageNumber - 1) * perPage;
 
         const announcements = await Announcement.find(query)
-        .sort({ createdAt: -1 })
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
-        
-        return res.render("dashboard/allposts", { 
+
+        return res.render("dashboard/allposts", {
             announcements: announcements,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
-            search: search, isUser
+            search: search, isUser, nonce
         });
     } catch (err) {
         return res.redirect("/404");
@@ -56,11 +57,30 @@ router.get("/delete/:id", async (req, res) => {
     try {
         // Find the Announcement by ID
         const announcementToDelete = await Announcement.findById(announcementId);
-        // Delete Announcement file
-        fs.unlinkSync(path.join(__dirname, '../attachments',announcementToDelete.path));
-        
+
+        if (announcementToDelete.path != "/images/Default-thumbnail.png") {
+            const thimg = path.join(__dirname, '../attachments', announcementToDelete.path);
+            if (fs.existsSync(thimg)) {
+                //console.log(thimg);
+                // Delete Announcement file
+                fs.unlinkSync(thimg);
+            }
+        }
+
+
+
+
+        announcementToDelete.attachments.forEach(attachment => {
+            //console.log("attachement:"   + __dirname+'../attachments'+attachment.path );
+            const attachmentPath = path.join(__dirname, '../attachments', attachment.path);
+            //console.log(fs.existsSync(attachmentPath));
+            if (fs.existsSync(attachmentPath)) {
+                fs.unlinkSync(attachmentPath);
+            }
+        });
+
         // Delete Announcement from the database
-        await Announcement.findByIdAndDelete(announcementId);
+         await Announcement.findByIdAndDelete(announcementId);
 
         return res.redirect("/allposts");
     } catch (err) {

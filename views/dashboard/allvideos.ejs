@@ -66,7 +66,7 @@
 </style>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -131,7 +131,7 @@
                       </div>
    -->
                       <!-- Loop through videos and display each video card -->
-                  <% if (videos.length > 0) { %>
+                      <% if (videos.length > 0) { %>
                       <% videos.forEach(video => { %>
                       <div class="col-md-4 col-sm-12">
                         <div class="card elm shadow-costum p-3 mb-5 rounded">
@@ -139,8 +139,8 @@
                             <a href="<%= video.url %>" class="mfp-iframe position-relative">
                               <!-- Display video thumbnail -->
                               <% if (video.thumbnail !== "images/Default-profile.jpg") { %>
-                                <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
-                                <% }%>
+                              <img class="card-img-top rounded shadow-costum" src="<%= video.thumbnail %>">
+                              <% }%>
 
                               <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
                                 <i class="bi bi-play-circle-fill"></i>
@@ -158,9 +158,9 @@
                         </div>
                       </div>
                       <% }); %>
-                  <% } else { %>
-                  <p>Aucune video disponible</p>
-                  <% } %>
+                      <% } else { %>
+                      <p>Aucune video disponible</p>
+                      <% } %>
 
 
                     </div>
@@ -173,24 +173,24 @@
                   <!-- Pagination Links -->
                   <nav aria-label="Page navigation example">
                     <ul class="pagination pagination-primary  justify-content-center">
-                        <% if (currentPage > 1) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
-                            </li>
-                        <% } %>
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
-                            </li>
-                        <% } %>
-                        <% if (currentPage < totalPages) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
-                            </li>
-                        <% } %>
+                      <% if (currentPage > 1) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                      </li>
+                      <% } %>
+                      <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                      </li>
+                      <% } %>
+                      <% if (currentPage < totalPages) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                      </li>
+                      <% } %>
                     </ul>
-                </nav>
-                
+                  </nav>
+
 
                 </div>
               </div>
@@ -226,11 +226,11 @@
 
   <%- include('./commun/scripts') %>
   <!-- Magnific Popup -->
-  <script src="plugin/Magnific-Popup/jquery.magnific-popup.min.js"></script>
+  <script nonce="<%= nonce %>" src="plugin/Magnific-Popup/jquery.magnific-popup.min.js"></script>
 
-  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
 
-  <script>
+  <script nonce="<%= nonce %>">
     $('#allvids').each(function() {
       $(this).magnificPopup({
         delegate: '.mfp-iframe', // the selector for gallery item

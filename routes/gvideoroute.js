@@ -4,6 +4,7 @@ const Videog = require('../models/Videog');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -31,7 +32,7 @@ router.get("/", async (req, res) => {
             videos: videos,
             currentPage: pageNumber,
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
-            search: search
+            search: search,nonce
         });
     } catch (err) {
         res.redirect("/404");

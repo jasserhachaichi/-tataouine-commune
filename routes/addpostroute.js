@@ -5,7 +5,16 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const FormData = require('./../models/FormData');
+
+const mongoose = require('mongoose');
+
+
 router.use(express.static("public"));
+
+function getRandomNumber(maxLength) {
+    const max = Math.pow(10, maxLength) - 1;
+    return Math.floor(Math.random() * max);
+}
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -14,7 +23,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname);
-        cb(null, file.fieldname + '-' + Date.now() + ext);
+        const randomNum = getRandomNumber(7);
+        cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
     }
 });
 
@@ -22,8 +32,9 @@ const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name
 
 // GET route for rendering the form
 router.get("/", (req, res) => {
-    const isUser = req.user.userRole;
-    res.render("dashboard/addpost", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    res.render("dashboard/addpost", { isUser, nonce });
 });
 
 // POST route for submitting the form
@@ -45,10 +56,14 @@ router.post('/', async (req, res) => {
         var formSource = req.body.formSource;
 
         if (formSource && formSource == "LF" && formLink && formLink.trim().length > 0) {
-            if (formLink && formLink.trim().length > 0 ) {
-                const formDataExists = await FormData.exists({ _id: formLink });
-                if (!formDataExists) {
+            if (formLink && formLink.trim().length > 0) {
+                if (!mongoose.Types.ObjectId.isValid(formLink)) {
                     errors.push("Formulaire locale n'est pas trouver");
+                } else {
+                    const formDataExists = await FormData.exists({ _id: formLink });
+                    if (!formDataExists) {
+                        errors.push("Formulaire locale n'est pas trouver");
+                    }
                 }
             }
         }
@@ -75,14 +90,14 @@ router.post('/', async (req, res) => {
         try {
             var newPath;
             if (req.files['filepond'] && req.files['filepond'].length > 0) {
-                 newPath = req.files['filepond'][0].path.replace(/\\/g, '/').replace('attachments/', '/');
+                newPath = req.files['filepond'][0].path.replace(/\\/g, '/').replace('attachments/', '/');
             }
             // Create new announcement instance
             const newAnnouncement = new Announcement({
                 title: titleColumn,
                 appel: appel,
                 expiredDate: expiredDate,
-                path:  newPath,
+                path: newPath,
                 details: req.body.summernote,
                 attachments: attachaaray,
             });
@@ -99,7 +114,7 @@ router.post('/', async (req, res) => {
 
             }
 
-            console.log(newAnnouncement);
+            //console.log(newAnnouncement);
 
 
 

@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>"  src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -130,71 +130,10 @@
 
 
   <%- include('./commun/scripts') %>
-  <script src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-  <script src="assets/extensions/filepond/filepond.js"></script>
-  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
-
-  <script>
-    function showMessage(msg, duration, color) {
-      Toastify({
-        text: msg,
-        close: true,
-        duration: duration,
-        gravity: "bottom",
-        position: "right",
-        backgroundColor: color,
-      }).showToast()
-    }
-
-    function clearFormFields() {
-      var fileInput = document.getElementById("filepondinput");
-      if (fileInput) {
-        // Supprime tous les fichiers sélectionnés
-        pond.removeFiles();
-      }
-    }
-
-    // FilePond plugin registration and initialization
-    FilePond.registerPlugin(FilePondPluginFileValidateSize);
-    const pond = FilePond.create(document.getElementById("filepondinput"), {
-      maxFileSize: '10MB',
-      credits: null,
-    });
-
-    document.getElementById('Form').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      $('#submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating...');
-
-      const files = pond.getFiles();
-      const formData = new FormData(this);
-
-      if (files.length > 0) {
-        formData.append('filepond', files[0].file);
-      }
-
-
-
-      fetch('/updateachievement', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          clearFormFields();
-          showMessage(data.success, -1, "#4fbe87");
-          $('#submit-button').prop('disabled', false).html('Update');
-        })
-        .catch(error => {
-          showMessage(error, 3000, "#dc3545");
-          $('#submit-button').prop('disabled', false).html('Update');
-        });
-
-    });
-  </script>
-
-
-
+  <script nonce="<%= nonce %>"  src="assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
+  <script nonce="<%= nonce %>"  src="assets/extensions/filepond/filepond.js"></script>
+  <script nonce="<%= nonce %>"  src="assets/extensions/toastify-js/src/toastify.js"></script>
+  <script nonce="<%= nonce %>" src="pages/jsach.js"></script>
 </body>
 
 </html>

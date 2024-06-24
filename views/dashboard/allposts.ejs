@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -49,50 +49,50 @@
                   <div class="container">
                     <div class="row">
                       <% announcements.forEach(announcement => { %>
-                        <!-- Card for each announcement -->
-                        <div class="col-md-6 col-sm-12">
-                          <div class="card">
-                            <a href="/allannouncement/<%= announcement._id %>" class="card-content">
-                              <!-- Display announcement details -->
-                              <img class="card-img-bottom img-fluid" src="<%= announcement.path %>" alt="Card image cap" style="height: 20rem; object-fit: cover;">
-                              <div class="card-body">
-                                <h4 class="card-title"><%= announcement.title %></h4>
-                                <p><%= announcement.appel %></p>
-                                <p>Posted Date: <small class="text-muted"><%= announcement.createdAt.toDateString() %></small></p>
-                                <p>Expired Date: <small class="text-muted"><%= announcement.expiredDate.toDateString() %></small></p>
-                              </div>
-                              <ul class="list-group list-group-flush">
-                                <a href="/allposts/delete/<%= announcement._id %>" class="btn icon icon-left btn-danger"><i class="bi bi-trash-fill"></i>Delete</a>
-                              </ul>
-                            </a>
-                          </div>
+                      <!-- Card for each announcement -->
+                      <div class="col-md-6 col-sm-12">
+                        <div class="card">
+                          <a href="/allannouncement/<%= announcement._id %>" class="card-content">
+                            <!-- Display announcement details -->
+                            <img class="card-img-bottom img-fluid" src="<%= announcement.path %>" alt="Card image cap" style="height: 20rem; object-fit: cover;">
+                            <div class="card-body">
+                              <h4 class="card-title"><%= announcement.title %></h4>
+                              <p><%= announcement.appel %></p>
+                              <p>Posted Date: <small class="text-muted"><%= announcement.createdAt.toDateString() %></small></p>
+                              <p>Expired Date: <small class="text-muted"><%= announcement.expiredDate.toDateString() %></small></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                              <a href="/allposts/delete/<%= announcement._id %>" class="btn icon icon-left btn-danger"><i class="bi bi-trash-fill"></i>Delete</a>
+                            </ul>
+                          </a>
                         </div>
+                      </div>
                       <% }) %>
                     </div>
                   </div>
                   <!-- Pagination Links -->
                   <nav aria-label="Page navigation example">
                     <ul class="pagination pagination-primary  justify-content-center">
-                        <% if (currentPage > 1) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
-                            </li>
-                        <% } %>
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
-                            </li>
-                        <% } %>
-                        <% if (currentPage < totalPages) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
-                            </li>
-                        <% } %>
+                      <% if (currentPage > 1) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                      </li>
+                      <% } %>
+                      <% for (let i = 1; i <= totalPages; i++) { %>
+                      <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                      </li>
+                      <% } %>
+                      <% if (currentPage < totalPages) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                      </li>
+                      <% } %>
                     </ul>
-                </nav>
-                <% } else { %>
+                  </nav>
+                  <% } else { %>
                   <p>Aucune annonce disponible</p>
-                <% } %>     
+                  <% } %>
 
                 </div>
               </div>
@@ -110,8 +110,7 @@
 
   <%- include('./commun/scripts') %>
 
-  <script src="assets/extensions/toastify-js/src/toastify.js"></script>
-
+  <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
 
 
 

@@ -12,6 +12,7 @@ router.use(express.static("public"));
 const sharp = require('sharp');
 
 router.get("/", async (req, res) => {
+  const nonce = res.locals.nonce;
   try {
     // Fetch the three most recent blog posts
     const recentBlogs = await Blog.find({}, 'coverIMGpath _id title subtitle autor.fullname autor.expertise autor.autorIMGpath createdAt')
@@ -43,7 +44,7 @@ router.get("/", async (req, res) => {
         // Fetch achievement data from the database
         const achievement = await Achievement.findOne({});
 
-    return res.render("home", { recentBlogs, recentImages:recentImages, resizedImages: resizedImages, totalImagesCount,achievement });
+    return res.render("home", { recentBlogs, recentImages:recentImages, resizedImages: resizedImages, totalImagesCount,achievement,nonce });
 
 
 

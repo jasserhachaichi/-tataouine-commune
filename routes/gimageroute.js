@@ -6,6 +6,7 @@ const sharp = require('sharp');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
+  const nonce = res.locals.nonce;
   try {
     const page = req.query.page;
     const perPage = 20; // Number of images per page
@@ -42,7 +43,7 @@ router.get("/", async (req, res) => {
 
 
 
-    return res.render("IMGgallery", { images: resizedImages, currentPage: pageNumber, totalPages });
+    return res.render("IMGgallery", { images: resizedImages, currentPage: pageNumber, totalPages,nonce });
   } catch (error) {
     console.error(error);
     return res.redirect("/404");

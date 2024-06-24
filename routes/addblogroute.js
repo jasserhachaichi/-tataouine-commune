@@ -6,6 +6,10 @@ const path = require('path');
 const fs = require('fs');
 //const { Console } = require("console");
 router.use(express.static("public"));
+function getRandomNumber(maxLength) {
+    const max = Math.pow(10, maxLength) - 1;
+    return Math.floor(Math.random() * max);
+  }
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -13,19 +17,20 @@ const storage = multer.diskStorage({
         cb(null, 'attachments/Blog/');
     },
     filename: function (req, file, cb) {
-        console.log(file.originalname);
-            const ext = path.extname(file.originalname);
-            cb(null, file.fieldname + '-' + Date.now() + ext);
+        const ext = path.extname(file.originalname);
+        const randomNum = getRandomNumber(7);
+        cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
     }
-    
+
 });
 
 const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }, { name: 'filepond3' }]);
 
 // GET route for rendering the form
 router.get("/", (req, res) => {
-    const isUser = req.user.userRole;
-    return res.render("dashboard/addblog", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    return res.render("dashboard/addblog", { isUser,nonce });
 });
 
 // POST route for submitting the form

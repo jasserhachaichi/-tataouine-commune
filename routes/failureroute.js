@@ -3,8 +3,9 @@ const router = express.Router();
 router.use(express.static("public"));
 
 router.get("/", (req, res) => {
+    const nonce = res.locals.nonce;
     if (req.cookies.visitor) {
-        return res.render("failure");
+        return res.render("failure",{nonce});
     } else {
         return res.redirect("/404");
     }

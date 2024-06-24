@@ -26,6 +26,7 @@ function formatDateC(originalDate) {
 }
 
 router.get("/", async (req, res) => {
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -56,7 +57,7 @@ router.get("/", async (req, res) => {
             currentPage: pageNumber,
             totalPages: Math.ceil(await Blog.countDocuments(query) / perPage),
             search: search,
-            isNewBlog: isNewBlog
+            isNewBlog: isNewBlog,nonce
         });
     } catch (err) {
         console.error(err);
@@ -66,6 +67,8 @@ router.get("/", async (req, res) => {
 router.get('/:id', async (req, res) => {
     const blogId = req.params.id;
     const limit = 2;
+
+    const nonce = res.locals.nonce;
 
     try {
         //const blog = await Blog.findById(blogId).select('-comments');
@@ -99,7 +102,7 @@ router.get('/:id', async (req, res) => {
         const nextBlog = await Blog.findOne({ _id: { $gt: blogId } }).select('title _id').sort({ _id: 1 });
         const prevBlog = await Blog.findOne({ _id: { $lt: blogId } }).select('title _id').sort({ _id: -1 });
 
-        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments });
+        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments,nonce });
     } catch (err) {
         console.error(err);
         return res.status(500).send('Internal Server Error');

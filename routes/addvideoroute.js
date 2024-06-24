@@ -6,6 +6,11 @@ const multer = require('multer');
 const path = require('path');
 router.use(express.static("public"));
 
+function getRandomNumber(maxLength) {
+    const max = Math.pow(10, maxLength) - 1;
+    return Math.floor(Math.random() * max);
+  }
+
 /* const ffmpeg = require('fluent-ffmpeg');*/
 const fs = require('fs');
 
@@ -32,15 +37,18 @@ const storage = multer.diskStorage({
         cb(null, 'attachments/VIDuploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Use original file name
+        const ext = path.extname(file.originalname);
+        const randomNum = getRandomNumber(7);
+        cb(null, randomNum + file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Use original file name
     }
 });
 const upload = multer({ storage: storage }).fields([{ name: 'video-column', maxCount: 1 }, { name: 'thumbnail-column', maxCount: 1 }]);
 const uploady = multer({ storage: storage });
 
 router.get("/", (req, res) => {
-    const isUser = req.user.userRole;
-    return res.render("dashboard/addvideo", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    return res.render("dashboard/addvideo", { isUser ,nonce});
 });
 
 
@@ -71,15 +79,15 @@ router.post('/local', async (req, res) => {
             errors.push('Video is required');
         }
         var thumbnailPath;
-        if(thumbnailFile &&  (thumbnailFile.length > 0)){
+        if (thumbnailFile && (thumbnailFile.length > 0)) {
             thumbnailPath = thumbnailFile[0].path.replace(/\\/g, '/').replace('attachments/', '/');
-        }else{
+        } else {
             thumbnailPath = '/images/Default-thumbnail.png';
         }
-        
-            
-         
-        
+
+
+
+
 
         if (errors.length > 0) {
             // Delete uploaded files if any error occurred
@@ -132,13 +140,13 @@ router.post('/youtube', uploady.single('thumbnail-column'), async (req, res) => 
         if (!description) errors.push('Description is required');
         if (!url) errors.push('URL is required');
 
-        var thumbnailPath = thumbnailFile && thumbnailFile.path? thumbnailFile.path.replace(/\\/g, '/').replace('attachments/', '/') : '/images/Default-thumbnail.png';
+        var thumbnailPath = thumbnailFile && thumbnailFile.path ? thumbnailFile.path.replace(/\\/g, '/').replace('attachments/', '/') : '/images/Default-thumbnail.png';
 
         //console.log(thumbnailPath);
         //console.log("jassour 2");
 
         if (errors.length > 0) {
-            if(thumbnailPath != '/images/Default-thumbnail.png'){
+            if (thumbnailPath != '/images/Default-thumbnail.png') {
                 fs.unlinkSync(req.file.path);
             }
             return res.status(400).json({ errors });
@@ -150,7 +158,7 @@ router.post('/youtube', uploady.single('thumbnail-column'), async (req, res) => 
             url,
             thumbnail: thumbnailPath
         });
-         await video.save();
+        await video.save();
         return res.json({ message: 'Video uploaded successfully!' });
     } catch (error) {
         console.error(error);

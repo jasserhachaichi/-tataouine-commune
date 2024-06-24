@@ -7,6 +7,7 @@ router.use(express.static("public"));
 
 // GET route for rendering all announcements
 router.get("/", async (req, res) => {
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page, sortOrder, statusFilter } = req.query;
@@ -65,7 +66,7 @@ router.get("/", async (req, res) => {
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
             search: search,
             sortOrder: sortOrder,
-            statusFilter: statusFilter
+            statusFilter: statusFilter,nonce
         });
 
     } catch (err) {
@@ -74,6 +75,7 @@ router.get("/", async (req, res) => {
 });
 // GET route for showing Announcement content by ID
 router.get("/:id", async (req, res) => {
+    const nonce = res.locals.nonce;
     try {
         const announcementId = req.params.id; // Get the announcement ID from the request parameters
 
@@ -90,7 +92,7 @@ router.get("/:id", async (req, res) => {
         }
 
         // Render the EJS template with the announcement data
-        return res.render("announcement", { announcement });
+        return res.render("announcement", { announcement,nonce });
     } catch (err) {
         console.error(err);
         return res.redirect("/404");

@@ -18,7 +18,7 @@
 </style>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -42,139 +42,110 @@
           </div>
         </div>
         <section class="section">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h1><%= blog.title %></h1>
-                    </div>
-                </div>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h1><%= blog.title %></h1>
+              </div>
             </div>
-            <form action="/allblogs/<%= blog._id %>" method="GET" class="container">
-                <div class="col-8 mx-auto">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="search" placeholder="Search in comments..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search %>">
-                        <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+          <% if (comments && comments.length > 0) { %>
+          <form action="/allblogs/<%= blog._id %>" method="GET" class="container">
+            <div class="col-8 mx-auto">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search" placeholder="Search in comments..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search %>">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+          <% comments.forEach(commentObj => { %>
+          <% const comment = commentObj.principale_comment; %>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="comment-widgets">
+                  <div class="parentcomment d-flex flex-row comment-row m-t-0" data-bs-toggle="collapse" data-bs-target="#collapseExample-<%= comment.idP %>" aria-expanded="false" aria-controls="collapseExample-<%= comment.idP %>">
+                    <div class="p-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                      <h6 class="font-medium"><%= comment.name %> (<%= comment.email %>)</h6>
+                      <span class="m-b-15 d-block"><%= comment.comment %></span>
+                      <div><span class="text-muted float-right"><%= comment.date_comment.toDateString() %></span></div>
+                      <% if (comment.website) { %>
+                      <div>Website: <span class="float-right"><%= comment.website %></span></div>
+                      <% } %>
                     </div>
+                  </div>
+                  <div class="mt-3 mx-5 px-4">
+                    <a href="/allblogs/comments/PC/<%= blog._id %>/<%= comment.idP %>?search=<%= search %>" class="btn btn-danger">Delete</a>
+                  </div>
                 </div>
-            </form>
-        
-            <% comments.forEach(commentObj => { %>
-            <% const comment = commentObj.principale_comment; %>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
+                <hr>
+                <div class="collapse" id="collapseExample-<%= comment.idP %>">
+                  <div class="row d-flex justify-content-center mt-100 mb-100">
+                    <div class="col-lg-9">
+                      <div class="card">
+                        <% if (comment.replies_comments.length > 0) { %>
                         <div class="comment-widgets">
-                            <div class="parentcomment d-flex flex-row comment-row m-t-0" data-bs-toggle="collapse" data-bs-target="#collapseExample-<%= comment.idP %>" aria-expanded="false" aria-controls="collapseExample-<%= comment.idP %>">
-                                <div class="p-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
-                                <div class="comment-text w-100">
-                                    <h6 class="font-medium"><%= comment.name %> (<%= comment.email %>)</h6>
-                                    <span class="m-b-15 d-block"><%= comment.comment %></span>
-                                    <div><span class="text-muted float-right"><%= comment.date_comment.toDateString() %></span></div>
-                                    <% if (comment.website) { %>
-                                    <div>Website: <span class="float-right"><%= comment.website %></span></div>
-                                    <% } %>
-                                </div>
+                          <% comment.replies_comments.forEach(reply => { %>
+                          <div class="d-flex flex-row comment-row my-5 border-start">
+                            <div class="px-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                              <h6 class="font-medium"><%= reply.to %><i class="bi bi-caret-left-fill mx-3"></i><%= reply.name %> (<%= reply.email %>) </h6>
+                              <span class="m-b-15 d-block"><%= reply.comment %></span>
+                              <div><span class="text-muted float-right"><%= reply.date_reply.toDateString() %></span></div>
+                              <% if (reply.website) { %>
+                              <div>Website: <span class="float-right"><%= reply.website %></span></div>
+                              <% } %>
+                              <div class="mt-3">
+                                <a href="/allblogs/comments/RC/<%= blog._id %>/<%= reply.idR %>?search=<%= search %>&page=<%= page %>" class="btn btn-danger">Delete</a>
+                              </div>
                             </div>
-                            <div class="mt-3 mx-5 px-4">
-                                <a   href="/allblogs/comments/PC/<%= blog._id %>/<%= comment.idP %>?search=<%= search %>"  class="btn btn-danger" onclick="deletefunc('<%= comment.idP %>')">Delete</a>
-                            </div>
+                          </div>
+                          <% }); %>
                         </div>
-                        <hr>
-                        <div class="collapse" id="collapseExample-<%= comment.idP %>">
-                            <div class="row d-flex justify-content-center mt-100 mb-100">
-                                <div class="col-lg-9">
-                                    <div class="card">
-                                        <% if (comment.replies_comments.length > 0) { %>
-                                        <div class="comment-widgets">
-                                            <% comment.replies_comments.forEach(reply => { %>
-                                            <div class="d-flex flex-row comment-row my-5 border-start">
-                                                <div class="px-2"><img src="/images/Default-profile.jpg" alt="user" width="50" class="rounded-circle"></div>
-                                                <div class="comment-text w-100">
-                                                    <h6 class="font-medium"><%= reply.to %><i class="bi bi-caret-left-fill mx-3"></i><%= reply.name %> (<%= reply.email %>) </h6>
-                                                    <span class="m-b-15 d-block"><%= reply.comment %></span>
-                                                    <div><span class="text-muted float-right"><%= reply.date_reply.toDateString() %></span></div>
-                                                    <% if (reply.website) { %>
-                                                    <div>Website: <span class="float-right"><%= reply.website %></span></div>
-                                                    <% } %>
-                                                    <div class="mt-3">
-                                                        <a href="/allblogs/comments/RC/<%= blog._id %>/<%= reply.idR %>?search=<%= search %>&page=<%= page %>" class="btn btn-danger">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }); %>
-                                        </div>
-                                        <% } %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <% } %>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-            <% }); %>
-        
+          </div>
+          <% }); %>
+
+          <div class="container">
+            <div class="row">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-primary justify-content-center">
+                  <% if (currentPage > 1) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                  </li>
+                  <% } %>
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                  <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                  </li>
+                  <% } %>
+                  <% if (currentPage < totalPages) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                  </li>
+                  <% } %>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+            <% } else { %>
             <div class="container">
-                <div class="row">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination pagination-primary justify-content-center">
-                            <% if (currentPage > 1) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
-                            </li>
-                            <% } %>
-                            <% for (let i = 1; i <= totalPages; i++) { %>
-                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
-                            </li>
-                            <% } %>
-                            <% if (currentPage < totalPages) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
-                            </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
+              <div class="row">
+                <p>Aucune commentaire.</p>
+              </div>
             </div>
-        
-            <div class="modal fade text-left" id="editpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <form id="editform" class="modal-content" method="post" data-parsley-validate>
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel34">Edit Account</h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
-                            </button>
-                        </div>
-        
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="password-id-column" class="form-label">Password</label>
-                                            <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="cpassword-id-column" class="form-label">Confirm Password</label>
-                                            <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirm Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-equalto="#password-id-column" data-parsley-error-message="Passwords must match." />
-                                        </div>
-                                    </div>
-        
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Close</button>
-                                <button id="submit-button" type="submit" class="btn btn-primary ms-1">Edit</button>
-                            </div>
-        
-                        </div>
-                    </form>
-                </div>
+            <% } %>
         </section>
-        
+
         <%- include('./partials/footer') %>
       </div>
 
@@ -186,11 +157,11 @@
 
 
 
-    <script src="assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
-    <script src="assets/static/js/pages/simple-datatables.js"></script>
-    <script src="assets/extensions/parsleyjs/parsley.min.js"></script>
-    <script src="assets/static/js/pages/parsley.js"></script>
-    <script src="assets/extensions/toastify-js/src/toastify.js"></script>
+    <script nonce="<%= nonce %>" src="assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+    <!--     <script nonce="<%= nonce %>"  src="assets/static/js/pages/simple-datatables.js"></script> -->
+    <!--     <script nonce="<%= nonce %>"  src="assets/extensions/parsleyjs/parsley.min.js"></script> -->
+    <!--     <script nonce="<%= nonce %>"  src="assets/static/js/pages/parsley.js"></script> -->
+    <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
 
 </body>
 

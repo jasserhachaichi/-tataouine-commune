@@ -16,7 +16,8 @@ function isNewBlog(createdAt) {
 }
 
 router.get("/", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         let query = {};
         const { search, page } = req.query;
@@ -47,7 +48,7 @@ router.get("/", async (req, res) => {
             currentPage: pageNumber,
             totalPages: Math.ceil(await Blog.countDocuments(query) / perPage),
             search: search,
-            isNewBlog: isNewBlog, isUser
+            isNewBlog: isNewBlog, isUser, nonce
         });
     } catch (err) {
         console.error(err);
@@ -103,12 +104,13 @@ router.get("/delete/:id", async (req, res) => {
     }
 });
 router.get('/:id', async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         const blogId = req.params.id;
         //let query = {};
         var { search, page } = req.query;
-        const perPage = 6; 
+        const perPage = 6;
         var pageNumber = parseInt(page) || 1;
 
         if (search) {
@@ -140,7 +142,7 @@ router.get('/:id', async (req, res) => {
         const totalComments = filteredComments.length;
         const totalPages = Math.ceil(totalComments / perPage);
 
-        if(totalPages < pageNumber){
+        if (totalPages < pageNumber) {
             pageNumber = 1;
             page = 1;
         }
@@ -153,7 +155,7 @@ router.get('/:id', async (req, res) => {
             currentPage: pageNumber,
             totalPages,
             search,
-            page, isUser
+            page, isUser, nonce
         });
     } catch (error) {
         console.error(error);
@@ -181,16 +183,16 @@ router.get('/comments/PC/:blogId/:idP', async (req, res) => {
         // Save the updated blog
         await blog.save();
 
-                // Construct the URL with query parameters
-                let redirectUrl = `/allblogs/${blogId}`;
-                const queryParams = [];
-                if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
-                if (queryParams.length > 0) {
-                    redirectUrl += `?${queryParams.join('&')}`;
-                }
-                //console.log(redirectUrl);
-        
-                return res.redirect(redirectUrl);
+        // Construct the URL with query parameters
+        let redirectUrl = `/allblogs/${blogId}`;
+        const queryParams = [];
+        if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
+        if (queryParams.length > 0) {
+            redirectUrl += `?${queryParams.join('&')}`;
+        }
+        //console.log(redirectUrl);
+
+        return res.redirect(redirectUrl);
     } catch (error) {
         console.error(error);
         return res.status(500).send('Server Error');
@@ -230,17 +232,17 @@ router.get('/comments/RC/:blogId/:idR', async (req, res) => {
         // Save the updated blog
         await blog.save();
 
-                // Construct the URL with query parameters
-                let redirectUrl = `/allblogs/${blogId}`;
-                const queryParams = [];
-                if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
-                if (page) queryParams.push(`page=${encodeURIComponent(page)}`);
-                if (queryParams.length > 0) {
-                    redirectUrl += `?${queryParams.join('&')}`;
-                }
-                //console.log(redirectUrl);
-        
-                return res.redirect(redirectUrl);
+        // Construct the URL with query parameters
+        let redirectUrl = `/allblogs/${blogId}`;
+        const queryParams = [];
+        if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
+        if (page) queryParams.push(`page=${encodeURIComponent(page)}`);
+        if (queryParams.length > 0) {
+            redirectUrl += `?${queryParams.join('&')}`;
+        }
+        //console.log(redirectUrl);
+
+        return res.redirect(redirectUrl);
     } catch (error) {
         console.error(error);
         return res.status(500).send('Server Error');

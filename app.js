@@ -1,4 +1,6 @@
 const express = require("express");
+const helmet = require("helmet");
+const crypto = require("crypto");
 const path = require("path");
 // Init App
 const app = express();
@@ -12,6 +14,31 @@ app.set("view engine", "ejs");
 const connectToDB = require("./config/db");
 // Connection To Database
 connectToDB();
+// Enable all default Helmet protections
+app.use(helmet());
+// Middleware to generate and attach nonce to response locals
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomBytes(16).toString("base64"); // Generate nonce
+    next();
+});
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"
+                , "'unsafe-inline'"
+                , (req, res) => `'nonce-${res.locals.nonce}'`,
+                , "https://formbuilder.online"
+
+            ],
+            frameSrc: ["'self'", "https://www.google.com", "www.youtube.com",], // Allow framing from Google
+            imgSrc: ["'self'", "data:", "https://formbuilder.online", "i.ytimg.com", "https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"],
+            // Add other directives as needed (e.g., imgSrc, connectSrc, etc.)
+        },
+        // Set reportOnly to true during testing to monitor violations without blocking
+        reportOnly: false,
+    })
+);
 
 
 
@@ -37,7 +64,7 @@ app.use(session({
     secret: process.env.TOKEN_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Change secure to true if using HTTPS
+    cookie: { secure: true } // Change secure to true if using HTTPS
 }));
 
 // passport  for authentication google
@@ -46,12 +73,31 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/googleauth2');
 
-
+// Additional Helmet protections
+//app.use(helmet.crossOriginEmbedderPolicy());// problem: block embedded YouTube player and localhost
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.originAgentCluster());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
+// Middleware to set no-cache headers
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+});
 
 
 
 // url Routes
 app.get('/', (req, res) => {
+    console.log("bye bye3");
     res.redirect("/home");
 })
 app.use("/home", require("./routes/homeroute"));
@@ -62,44 +108,21 @@ app.get('/404', (req, res) => {
 app.get('/blog', (req, res) => {
     return res.render("blogpage");
 })
-app.get('/logout', (req, res) => {
-    // Clear the token from cookie
-    res.clearCookie('token');
-
-    // Clear the session token if it exists
-    if (req.session && req.session.token) {
-        req.session.token = null;
-    }
-
-    return res.redirect("/login");
-});
 app.use("/forms", require("./routes/formsroute"));
-app.use("/termsofuse" , require("./routes/termsofuseroute"));
+app.use("/termsofuse", require("./routes/termsofuseroute"));
 app.use("/galleryimages", require("./routes/gimageroute"));
 app.use("/galleryvideos", require("./routes/gvideoroute"));
 app.use("/contact", require("./routes/contactroute"));
 app.use("/companies", require("./routes/companiesroute"));
 app.use("/allannouncement", require("./routes/announcementroute"));
 app.use("/blogs", require("./routes/blogsroute"));
-
+app.use("/about", require("./routes/aboutroute"));
 app.use("/events", require("./routes/eventsroute"));
-const Event = require("./models/Event");
-app.get("/allevents", async (req, res) => {
-    console.log("jasser");
-    try {
-        const events = await Event.find({}, { __v: 0 });
-        return res.status(200).json({ events: events });
-    } catch (error) {
-        return res.status(500).json({ message: "Failed to fetch events", error: error.message });
-    }
-});
-
 app.use("/faq", require("./routes/faqroute"));
-app.get('/about', (req, res) => {
-    return res.render("about");
-})
+
+
 //Dashboard
-const authenticateToken = require('./middleware/authenticate');
+const authenticateToken = require('./middleware/authenticateToken.js');
 const authenticatelogin = require('./middleware/authenticatelogin');
 const checkUserRole = require("./middleware/checkUserRole");
 
@@ -140,37 +163,46 @@ app.use("/updateachievement", authenticateToken, checkUserRole, require("./route
 app.use("/createassistance", authenticateToken, checkUserRole, require("./routes/createassIstanceRoute"));
 app.use("/assistances", authenticateToken, checkUserRole, require("./routes/assIstanceRoute"));
 
-app.use("/teamform", authenticateToken , require("./routes/teamformroute"));
+app.use("/teamform", authenticateToken, require("./routes/teamformroute"));
 
 app.use("/form", /* authenticateToken, checkUserRole, */ require("./routes/formroute"));
-app.get(
-    '/auth/google/form',
-    passport.authenticate('google', {
-        scope: ['email', 'profile'],
-    })
-);
-app.get(
-    '/auth/google/callback',
-    passport.authenticate('google', {
-        successRedirect: '/auth/protected',
-        failureRedirect: '/404',
-    })
-);
-app.use('/auth/logout', (req, res) => {
-    res.clearCookie('visitor'); // Clear the visitor cookie
-    req.session.destroy();
-    res.send('See you again!');
-});
-app.get('/auth/protected', (req, res) => {
-    //console.log("2 hhhhhh");
-    //console.log(req.user);
-    const userCookie = JSON.stringify(req.user);
-    res.cookie('visitor', userCookie, { httpOnly: true, maxAge: 15 * 24 * 60 * 60 * 1000 });
-    //res.send(`Cookie set: ${userCookie}`);
-    return res.redirect("/forms");
+app.get('/auth/google/form', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+app.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/404',
+}), (req, res) => {
+    if (req.user) {
+        const visitorInfo = encodeURIComponent(JSON.stringify({
+            id: req.user.googleId,
+            name: req.user.name,
+            email: req.user.email
+        }));
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 15); // 15 days from now
+
+
+        res.cookie('visitor', visitorInfo, { httpOnly: true, secure: true, expires: expirationDate });
+        return res.redirect("/forms");
+    } else {
+        res.redirect('/auth/google/form');
+    }
 });
 
 
+
+
+
+app.get('/logout', (req, res) => {
+    // Clear the token from cookie
+    res.clearCookie('token');
+
+    // Clear the session token if it exists
+    if (req.session && req.session.token) {
+        req.session.token = null;
+    }
+
+    return res.redirect("/login");
+});
 
 
 
@@ -182,8 +214,8 @@ app.get('/auth/protected', (req, res) => {
 /* app.get('/dashhome', authenticateToken, (req, res) => {
     res.render("dashboard/home");
 }); */
-app.use("/success" , require("./routes/successroute"));
-app.use("/failure" , require("./routes/failureroute"));
+app.use("/success", require("./routes/successroute"));
+app.use("/failure", require("./routes/failureroute"));
 
 
 

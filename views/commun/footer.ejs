@@ -192,7 +192,7 @@
       <div class="row">
         <div class="col">
           <div class="footer-copyright-wrapper text-center">
-            &copy; 2024. Tous droits réservés. <a href="/termsofuse" class="link-primary primary-color-1">Conditions d'utilisation</a>, <a  href="#" class="link-primary primary-color-1" onclick="cookieSettings.showDialog()">paramètres des cookies</a>
+            &copy; 2024. Tous droits réservés. <a href="/termsofuse" class="link-primary primary-color-1">Conditions d'utilisation</a>, <a id="editpolicy" class="link-primary primary-color-1" >paramètres des cookies</a>
           </div>
           <div class="credits text-secondary text-center mt-2 fs-6">
             Designed & Developed By <a href="https://www.linkedin.com/in/jasser-hachaichi-85b469204/" class="link-secondary text-decoration-none primary-color-1 fw-bold">Jasser Hachaichi</a></span>
@@ -209,28 +209,28 @@
 
 
 <!-- Bootstrap JS bundle (includes Popper) -->
-<script src="js/bootstrap.bundle.js"></script>
+<script nonce="<%= nonce %>" src="js/bootstrap.bundle.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script nonce="<%= nonce %>" src="js/jquery-3.6.0.min.js"></script>
 
 
 <!-- lightgallery -->
-<script src="/plugin/Lightgallery/js/lightgallery.js"></script>
-<script src="/plugin/Lightgallery/js/lg-thumbnail.js"></script>
+<script nonce="<%= nonce %>" src="/plugin/Lightgallery/js/lightgallery.js"></script>
+<script nonce="<%= nonce %>" src="/plugin/Lightgallery/js/lg-thumbnail.js"></script>
 
 
 <!-- ----------Popup------------ -->
 
 <!--  Magnific -->
-<script src="plugin/Magnific-Popup/jquery.magnific-popup.min.js"></script>
+<script nonce="<%= nonce %>" src="plugin/Magnific-Popup/jquery.magnific-popup.min.js"></script>
 <!-- toastify -->
-<script src="assets/extensions/toastify-js/src/toastify.js"></script>
+<script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
 
 <!--  here old place of code javascript of loader -->
 
-<script src="/sliderhome/owl.carousel.min.js"></script>
+<script nonce="<%= nonce %>" src="/sliderhome/owl.carousel.min.js"></script>
   <!-- Slider Images -->
-<script>
+<script nonce="<%= nonce %>">
   (function($) {
 
     "use strict";
@@ -276,7 +276,10 @@
   })(jQuery);
 </script>
 <!--   cookie consent plugin -->
-<script src="/plugin/cookie-consent/bootstrap-cookie-consent-settings.js"></script>
-<script>
+<script nonce="<%= nonce %>" src="/plugin/cookie-consent/bootstrap-cookie-consent-settings.js"></script>
+<script nonce="<%= nonce %>">
 var cookieSettings = new BootstrapCookieConsentSettings({privacyPolicyUrl: "/termsofuse",legalNoticeUrl: "/termsofuse",})
+document.getElementById("editpolicy").addEventListener("click", function() {
+            cookieSettings.showDialog();
+        });
 </script>

@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const router = express.Router();
 const FormData = require('../models/FormData');
 const { authorize, uploadFile, appendToSheet, deleteFolder } = require('./../config/googledrive');
@@ -6,12 +7,19 @@ const fs = require('fs');
 router.use(express.static("public"));
 
 const multer = require('multer');
+function getRandomNumber(maxLength) {
+    const max = Math.pow(10, maxLength) - 1;
+    return Math.floor(Math.random() * max);
+}
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'attachments/gdrive/'); // Directory where uploaded files should be stored
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // File naming convention
+        const ext = path.extname(file.originalname);
+        const randomNum = getRandomNumber(7);
+        cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
     }
 });
 
@@ -28,7 +36,14 @@ function isLoggedIn(req, res, next) {
     }
 }
 
+router.use('/logout', (req, res) => {
+    res.clearCookie('visitor');
 
+    if (req.session && req.session.visitor) {
+        req.session.visitor = null;
+    }
+    return res.redirect("/form");
+});
 
 router.get("/", (req, res) => {
     return res.redirect("/assistances");
@@ -39,10 +54,13 @@ router.get("/", (req, res) => {
 // Assuming you're rendering an EJS file, pass the data to it
 router.get('/:id', isLoggedIn, async (req, res) => {
     const formId = req.params.id;
+    const nonce = res.locals.nonce;
+    const visitorCookie = req.cookies.visitor;
     try {
-        const visitorCookie = req.cookies.visitor;
+
+        //console.log(visitorCookie);
         const visitor = JSON.parse(decodeURIComponent(visitorCookie));
-        res.render('dashboard/form', { formId, visitorName: visitor.name, visitorEmail: visitor.email });
+        res.render('dashboard/form', { formId, visitorName: visitor.name, visitorEmail: visitor.email, nonce });
     } catch (err) {
         // Handle errors
         console.error(err);
@@ -96,10 +114,10 @@ router.get('/delete/:id', async (req, res) => {
 });
 
 router.post('/answer/:id', isLoggedIn, upload.any(), async (req, res) => {
+    const formDataId = req.params.id;
+    const bodyValues = req.body;
+    const visitorCookie = req.cookies.visitor;
     try {
-        const formDataId = req.params.id;
-        const bodyValues = req.body;
-
         const formData = await FormData.findById(formDataId);
 
         if (!formData) {
@@ -177,9 +195,9 @@ router.post('/answer/:id', isLoggedIn, upload.any(), async (req, res) => {
         }
 
         const rowValues = result.map(obj => Object.values(obj)[0]);
-        const visitorCookie = req.cookies.visitor;
-        const visitor = JSON.parse(decodeURIComponent(visitorCookie));
-        const visitorId = visitor._id;
+
+        const visitorInfo = JSON.parse(decodeURIComponent(visitorCookie));
+        const visitorId = visitorInfo.id;
         const currentDate = new Date();
 
         rowValues.unshift(visitorId, currentDate.toLocaleString());

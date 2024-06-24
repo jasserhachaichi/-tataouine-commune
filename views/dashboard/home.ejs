@@ -4,7 +4,7 @@
 <%- include('./commun/head') %>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -154,7 +154,7 @@
                       </div>
                       <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                         <h6 class="text-muted font-semibold">Événement</h6>
-                        <h6 class="font-extrabold mb-0"><%= advancedEventCount + eventCount %></h6>
+                        <h6 class="font-extrabold mb-0"><%= eventCount %></h6>
                       </div>
                     </div>
                   </div>
@@ -389,8 +389,8 @@
 
 
   <!-- Need: Apexcharts -->
-  <!--   <script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/static/js/pages/dashboard.js"></script> -->
+  <!--   <script nonce="<%= nonce %>"  src="assets/extensions/apexcharts/apexcharts.min.js"></script>
+  <script nonce="<%= nonce %>"  src="assets/static/js/pages/dashboard.js"></script> -->
 
 </body>
 

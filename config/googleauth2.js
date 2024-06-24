@@ -9,24 +9,21 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:5000/auth/google/callback',
+      callbackURL: '/auth/google/callback',
       passReqToCallback: true,
     },
-    function(req, accessToken, refreshToken, profile, done) {
-      // Check if the visitor exists in your database
+    function (req, accessToken, refreshToken, profile, done) {
       Visitor.findOne({ googleId: profile.id })
         .then(visitor => {
           if (!visitor) {
-            // If the visitor doesn't exist, create a new one
             const newVisitor = new Visitor({
               googleId: profile.id,
-              email: profile.emails[0].value, // Extracting the email
-              name: profile.displayName, // Extracting the display name
-              // You can add other fields as needed
+              email: profile.emails[0].value,
+              name: profile.displayName,
             });
-            return newVisitor.save();
+            newVisitor.save();
+            return newVisitor
           } else {
-            // If the visitor exists, return the visitor object
             return visitor;
           }
         })
@@ -40,24 +37,16 @@ passport.use(
   )
 );
 
-
-
-
-
-
-
 passport.serializeUser((visitor, done) => {
-  done(null, visitor.id); 
+  done(null, visitor.id);
 });
 
 passport.deserializeUser((id, done) => {
   Visitor.findById(id)
     .then(visitor => {
-      done(null, visitor); // Pass the visitor to the next middleware
+      done(null, visitor);
     })
     .catch(err => {
-      done(err); // Pass any errors to the next middleware
+      done(err);
     });
 });
-
-

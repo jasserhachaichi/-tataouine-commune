@@ -2,12 +2,12 @@ const express = require("express");
 const path = require('path');
 const router = express.Router();
 const Event = require("./../models/Event");
-const AdvancedEvent = require('./../models/AdvancedEvent');
 const fs = require('fs');
 router.use(express.static("public"));
 
 router.get("/", async (req, res) => {
-  const isUser = req.user.userRole;
+  const isUser = req.userRole;
+  const nonce = res.locals.nonce;
   try {
     /*    const events = [
           {
@@ -67,7 +67,7 @@ router.get("/", async (req, res) => {
         }); */
 
 
-    return res.render("dashboard/calendar", {isUser});
+    return res.render("dashboard/calendar", { isUser ,nonce});
   } catch (error) {
     // Handle errors
     console.error("Error fetching events:", error);
@@ -75,82 +75,67 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/events/:id1/events/:id2", async (req, res) => {
+router.delete("/deleteevents/:id2", async (req, res) => {
   try {
-    console.log(req.params.id1);
-    const eventId1 = req.params.id1;
-    await Event.findByIdAndDelete(eventId1);
-    if (req.params.id2) {
-      console.log(req.params.id2);
-      const eventId2 = req.params.id2;
+    console.log(req.params.id2);
+    const eventId2 = req.params.id2;
 
-      // Find the event by ID
-      const event = await AdvancedEvent.findById(eventId2);
-      // Remove associated files
-      const filesToDelete = [
-        ...event.slogospath,
-        ...event.ologospath,
-        event.coverpath,
-        ...event.attachements.map(att => att.path),
-      ];
+    // Find the event by ID
+    const event = await Event.findById(eventId2);
+    // Remove associated files
+    const filesToDelete = [
+      ...event.slogospath,
+      ...event.ologospath,
+      event.coverpath,
+      ...event.attachements.map(att => att.path),
+    ];
 
-      filesToDelete.forEach(filePath => {
-        if (filePath != "/images/BgEvent-default.jpg") {
-          const fullPath = path.join(__dirname, '..', 'attachments', filePath);
-          fs.unlink(fullPath, (err) => {
-            if (err) {
-              console.error(`Failed to delete file: ${fullPath}`, err);
-            } else {
-              console.log(`File deleted: ${fullPath}`);
-            }
-          });
-        }
-      });
+    filesToDelete.forEach(filePath => {
+      if (filePath != "/images/BgEvent-default.jpg") {
+        const fullPath = path.join(__dirname, '..', 'attachments', filePath);
+        fs.unlink(fullPath, (err) => {
+          if (err) {
+            console.error(`Failed to delete file: ${fullPath}`, err);
+          } else {
+            console.log(`File deleted: ${fullPath}`);
+          }
+        });
+      }
+    });
 
 
-      await event.deleteOne(); // Use deleteOne instead of remove
-    }
+    await event.deleteOne(); // Use deleteOne instead of remove
+
     return res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Failed to delete event", error: error.message });
   }
 });
-router.delete("/events/:id1/", async (req, res) => {
-  try {
-    console.log(req.params.id1);
-    const eventId1 = req.params.id1;
-    //await Event.findByIdAndDelete(eventId1);
-    return res.status(200).json({ message: "Event deleted successfully" });
-  } catch (error) {
-    return res.status(500).json({ message: "Failed to delete event", error: error.message });
-  }
-});
+
 router.get("/events", async (req, res) => {
   try {
-    const events = await Event.find({}, { __v: 0 });
+    var events = await Event.find({}, { __v: 0 }).select("_id title className allDay venue country state city description start end organizers sponsors withContent");
+
+    events = events.map(event => {
+        const locationComponents = [];
+        if (event.venue) locationComponents.push(event.venue);
+        if (event.country) locationComponents.push(event.country);
+        if (event.state) locationComponents.push(event.state);
+        if (event.city) locationComponents.push(event.city);
+        event.location = locationComponents.join(', ');
+        return event;
+    });
+
     return res.status(200).json({ events: events });
   } catch (error) {
     return res.status(500).json({ message: "Failed to fetch events", error: error.message });
   }
 });
-/* router.put("/events/:eventId", async (req, res) => {
-  try {
-     const eventId = req.params.eventId;
-    const eventData = req.body; // Updated event data
 
-    // Find the event by ID and update its fields
-    await Event.findByIdAndUpdate(eventId, eventData);
-    
-    res.status(200).json({ message: "Event updated successfully" }); 
-    console.log("jasser");
-  } catch (error) {
-    res.status(500).json({ message: "Failed to update event", error: error.message });
-  }
-}); */
-router.post("/addevents", async (req, res) => {
+/* router.post("/addevents", async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const eventData = req.body;
 
     const newEvent = new Event({
@@ -161,13 +146,14 @@ router.post("/addevents", async (req, res) => {
       allDay: eventData.allDay === 'on',
       location: eventData.location,
       description: eventData.description,
-      organizer: eventData.organizer
+      organizer: eventData.organizer,
+      summernote: "No content"
     });
     console.log(newEvent);
     newEvent.save();
   } catch (error) {
     return res.status(500).json({ message: "Failed to save event", error: error.message });
   }
-});
+}); */
 
 module.exports = router;

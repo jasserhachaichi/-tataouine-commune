@@ -62,12 +62,12 @@
 
 
 
-  <script src="plugin/jquery-tjgallery.min.js"></script>
+  <script nonce="<%= nonce %>"  src="plugin/jquery-tjgallery.min.js"></script>
 
-  <script type="text/javascript">
+  <script nonce="<%= nonce %>"  type="text/javascript">
     lightGallery(document.getElementById('lightgallery'));
   </script>
-  <script>
+  <script nonce="<%= nonce %>" >
     // waiting for loading page
     $(window).on('load', function() {
       $('.pictures').tjGallery();

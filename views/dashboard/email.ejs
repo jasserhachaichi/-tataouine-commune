@@ -4,7 +4,7 @@
 <%- include('./commun/head') %>
 
 <body>
-  <script src="assets/static/js/initTheme.js"></script>
+  <script nonce="<%= nonce %>" src="assets/static/js/initTheme.js"></script>
   <div id="app">
     <%- include('./partials/sidebar') %>
     <div id="main">
@@ -70,32 +70,32 @@
                   <div class="container">
                     <div class="row">
 
-                        <% email.attachments.forEach(attachment => { %>
-                          <div class="col-4">
-                            <a href="<%- attachment.path.replace('attachments\\', '\\') %> " download="<%= attachment.filename %>">
-                              <div class="row">
-                                <div class="col-1 fs-5 ">
-                                  <% if (attachment.filename.endsWith('.eps')) { %>
-                                    <i class="bi bi-bezier"></i> 
-                                  <% } else if (attachment.filename.endsWith('.jpg') || attachment.filename.endsWith('.jpeg') || attachment.filename.endsWith('.png')) { %>
-                                    <i class="bi bi-card-image"></i>
-                                  <% } else if (attachment.filename.endsWith('.pptx')) { %>
-                                    <i class="bi bi-filetype-pptx"></i> 
-                                  <% } else if (attachment.filename.endsWith('.svg')) { %>
-                                    <i class="bi bi-filetype-svg"></i>
-                                  <% } else if (attachment.filename.endsWith('.docx') || attachment.filename.endsWith('.doc')) { %>
-                                    <i class="bi bi-file-earmark-word"></i>
-                                  <% } else { %>
-                                    <i class="bi bi-file-earmark"></i>
-                                  <% } %>
-                                </div>
-                                <div class="col-11">
-                                  <p><%= attachment.filename %></p>
-                                </div>
-                              </div>
-                            </a>
+                      <% email.attachments.forEach(attachment => { %>
+                      <div class="col-4">
+                        <a href="<%- attachment.path %> " download="<%= attachment.filename %>">
+                          <div class="row">
+                            <div class="col-1 fs-5 ">
+                              <% if (attachment.filename.endsWith('.eps')) { %>
+                              <i class="bi bi-bezier"></i>
+                              <% } else if (attachment.filename.endsWith('.jpg') || attachment.filename.endsWith('.jpeg') || attachment.filename.endsWith('.png')) { %>
+                              <i class="bi bi-card-image"></i>
+                              <% } else if (attachment.filename.endsWith('.pptx')) { %>
+                              <i class="bi bi-filetype-pptx"></i>
+                              <% } else if (attachment.filename.endsWith('.svg')) { %>
+                              <i class="bi bi-filetype-svg"></i>
+                              <% } else if (attachment.filename.endsWith('.docx') || attachment.filename.endsWith('.doc')) { %>
+                              <i class="bi bi-file-earmark-word"></i>
+                              <% } else { %>
+                              <i class="bi bi-file-earmark"></i>
+                              <% } %>
+                            </div>
+                            <div class="col-11">
+                              <p><%= attachment.filename %></p>
+                            </div>
                           </div>
-                        <% }); %>
+                        </a>
+                      </div>
+                      <% }); %>
                     </div>
                   </div>
 

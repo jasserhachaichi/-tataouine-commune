@@ -21,7 +21,8 @@ router.use(methodOverride('_method'));
 
 // Backend route for searching emails
 router.get('/', async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     const page = req.query.page || 1;
     const perPage = 10;
     const skip = (page - 1) * perPage;
@@ -47,7 +48,7 @@ router.get('/', async (req, res) => {
 
         const totalPages = Math.ceil(totalCount / perPage);
 
-        return res.render("dashboard/inbox", { emails, currentPage: page, perPage, totalCount, totalPages, isUser });
+        return res.render("dashboard/inbox", { emails, currentPage: page, perPage, totalCount, totalPages, isUser,nonce });
     } catch (err) {
         console.error(err);
         return res.redirect("/404");
@@ -55,15 +56,17 @@ router.get('/', async (req, res) => {
 });
 router.get("/emailcreator", (req, res) => {
     //console.log("azeeeeeeeeee");
-    const isUser = req.user.userRole;
-    return res.render("dashboard/emailcreator", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    return res.render("dashboard/emailcreator", {isUser,nonce});
 });
 
 router.get("/followers", async (req, res) => {
-    const isUser = req.user.userRole;
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
     try {
         const followers = await followerModel.find({});
-        return res.render("dashboard/allfollowers", { followers, isUser });
+        return res.render("dashboard/allfollowers", { followers, isUser ,nonce});
     } catch (error) {
         console.error(error);
         return res.status(500).send("An error occurred while fetching followers.");
@@ -83,8 +86,9 @@ router.get('/follower/:id', async (req, res) => {
 
 
 router.get("/:id", async (req, res) => {
+    const nonce = res.locals.nonce;
     try {
-        const isUser = req.user.userRole;
+        const isUser = req.userRole;
         const emailId = req.params.id;
         const email = await Email.findById(emailId);
 
@@ -97,7 +101,7 @@ router.get("/:id", async (req, res) => {
             await email.save();
         }
 
-        return res.render('dashboard/email', { email, isUser });
+        return res.render('dashboard/email', { email, isUser,nonce });
     } catch (error) {
         console.error(error);
         return res.redirect("/404");
@@ -116,7 +120,10 @@ router.delete('/:id', async (req, res) => {
         // Supprimer les fichiers d'attachement du serveur
         deletedEmail.attachments.forEach(attachment => {
             try {
-                fs.unlinkSync(attachment.path);
+                const attpath = path.join(__dirname, '../attachments', attachment.path);
+                if (fs.existsSync(attpath)) {
+                    fs.unlinkSync(attpath);
+                }
                 //console.log(`Attachment deleted: ${attachment.filename}`);
             } catch (err) {
                 console.error(`Error deleting attachment ${attachment.filename}: ${err}`);

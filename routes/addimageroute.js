@@ -8,14 +8,19 @@ const delay = promisify(setTimeout);
 const path = require('path');
 router.use(express.static("public"));
 
+function getRandomNumber(maxLength) {
+  const max = Math.pow(10, maxLength) - 1;
+  return Math.floor(Math.random() * max);
+}
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'attachments/IMGuploads/');
   },
   filename: function (req, file, cb) {
-    //cb(null, file.originalname);
     const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + Date.now() + ext);
+    const randomNum = getRandomNumber(7);
+    cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
   }
 });
 
@@ -23,8 +28,9 @@ const upload = multer({ storage: storage });
 
 
 router.get("/", (req, res) => {
-  const isUser = req.user.userRole;
-    return res.render("dashboard/addimage", {isUser});
+  const isUser = req.userRole;
+  const nonce = res.locals.nonce;
+  return res.render("dashboard/addimage", { isUser,nonce });
 });
 router.post('/', upload.array('filepond'), async (req, res) => {
   try {

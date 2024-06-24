@@ -2,20 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Jasser Hachaichi">
-    <title>
-      Dashboard
-    </title>
-    <link rel="icon" href="images/CTicon.png">
-    <link rel="shortcut" href="images/CTicon.png">
-    <link rel="apple-touche-icon" href="images/CTicon.png">
-    <link rel="stylesheet" href="css/colors.css">
-    <%- include('./../commun/loader') %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Jasser Hachaichi">
+  <title>
+    Dashboard
+  </title>
+  <link rel="icon" href="images/CTicon.png">
+  <link rel="shortcut" href="images/CTicon.png">
+  <link rel="apple-touche-icon" href="images/CTicon.png">
+  <link rel="stylesheet" href="css/colors.css">
+  <%- include('./../commun/loader') %>
   <!-- SITE CSS FILES -->
   <link rel="stylesheet" href="assets/compiled/css/app.css">
-  <link rel="stylesheet" href="assets/compiled/css/iconly.css">
 
 </head>
 
@@ -27,12 +26,13 @@
           <div class="card">
             <div class="card-content">
               <div class="card-body">
-                <p class="card-text">Bienvenu <strong><%= visitorName %> </strong>(<%= visitorEmail %>)</p>
+                <p class="card-text">Bienvenu <strong><%= visitorName %> </strong>(<%= visitorEmail %>)</p> <br>
+                <a href="/form/logout" class="link-secondary text-decoration-none primary-color-1 fw-bold"><small>Déconnecté</small></a>
               </div>
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   </section>
@@ -47,19 +47,19 @@
     </div>
   </section>
 
-<!--   <div class="The-loader-container-form d-none flex-column">
+  <!--   <div class="The-loader-container-form d-none flex-column">
     <img src="/images/formloader-oval.svg" class="mb-5" style="width: 5rem" alt="loader form">
     <div>
       <p class="fw-bold">Votre demande est en cours de traitement...</p>
     </div>
   </div> -->
 
-  <script src="assets/extensions/jquery/jquery.min.js"></script>
-  <script src="plugin/form-builder/form-render.min.js"></script>
-  <script>
+  <script nonce="<%= nonce %>" src="assets/extensions/jquery/jquery.min.js"></script>
+  <script nonce="<%= nonce %>" src="plugin/form-builder/form-render.min.js"></script>
+  <script nonce="<%= nonce %>">
     $(document).ready(async function() {
       const formDataId = document.getElementById('formsection').getAttribute("form-id-data");
-      
+
       try {
         const response = await fetch(`/form/formData/${formDataId}`);
         if (!response.ok) {
@@ -75,7 +75,7 @@
       }
     });
   </script>
-<!-- <script>
+  <!-- <script nonce="<%= nonce %>" >
   document.querySelector('button[type="submit"]').addEventListener('click', function() {
     const loaderContainer = document.querySelector('.The-loader-container-form');
     loaderContainer.classList.remove('d-none');

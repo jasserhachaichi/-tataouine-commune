@@ -3,11 +3,14 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const AdvancedEvent = require('./../models/AdvancedEvent');
 const Event = require("./../models/Event");
 router.use(express.static("public"));
 
 //const { Console } = require("console");
+function getRandomNumber(maxLength) {
+    const max = Math.pow(10, maxLength) - 1;
+    return Math.floor(Math.random() * max);
+  }
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -16,8 +19,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname);
-        cb(null, file.fieldname + '-' + Date.now() + ext);
-
+        const randomNum = getRandomNumber(7);
+        cb(null, file.fieldname + '-' + randomNum + '-' + Date.now() + ext);
     }
 
 });
@@ -25,8 +28,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }, { name: 'filepond3' }, { name: 'filepond4' }]);
 
 router.get('/', (req, res) => {
-    const isUser = req.user.userRole;
-    return res.render("dashboard/createEvent", {isUser});
+    const isUser = req.userRole;
+    const nonce = res.locals.nonce;
+    return res.render("dashboard/createEvent", { isUser ,nonce});
 })
 
 router.post('/', async (req, res) => {
@@ -119,8 +123,10 @@ router.post('/', async (req, res) => {
 
 
 
-           const newEvent = new AdvancedEvent({
+            const newEvent = new Event({
                 title: title,
+                className: "text-success",
+                allDay: true,
                 type: eventData.type,
                 participation: eventData.participation,
                 venue: eventData.venue,
@@ -142,20 +148,6 @@ router.post('/', async (req, res) => {
             });
             //console.log(newEvent);
             await newEvent.save();
-  
-            const newEventcalendar = new Event({
-                title: title,
-                className: "text-success",
-                start: startDate,
-                end: eventData['end-date'],
-                allDay: true,
-                location: eventData.venue + " , " + eventData.state + " , " + eventData.city + ", " + eventData.country,
-                description: eventData.description,
-                organizers: organizers,
-                sponsors: sponsors,
-                url: "/events/" + newEvent._id
-            });
-            newEventcalendar.save();
             return res.status(200).send('Event posted successfully');
         } catch (error) {
             console.error(error);

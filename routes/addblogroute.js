@@ -30,7 +30,11 @@ const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name
 router.get("/", (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    return res.render("dashboard/addblog", { isUser,nonce });
+    try {
+        return res.render("dashboard/addblog", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
 });
 
 // POST route for submitting the form
@@ -122,7 +126,8 @@ router.post('/', async (req, res) => {
             return res.status(200).send('Blog posted successfully');
         } catch (error) {
             console.error(error);
-            return res.status(500).send('Error posting Blog');
+            //return res.status(500).send('Error posting Blog');
+            return res.render("error", { error });
         }
     });
 });

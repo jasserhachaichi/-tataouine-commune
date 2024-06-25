@@ -69,7 +69,7 @@ document.querySelector('.formy').addEventListener('submit', async function (even
         console.error('An error occurred:', error);
     }
 
-    $('#submit-button').prop('disabled', false).html('Submit');
+    $('#submit-button').prop('disabled', false).html('Sauvegarder');
 });
 
 // Function to resize the image
@@ -181,5 +181,5 @@ document.querySelector('.forml').addEventListener("submit", async function (even
     });
 
 
-    $('#submit-button-l').prop('disabled', false).html('Submit');
+    $('#submit-button-l').prop('disabled', false).html('Sauvegarder');
 });

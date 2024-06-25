@@ -35,7 +35,8 @@ router.get("/", async (req, res) => {
     return res.render("dashboard/achievement", { achievement, isUser, nonce });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: 'Erreur' });
+    //return res.status(500).json({ success: false, error: 'Erreur' });
+    return res.render("error", {error});
   }
 });
 router.post('/', upload.array('filepond'), async (req, res) => {
@@ -78,7 +79,8 @@ router.post('/', upload.array('filepond'), async (req, res) => {
     return res.json({ success: "Uploaded successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: 'Erreur' });
+    //return res.status(500).json({ success: false, error: 'Erreur' });
+    return res.render("error", {error});
   }
 });
 

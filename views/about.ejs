@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
+<%- include('./commun/head',{nonce, titre: 'About Us'}) %>
 <style>
   .title_section {
     color: var(--primary-color-2);
@@ -11,6 +9,7 @@
     color: var(--primary-color-1);
   }
 </style>
+</head>
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>

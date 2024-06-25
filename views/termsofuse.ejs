@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
+<%- include('./commun/head', { nonce, titre: 'Terms of use'}) %>
 <style>
   .title_section {
     color: var(--primary-color-2);
@@ -11,6 +9,7 @@
     color: var(--primary-color-1);
   }
 </style>
+</head>
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
@@ -18,31 +17,31 @@
 
 
   <section>
-    
+
     <section>
       <% if (terms) { %>
-          
-          <div class="container">
-            <div class="row">
-              <p class="fw-bold primary-color-2">Dernière mise à jour: <%= new Date(terms.updatedAt).toLocaleDateString() %></p>
-              <hr>
-            </div>
-            <div class="row">
-                <%- terms.details %>
-            </div>
 
-          </div>
+      <div class="container">
+        <div class="row">
+          <p class="fw-bold primary-color-2">Dernière mise à jour: <%= new Date(terms.updatedAt).toLocaleDateString() %></p>
+          <hr>
+        </div>
+        <div class="row">
+          <%- terms.details %>
+        </div>
+
+      </div>
       <% } else { %>
-          <div class="container">
-              <div class="row">
-                  Aucun terme disponible
-              </div>
-          </div>
+      <div class="container">
+        <div class="row">
+          Aucun terme disponible
+        </div>
+      </div>
       <% } %>
-  </section>
+    </section>
 
 
-  <%- include('./commun/footer') %>
+    <%- include('./commun/footer') %>
 
 </body>
 

@@ -14,14 +14,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>Visitors</h3>
-              <p class="text-subtitle text-muted">The default layout.</p>
+              <h3>Visiteurs</h3>
+       <!--        <p class="text-subtitle text-muted">The default layout.</p> -->
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Layout Default</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Boîte email</li>
+                  <li class="breadcrumb-item active" aria-current="page">Visiteurs</li>
                 </ol>
               </nav>
             </div>
@@ -29,9 +30,9 @@
         </div>
         <section class="section">
           <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Default Layout</h4>
-            </div>
+<!--             <div class="card-header">
+              <h4 class="card-title">Visiteurs</h4>
+            </div> -->
 
             <div class="card-body">
               <form action="/createassistance/visitors" method="GET" class="container">
@@ -72,7 +73,7 @@
                 <ul class="pagination pagination-primary justify-content-center">
                   <% if (currentPage > 1) { %>
                   <li class="page-item">
-                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
                   </li>
                   <% } %>
                   <% for (let i = 1; i <= totalPages; i++) { %>
@@ -82,7 +83,7 @@
                   <% } %>
                   <% if (currentPage < totalPages) { %>
                   <li class="page-item">
-                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
                   </li>
                   <% } %>
                 </ul>

@@ -71,7 +71,8 @@ router.get("/", async (req, res) => {
   } catch (error) {
     // Handle errors
     console.error("Error fetching events:", error);
-    return res.redirect("/404");
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 
@@ -109,13 +110,14 @@ router.delete("/deleteevents/:id2", async (req, res) => {
     return res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Failed to delete event", error: error.message });
+    //return res.status(500).json({ message: "Failed to delete event", error: error.message });
+    return res.render("error", { error });
   }
 });
 
 router.get("/events", async (req, res) => {
   try {
-    var events = await Event.find({}, { __v: 0 }).select("_id title className allDay venue country state city description start end organizers sponsors withContent");
+    let events = await Event.find({}, { __v: 0 }).select("_id title className allDay venue country state city description start end organizers sponsors").lean();
 
     events = events.map(event => {
         const locationComponents = [];
@@ -127,10 +129,12 @@ router.get("/events", async (req, res) => {
         return event;
     });
 
-    return res.status(200).json({ events: events });
-  } catch (error) {
-    return res.status(500).json({ message: "Failed to fetch events", error: error.message });
-  }
+    //console.log(events);
+    return res.status(200).json({ events });
+} catch (error) {
+    //return res.status(500).json({ message: "Failed to fetch events", error: error.message });
+    return res.render("error", { error });
+}
 });
 
 /* router.post("/addevents", async (req, res) => {

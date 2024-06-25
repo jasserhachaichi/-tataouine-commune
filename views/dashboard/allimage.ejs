@@ -13,14 +13,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>All Image</h3>
-              <p class="text-subtitle text-muted">Displays a gallery of all images available on the website.</p>
+              <h3>Toutes les images</h3>
+              <p class="text-subtitle text-muted">Affiche une galerie de toutes les images disponibles sur le site Web.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">All Image</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Image</li>
+                  <li class="breadcrumb-item active" aria-current="page">Toutes les images</li>
                 </ol>
               </nav>
             </div>
@@ -31,7 +32,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h5 class="card-title">Our Gallery</h5>
+                  <h5 class="card-title">Notre galerie</h5>
                 </div>
                 <div class="card-body">
                   <div class="container">
@@ -56,7 +57,7 @@
                         <ul class="pagination pagination-primary justify-content-center">
                           <% if (currentPage > 1) { %>
                           <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Précédent</a>
                           </li>
                           <% } %>
                           <% for (let i = 1; i <= totalPages; i++) { %>
@@ -66,7 +67,7 @@
                           <% } %>
                           <% if (currentPage < totalPages) { %>
                           <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Suivant</a>
                           </li>
                           <% } %>
                         </ul>

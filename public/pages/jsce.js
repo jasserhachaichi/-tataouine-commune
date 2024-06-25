@@ -132,7 +132,7 @@ $(document).ready(function() {
         setTimeout(function() {
           //viderInputs();
           showMessage(response, -1, "#4fbe87");
-          $('#submit-button').prop('disabled', false).html('Post');
+          $('#submit-button').prop('disabled', false).html('Sauvegarder');
           document.getElementById("eventform").reset();
           $('#summernote').summernote('code', '');
           pond.removeFiles();
@@ -154,7 +154,7 @@ $(document).ready(function() {
           });
         }
         // Re-enable the submit button
-        $('#submit-button').prop('disabled', false).html('Post');
+        $('#submit-button').prop('disabled', false).html('Sauvegarder');
 
       }
     });

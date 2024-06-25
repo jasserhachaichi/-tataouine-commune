@@ -35,7 +35,7 @@ $(document).ready(function () {
                 }
             },
             complete: function () {
-                $('#submit-button').prop('disabled', false).html('Log in');
+                $('#submit-button').prop('disabled', false).html('Se connecter');
             }
         });
     });

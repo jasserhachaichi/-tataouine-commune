@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
+<%- include('./commun/head',{nonce, titre: 'Blog'}) %>
 <style>
   a {
     text-decoration: none;
@@ -617,7 +615,7 @@
     margin-bottom: 80px;
   }
 </style>
-
+</head>
 <body class="bg-light">
   <%- include('./partials/navbar') %>
   <section class="mt-140px ">
@@ -1009,7 +1007,7 @@
               <div class="single_navigation-prev mb-5">
                 <% if (prevBlog) { %>
                 <a href="/blogs/<%= prevBlog._id %>">
-                  <span>previous post</span>
+                  <span>Précédent post</span>
                   <%= prevBlog.title %>
                 </a>
                 <% } %>

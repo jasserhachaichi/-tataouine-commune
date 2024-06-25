@@ -34,8 +34,9 @@ router.get("/", async (req, res) => {
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
             search: search,nonce
         });
-    } catch (err) {
-        res.redirect("/404");
+    } catch (error) {
+        //res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 

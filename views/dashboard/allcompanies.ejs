@@ -20,15 +20,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>List of companies</h3>
-              <p class="text-subtitle text-muted">Oerview of all companies informations.</p>
+              <h3>Toutes les entreprises</h3>
+              <p class="text-subtitle text-muted">Aperçu de toutes les informations sur les entreprises.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">All Companies
-                  </li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Entreprise</li>
+                  <li class="breadcrumb-item active" aria-current="page">Toutes les entreprises</li>
                 </ol>
               </nav>
             </div>
@@ -48,7 +48,7 @@
             <form class="row mb-1" action="/allcompanies" method="GET">
               <div class="col-3">
                 <div class="form-group">
-                  <input type="text" class="form-control" id="search" name="search" placeholder="Search..." value="<%= search || '' %>">
+                  <input type="text" class="form-control" id="search" name="search" placeholder="Recherche..." value="<%= search || '' %>">
                 </div>
               </div>
               <div class="col-3">
@@ -75,7 +75,7 @@
               </div>
               <div class="col-3">
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary">Search</button>
+                  <button type="submit" class="btn btn-primary">Recherche</button>
                 </div>
               </div>
             </form>
@@ -109,7 +109,7 @@
               <ul class="pagination pagination-primary justify-content-center">
                 <% if (currentPage > 1) { %>
                 <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage - 1 %>&location=<%= location || '' %>&domain=<%= domain || '' %>&search=<%= search || '' %>">Previous</a>
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>&location=<%= location || '' %>&domain=<%= domain || '' %>&search=<%= search || '' %>">Précédent</a>
                 </li>
                 <% } %>
                 <% for (let i = 1; i <= totalPages; i++) { %>
@@ -119,7 +119,7 @@
                 <% } %>
                 <% if (currentPage < totalPages) { %>
                 <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage + 1 %>&location=<%= location || '' %>&domain=<%= domain || '' %>&search=<%= search || '' %>">Next</a>
+                  <a class="page-link" href="?page=<%= currentPage + 1 %>&location=<%= location || '' %>&domain=<%= domain || '' %>&search=<%= search || '' %>">Suivant</a>
                 </li>
                 <% } %>
               </ul>

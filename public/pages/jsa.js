@@ -78,7 +78,7 @@ $(document).ready(function () {
           if (formDataObject['fname-column']) {
             $("#fname").text(formDataObject['fname-column']);
           }
-          $('#myform  #submit-button').prop('disabled', false).html('Update');
+          $('#myform  #submit-button').prop('disabled', false).html('Mise à jour');
           // Reset the form
           $('#myform').trigger('reset');
         },
@@ -96,7 +96,7 @@ $(document).ready(function () {
             position: "right",
             backgroundColor: "#dc3545",
           }).showToast();
-          $('#submit-button').prop('disabled', false).html('Update');
+          $('#submit-button').prop('disabled', false).html('Mise à jour');
         }
 
 

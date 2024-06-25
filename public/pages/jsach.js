@@ -46,11 +46,11 @@ document.getElementById('Form').addEventListener('submit', function(event) {
     .then(data => {
       clearFormFields();
       showMessage(data.success, -1, "#4fbe87");
-      $('#submit-button').prop('disabled', false).html('Update');
+      $('#submit-button').prop('disabled', false).html('Mise à jour');
     })
     .catch(error => {
       showMessage(error, 3000, "#dc3545");
-      $('#submit-button').prop('disabled', false).html('Update');
+      $('#submit-button').prop('disabled', false).html('Mise à jour');
     });
 
 });

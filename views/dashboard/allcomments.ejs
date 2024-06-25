@@ -33,7 +33,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
                   <li class="breadcrumb-item"><a href="/allblogs">All Blogs</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Comments</li>
                 </ol>
@@ -53,8 +53,8 @@
           <form action="/allblogs/<%= blog._id %>" method="GET" class="container">
             <div class="col-8 mx-auto">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" name="search" placeholder="Search in comments..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search %>">
-                <button class="btn btn-primary" type="submit">Search</button>
+                <input type="text" class="form-control" name="search" placeholder="Recherche dans les commentaires..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search %>">
+                <button class="btn btn-primary" type="submit">Recherche</button>
               </div>
             </div>
           </form>
@@ -119,7 +119,7 @@
                 <ul class="pagination pagination-primary justify-content-center">
                   <% if (currentPage > 1) { %>
                   <li class="page-item">
-                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                    <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
                   </li>
                   <% } %>
                   <% for (let i = 1; i <= totalPages; i++) { %>
@@ -129,7 +129,7 @@
                   <% } %>
                   <% if (currentPage < totalPages) { %>
                   <li class="page-item">
-                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
                   </li>
                   <% } %>
                 </ul>

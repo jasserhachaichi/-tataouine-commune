@@ -52,7 +52,8 @@ router.get("/", async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    return res.redirect("/404");
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 
@@ -112,7 +113,8 @@ router.post("/subscribe", async (req, res) => {
     return res.send({ message: "Subscription successful!" });
   } catch (error) {
     console.error("Error occurred during subscription:", error);
-    res.status(500).send("Internal Server Error");
+    //return res.status(500).send("Internal Server Error");
+    return res.render("error", { error });
   }
 });
 

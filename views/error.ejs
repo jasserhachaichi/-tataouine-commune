@@ -53,19 +53,15 @@
         <div class="col-sm-12 ">
           <div class="col-sm-12 col-sm-offset-1  text-center">
             <div class="four_zero_four_bg">
-              <h1 class="text-center ">404</h1>
-
-
+              <h1 class="text-center ">Oops ....</h1>
             </div>
 
             <div class="contant_box_404">
-              <h3 class="h2">
-                On dirait que tu es perdu
-              </h3>
-
-              <p>la page que vous recherchez n'est pas disponible !</p>
-
-              <a href="/home" class="link_404">Accueil</a>
+              <h3 class="h2">Error : </h3>
+              <p> <% if(error){ %>
+                <%= error %>
+                <% } %></p>
+              <a href="/home" class="link_404">Go to Home</a>
             </div>
           </div>
         </div>

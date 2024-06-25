@@ -15,15 +15,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>All Users</h3>
-              <p class="text-subtitle text-muted"> Displays a comprehensive list of all registered users with their respective details.</p>
+              <h3>Tous les utilisateurs</h3>
+              <p class="text-subtitle text-muted">Affiche une liste complète de tous les utilisateurs enregistrés avec leurs détails respectifs.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/users">Accounts</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Add User</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Comptes</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tous les utilisateurs</li>
                 </ol>
               </nav>
             </div>
@@ -35,9 +35,9 @@
               <table class="table table-striped" id="table1">
                 <thead>
                   <tr>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    <th>Email</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>E-mail</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -88,11 +88,11 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                     <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
+                    <span class="d-none d-sm-block">Fermer</span>
                   </button>
                   <a id="userurl" href="" class="btn btn-danger ms-1">
                     <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Delete</span>
+                    <span class="d-none d-sm-block">Supprimer</span>
                   </a>
                 </div>
 
@@ -106,7 +106,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
           <form id="editform" class="modal-content" method="post" data-parsley-validate>
             <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel34">Edit Account </h4>
+              <h4 class="modal-title" id="myModalLabel34">Modifier le mot de passe</h4>
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <i data-feather="x"></i>
               </button>
@@ -117,23 +117,23 @@
                 <div class="col-12">
                   <div class="col-12">
                     <div class="form-group mandatory">
-                      <label for="password-id-column" class="form-label">Password</label>
-                      <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                      <label for="password-id-column" class="form-label">Mot de passe</label>
+                      <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="Mot de passe..." data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group mandatory">
-                      <label for="cpassword-id-column" class="form-label">Confirm Password</label>
-                      <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirm Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-equalto="#password-id-column" data-parsley-error-message="Passwords must match." />
+                      <label for="cpassword-id-column" class="form-label">Confirmez le mot de passe</label>
+                      <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirmez le mot de passe..." data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-equalto="#password-id-column" data-parsley-error-message="Passwords must match." />
                     </div>
                   </div>
 
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Close
+                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Fermer
                 </button>
-                <button id="submit-button" type="submit" class="btn btn-primary ms-1">Edit</button>
+                <button id="submit-button" type="submit" class="btn btn-primary ms-1">Modifier</button>
               </div>
 
             </div>

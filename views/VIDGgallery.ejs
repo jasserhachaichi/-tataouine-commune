@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
+<%- include('./commun/head', { nonce,titre: 'Videos'}) %>
 <style>
   #gallery .play-icon-container {
     background-color: white;
@@ -20,6 +18,7 @@
   #gallery .play-icon-container:hover {
     background-color: red;
   }
+
   #gallery .play-icon-container:hover svg {
     fill: white;
   }
@@ -66,6 +65,7 @@
     -webkit-box-orient: vertical;
   }
 </style>
+</head>
 
 <body>
   <%- include('./partials/navbar') %>
@@ -188,7 +188,7 @@
 
               <div class="play-icon-container position-absolute top-50 start-50 translate-middle">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
-                  <path  d="M0 256a256 256 0 1 1 512 0a256 256 0 1 1-512 0m188.3-108.9c-7.6 4.2-12.3 12.3-12.3 20.9v176c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z" />
+                  <path d="M0 256a256 256 0 1 1 512 0a256 256 0 1 1-512 0m188.3-108.9c-7.6 4.2-12.3 12.3-12.3 20.9v176c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z" />
                 </svg>
               </div>
             </a>
@@ -209,7 +209,7 @@
           <ul class="pagination pagination-primary  justify-content-center">
             <% if (currentPage > 1) { %>
             <li class="page-item">
-              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
             </li>
             <% } %>
             <% for (let i = 1; i <= totalPages; i++) { %>
@@ -219,7 +219,7 @@
             <% } %>
             <% if (currentPage < totalPages) { %>
             <li class="page-item">
-              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
             </li>
             <% } %>
           </ul>

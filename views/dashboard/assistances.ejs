@@ -15,16 +15,16 @@
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
               <h3>Tous les formulaires</h3>
-              <p class="text-subtitle text-muted">Upload and publish new video, Youtube and Local, content on the
-                website or platform.</p>
+<!--               <p class="text-subtitle text-muted">Upload and publish new video, Youtube and Local, content on the
+                website or platform.</p> -->
             </div>
 
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Add Video
-                  </li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Formulaire</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tous les formulaires</li>
                 </ol>
               </nav>
             </div>
@@ -88,7 +88,7 @@
               <ul class="pagination pagination-primary justify-content-center">
                 <% if (currentPage > 1) { %>
                 <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                  <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
                 </li>
                 <% } %>
                 <% for (let i = 1; i <= totalPages; i++) { %>
@@ -98,7 +98,7 @@
                 <% } %>
                 <% if (currentPage < totalPages) { %>
                 <li class="page-item">
-                  <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                  <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
                 </li>
                 <% } %>
               </ul>

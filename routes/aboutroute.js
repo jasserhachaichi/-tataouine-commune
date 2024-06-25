@@ -6,8 +6,9 @@ router.get("/", (req, res) => {
     const nonce = res.locals.nonce;
     try {
         return res.render("about",{nonce});
-    } catch (err) {
-        res.redirect("/404");
+    } catch (error) {
+        //return res.redirect("/404");
+        return res.render("error", {error});
     }
 });
 

@@ -110,7 +110,7 @@ $(document).ready(function () {
                 setTimeout(function () {
                     viderInputs();
                     showMessage(response, -1, "#4fbe87");
-                    $('#submit-button').prop('disabled', false).html('Post');
+                    $('#submit-button').prop('disabled', false).html('Sauvegarder');
                 }, 1000);
 
 
@@ -126,7 +126,7 @@ $(document).ready(function () {
                     });
                 }
                 // Re-enable the submit button
-                $('#submit-button').prop('disabled', false).html('Post');
+                $('#submit-button').prop('disabled', false).html('Sauvegarder');
 
             }
         });

@@ -61,7 +61,7 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $('#summernote').summernote('code', '');
                     showMessage(response.message, 3000, "#4fbe87");
-                    $('#submit-button').prop('disabled', false).html('Post');
+                    $('#submit-button').prop('disabled', false).html('Sauvegarder');
                 }, 1000);
             },
             error: function (xhr, status, error) {
@@ -73,7 +73,7 @@ $(document).ready(function () {
                 } else {
                     showMessage("An unexpected error occurred.", 5000, "#dc3545");
                 }
-                $('#submit-button').prop('disabled', false).html('Post');
+                $('#submit-button').prop('disabled', false).html('Sauvegarder');
             }
         });
     });

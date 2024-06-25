@@ -27,7 +27,8 @@ router.get("/", async (req, res) => {
         return res.render("dashboard/users", { users, isUser, nonce });
 
     } catch (error) {
-        return res.redirect("/404");
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 router.get("/admin", async (req, res) => {
@@ -49,7 +50,8 @@ router.get("/admin", async (req, res) => {
     } catch (error) {
         // If an error occurs, redirect to a 404 page or handle it as you see fit
         console.error(error);
-        return res.redirect("/404");
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 
@@ -66,7 +68,8 @@ router.get("/delete/:userId", async (req, res) => {
         return res.redirect("/users");
     } catch (error) {
         //console.error(error);
-        return res.status(500).send("Internal Server Error");
+        //return res.status(500).send("Internal Server Error");
+        return res.render("error", { error });
     }
 });
 
@@ -118,7 +121,8 @@ router.post('/key/:userId', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Internal Server Error');
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -156,7 +160,8 @@ router.post("/forgot-password", async (req, res) => {
         return res.status(200).json({ message: "Un e-mail de réinitialisation de mot de passe a été envoyé à l'administrateur" });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Erreur interne du serveur" });
+        //return res.status(500).json({ message: "Erreur interne du serveur" });
+        return res.render("error", { error });
     }
 });
 router.post('/updateadmin', async (req, res) => {
@@ -219,7 +224,8 @@ router.post('/updateadmin', async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        //return res.status(500).json({ message: "Internal server error" });
+        return res.render("error", { error });
     }
 });
 

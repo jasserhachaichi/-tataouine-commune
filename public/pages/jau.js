@@ -55,7 +55,7 @@ $(document).ready(function () {
                         backgroundColor: "#198754",
                     }).showToast();
 
-                    $('#submit-button').prop('disabled', false).html('Edit');
+                    $('#submit-button').prop('disabled', false).html('Modifier');
                     $('#editpopup').modal('hide');
                     $('#editform').trigger('reset');
                 },
@@ -83,12 +83,12 @@ $(document).ready(function () {
                         }).showToast();
                     }
 
-                    $('#submit-button').prop('disabled', false).html('Edit');
+                    $('#submit-button').prop('disabled', false).html('Modifier');
                 }
             });
         } else {
             showAlert('User not updated successfully!', 'alert-danger', 'bi-file-excel');
-            $('#submit-button').prop('disabled', false).html('Edit');
+            $('#submit-button').prop('disabled', false).html('Modifier');
         }
     });
 });

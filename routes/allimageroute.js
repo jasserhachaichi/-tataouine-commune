@@ -35,7 +35,8 @@ router.get("/", async (req, res) => {
     return res.render("dashboard/allimage", { images: resizedImages, currentPage: pageNumber, totalPages, isUser, nonce });
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Internal Server Error');
+    //return res.status(500).send('Internal Server Error');
+    return res.render("error", { error });
   }
 });
 
@@ -56,7 +57,8 @@ router.post("/delete-image/:id", async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    return res.redirect("/404");
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 

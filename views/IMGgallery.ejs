@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
-
+<%- include('./commun/head', { nonce , titre: 'Images'}) %>
+</head>
 
 
 <body class="overflow-x-hidden">
@@ -62,12 +60,12 @@
 
 
 
-  <script nonce="<%= nonce %>"  src="plugin/jquery-tjgallery.min.js"></script>
+  <script nonce="<%= nonce %>" src="plugin/jquery-tjgallery.min.js"></script>
 
-  <script nonce="<%= nonce %>"  type="text/javascript">
+  <script nonce="<%= nonce %>" type="text/javascript">
     lightGallery(document.getElementById('lightgallery'));
   </script>
-  <script nonce="<%= nonce %>" >
+  <script nonce="<%= nonce %>">
     // waiting for loading page
     $(window).on('load', function() {
       $('.pictures').tjGallery();

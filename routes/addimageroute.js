@@ -30,7 +30,11 @@ const upload = multer({ storage: storage });
 router.get("/", (req, res) => {
   const isUser = req.userRole;
   const nonce = res.locals.nonce;
-  return res.render("dashboard/addimage", { isUser,nonce });
+  try {
+    return res.render("dashboard/addimage", { isUser, nonce });
+  } catch (error) {
+    return res.render("error", { error });
+  }
 });
 router.post('/', upload.array('filepond'), async (req, res) => {
   try {
@@ -54,7 +58,8 @@ router.post('/', upload.array('filepond'), async (req, res) => {
     return res.json({ success: "Uploaded successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement des fichiers.' });
+    //return res.status(500).json({ success: false, error: 'Erreur lors de l\'enregistrement des fichiers.' });
+    return res.render("error", { error });
   }
 });
 

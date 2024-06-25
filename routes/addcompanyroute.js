@@ -16,7 +16,11 @@ const validationRules = [
 router.get("/", (req, res) => {
   const isUser = req.userRole;
   const nonce = res.locals.nonce;
-  return res.render("dashboard/addcompany", {isUser,nonce});
+  try {
+    return res.render("dashboard/addcompany", { isUser, nonce });
+  } catch (error) {
+    return res.render("error", { error });
+  }
 });
 
 router.post('/', validationRules, async (req, res) => {
@@ -45,7 +49,7 @@ router.post('/', validationRules, async (req, res) => {
       ltd: Ttd,
       location,
       domain,
-    }); 
+    });
 
 
 
@@ -53,7 +57,8 @@ router.post('/', validationRules, async (req, res) => {
     return res.status(200).json({ message: 'Company information saved successfully' });
   } catch (error) {
     console.error('Error saving company information:', error);
-    return res.status(500).json({ message: 'Error saving company information' });
+    //return res.status(500).json({ message: 'Error saving company information' });
+    return res.render("error", { error });
   }
 });
 

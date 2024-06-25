@@ -40,8 +40,9 @@ router.get("/", async (req, res) => {
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
             search: search, isUser, nonce
         });
-    } catch (err) {
-        return res.redirect("/404");
+    } catch (error) {
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 
@@ -83,9 +84,10 @@ router.get("/delete/:id", async (req, res) => {
          await Announcement.findByIdAndDelete(announcementId);
 
         return res.redirect("/allposts");
-    } catch (err) {
-        console.error(err);
-        return res.redirect("/404");
+    } catch (error) {
+        console.error(error);
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 

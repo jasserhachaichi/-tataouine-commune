@@ -41,7 +41,8 @@ router.get('/', async (req, res) => {
          });
     } catch (error) {
         console.error('Error fetching FAQs:', error);
-        return res.status(500).send('Internal Server Error');
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -53,7 +54,8 @@ router.get('/addfaq', async (req, res) => {
         return res.render("dashboard/addfaq", {isUser,nonce});
     } catch (error) {
         console.error('Error fetching form data:', error);
-        return res.status(500).send('Internal Server Error');
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -92,7 +94,8 @@ router.post('/addfaq/newq', async (req, res) => {
         return res.status(200).json({ message: 'FAQ added successfully!' });
     } catch (error) {
         console.error('Error saving FAQ:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        //return res.status(500).json({ message: 'Internal Server Error' });
+        return res.render("error", { error });
     }
 });
 
@@ -109,7 +112,8 @@ router.get('/deletefaq/:id', async (req, res) => {
         return res.redirect('/allfaq');
     } catch (error) {
         console.error('Error deleting FAQ:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+        //return res.status(500).json({ message: 'Internal Server Error' });
+        return res.render("error", { error });
     }
 });
 

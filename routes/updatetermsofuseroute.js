@@ -9,7 +9,12 @@ const upload = multer();
 router.get("/", (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    return res.render("dashboard/termsofuse", {isUser,nonce});
+    try {
+        return res.render("dashboard/termsofuse", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
+
 });
 
 router.post('/terms', upload.none(), async (req, res) => {
@@ -39,7 +44,8 @@ router.post('/terms', upload.none(), async (req, res) => {
     } catch (error) {
         // Handle errors
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        //return res.status(500).json({ message: "Internal server error" });
+        return res.render("error", { error });
     }
 });
 

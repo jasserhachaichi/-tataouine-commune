@@ -10,7 +10,12 @@ router.use(express.static("public"));
 router.get("/", (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    return res.render("dashboard/adduser", {isUser,nonce});
+    try {
+        return res.render("dashboard/adduser", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
+
 });
 
 // POST endpoint to handle form submission with validation
@@ -18,7 +23,7 @@ router.post('/addNewuser', [
     // Validate and sanitize fields
     body('lname-column').notEmpty().withMessage('Last name is required'),
     body('password-id-column').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
-    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$/)
+        .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$/)
         .withMessage('Password must contain at least one letter, one digit, and one of the following special characters: @#$%^&+='),
     body('fname-column').notEmpty().withMessage('First name is required'),
     body('email-id-column').notEmpty().withMessage('Email is required').isEmail().withMessage('Invalid email address')
@@ -33,29 +38,29 @@ router.post('/addNewuser', [
     }
     //console.log("jasser222");
     try {
-    // Extract data from request body
-    const { 'fname-column': fnameColumn, 'lname-column': lnameColumn, 'email-id-column': emailIdColumn, 'password-id-column': passwordIdColumn } = req.body;
+        // Extract data from request body
+        const { 'fname-column': fnameColumn, 'lname-column': lnameColumn, 'email-id-column': emailIdColumn, 'password-id-column': passwordIdColumn } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: emailIdColumn });
-    if (existingUser) {
-        return res.status(400).json({ message: "Email already exists" });
-    }
-        
-
-
-    // Encrypt the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(passwordIdColumn, saltRounds);
+        // Check if user already exists
+        const existingUser = await User.findOne({ email: emailIdColumn });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already exists" });
+        }
 
 
-    // Create a new user object
-    const newUser = new User({
-        email: emailIdColumn,
-        password: hashedPassword,
-        lastname: lnameColumn,
-        firstname: fnameColumn            
-    });
+
+        // Encrypt the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(passwordIdColumn, saltRounds);
+
+
+        // Create a new user object
+        const newUser = new User({
+            email: emailIdColumn,
+            password: hashedPassword,
+            lastname: lnameColumn,
+            firstname: fnameColumn
+        });
         console.log(newUser);
         // Save the user to the database
         await newUser.save();
@@ -63,48 +68,27 @@ router.post('/addNewuser', [
 
         const mailOptions = {
             from: process.env.sendermail,
-            to:  emailIdColumn,
+            to: emailIdColumn,
             subject: '(No Reply) Welcome to Tataouine commune Platform',
             text: `Hello ${fnameColumn},\n\nThank you for signing up. Your account has been created successfully.\n\nYour login credentials:\nEmail: ${emailIdColumn}\nPassword: ${passwordIdColumn}\n\nBest regards,\nYour Company`
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.error(error);
-                    return res.status(500).json({ message: "Error sending email" });
-                } else {
-                    console.log('Email sent: ' + info.response);
-                    return res.status(201).json({ message: "User created successfully and email sent" });
-                }
-            });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                //return res.status(500).json({ message: "Error sending email" });
+                return res.render("error", { error });
+            } else {
+                console.log('Email sent: ' + info.response);
+                return res.status(201).json({ message: "User created successfully and email sent" });
+            }
+        });
         // Respond with success message
         //return res.status(201).json({ message: "User created successfully" });
     } catch (error) {
         // Handle errors
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        //return res.status(500).json({ message: "Internal server error" });
+        return res.render("error", { error });
     }
 });
 

@@ -28,11 +28,29 @@ app.use(
             scriptSrc: ["'self'"
                 , "'unsafe-inline'"
                 , (req, res) => `'nonce-${res.locals.nonce}'`,
-                , "https://formbuilder.online"
+                , "https://formbuilder.online",
+                "https://accounts.google.com",
+                "https://apis.google.com",
+                "https://www.gstatic.com"
 
             ],
-            frameSrc: ["'self'", "https://www.google.com", "www.youtube.com",], // Allow framing from Google
-            imgSrc: ["'self'", "data:", "https://formbuilder.online", "i.ytimg.com", "https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"],
+            frameSrc: ["'self'", "https://www.google.com", "www.youtube.com", "https://accounts.google.com",], // Allow framing from Google
+            imgSrc: ["'self'", "data:", "https://formbuilder.online", "i.ytimg.com", "https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif", "https://www.gstatic.com"],
+            connectSrc: [
+                "'self'",
+                "https://accounts.google.com",
+                "https://www.googleapis.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "data:",
+                "https://fonts.gstatic.com"
+            ]
             // Add other directives as needed (e.g., imgSrc, connectSrc, etc.)
         },
         // Set reportOnly to true during testing to monitor violations without blocking
@@ -76,7 +94,7 @@ require('./config/googleauth2');
 // Additional Helmet protections
 //app.use(helmet.crossOriginEmbedderPolicy());// problem: block embedded YouTube player and localhost
 app.use(helmet.crossOriginOpenerPolicy());
-app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(helmet.originAgentCluster());
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.frameguard());
@@ -97,16 +115,12 @@ app.use((req, res, next) => {
 
 // url Routes
 app.get('/', (req, res) => {
-    console.log("bye bye3");
     res.redirect("/home");
 })
 app.use("/home", require("./routes/homeroute"));
 
 app.get('/404', (req, res) => {
     return res.render("404");
-})
-app.get('/blog', (req, res) => {
-    return res.render("blogpage");
 })
 app.use("/forms", require("./routes/formsroute"));
 app.use("/termsofuse", require("./routes/termsofuseroute"));
@@ -217,7 +231,10 @@ app.get('/logout', (req, res) => {
 app.use("/success", require("./routes/successroute"));
 app.use("/failure", require("./routes/failureroute"));
 
-
+app.get('/error', (req, res) => {
+    var error = "test";
+    return res.render("error", {error});
+})
 
 
 

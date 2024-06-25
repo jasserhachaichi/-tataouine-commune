@@ -31,7 +31,7 @@ $(document).ready(function() {
               // Assuming response contains a message field
               showAlert(response.message, 'alert-success', 'bi-check-circle');
             }
-            $('#submit-button').prop('disabled', false).html('Submit');
+            $('#submit-button').prop('disabled', false).html('Sauvegarder');
             // Reset the form
             $('#myform').trigger('reset');
 
@@ -60,7 +60,7 @@ $(document).ready(function() {
           }
 
           // Re-enable the submit button
-          $('#submit-button').prop('disabled', false).html('Submit');
+          $('#submit-button').prop('disabled', false).html('Sauvegarder');
           // You can display an error message to the user here
         }
       });
@@ -69,7 +69,7 @@ $(document).ready(function() {
       //console.log('Form validation failed');
       showAlert('User not created successfully!', 'alert-danger', 'bi-file-excel');
       // Re-enable the submit button
-      $('#submit-button').prop('disabled', false).html('Submit');
+      $('#submit-button').prop('disabled', false).html('Sauvegarder');
       // You can optionally display an error message to the user
     }
   });

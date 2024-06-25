@@ -50,9 +50,10 @@ router.get("/", async (req, res) => {
             search: search,
             isNewBlog: isNewBlog, isUser, nonce
         });
-    } catch (err) {
-        console.error(err);
-        return res.redirect("/404");
+    } catch (error) {
+        console.error(error);
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 router.get("/delete/:id", async (req, res) => {
@@ -98,9 +99,10 @@ router.get("/delete/:id", async (req, res) => {
         await Blog.findByIdAndDelete(blogId);
 
         return res.redirect("/allblogs");
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send("Internal Server Error");
+    } catch (error) {
+        console.error(error);
+        //return res.status(500).send("Internal Server Error");
+        return res.render("error", { error });
     }
 });
 router.get('/:id', async (req, res) => {
@@ -159,7 +161,8 @@ router.get('/:id', async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Server Error');
+        //return res.status(500).send('Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -195,7 +198,8 @@ router.get('/comments/PC/:blogId/:idP', async (req, res) => {
         return res.redirect(redirectUrl);
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Server Error');
+        //return res.status(500).send('Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -245,7 +249,8 @@ router.get('/comments/RC/:blogId/:idR', async (req, res) => {
         return res.redirect(redirectUrl);
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Server Error');
+        //return res.status(500).send('Server Error');
+        return res.render("error", { error });
     }
 });
 

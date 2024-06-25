@@ -100,7 +100,7 @@ $(document).ready(function () {
                 setTimeout(function () {
                     viderInputs();
                     showMessage(response, -1, "#4fbe87");
-                    $('#submit-button').prop('disabled', false).html('Send Email');
+                    $('#submit-button').prop('disabled', false).html('Envoyer un e-mail');
                 }, 1000);
 
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
                 console.error(error);
                 showMessage(error, -1, "#dc3545");
                 // Re-enable the submit button
-                $('#submit-button').prop('disabled', false).html('Send Email');
+                $('#submit-button').prop('disabled', false).html('Envoyer un e-mail');
             }
         });
     });

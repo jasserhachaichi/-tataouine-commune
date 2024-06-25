@@ -59,9 +59,10 @@ router.get("/", async (req, res) => {
             search: search,
             isNewBlog: isNewBlog,nonce
         });
-    } catch (err) {
-        console.error(err);
-        return res.redirect("/404");
+    } catch (error) {
+        console.error(error);
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 router.get('/:id', async (req, res) => {
@@ -103,9 +104,10 @@ router.get('/:id', async (req, res) => {
         const prevBlog = await Blog.findOne({ _id: { $lt: blogId } }).select('title _id').sort({ _id: -1 });
 
         return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments,nonce });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
+    } catch (error) {
+        console.error(error);
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -138,9 +140,10 @@ router.get('/:id/comments', async (req, res) => {
         //console.log(comments);
 
         res.json({ comments, TTC: existec });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+    } catch (error) {
+        console.error(error);
+        //res.status(500).json({ error: 'Internal Server Error' });
+        return res.render("error", { error });
     }
 });
 
@@ -285,10 +288,11 @@ router.post("/:id/comment", async (req, res) => {
         const pDate = formatDateC(newPrincipalComment.date_comment);
         return res.status(200).json({ message: 'Comment created successfully', idP, pDate });
 
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
         //return res.redirect("/404");
-        return res.status(500).json({ errors: ['Error creating comment'] });
+        //return res.status(500).json({ errors: ['Error creating comment'] });
+        return res.render("error", { error });
     }
 });
 
@@ -381,10 +385,11 @@ router.post("/:id/Rcomment", async (req, res) => {
 
         const pDate = formatDateC(replyComment.date_reply);
         return res.status(200).json({ message: 'Comment created successfully', data_idP, pDate, data_to, idR });
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
         //return res.redirect("/404");
-        return res.status(500).json({ errors: ['Error creating comment'] });
+        //return res.status(500).json({ errors: ['Error creating comment'] });
+        return res.render("error", { error });
     }
 });
 

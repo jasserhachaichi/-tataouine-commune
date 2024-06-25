@@ -15,15 +15,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>All Announcement</h3>
-              <p class="text-subtitle text-muted">Displays a comprehensive list of all recent and past announcements made on the website or platform.</p>
+              <h3>Toutes les annonces</h3>
+              <p class="text-subtitle text-muted">Affiche une liste complète de toutes les annonces récentes et passées faites sur le site Web ou la plateforme.</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">All Announcement
-                  </li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Annonce</li>
+                  <li class="breadcrumb-item active" aria-current="page">Toutes les annonces</li>
                 </ol>
               </nav>
             </div>
@@ -39,8 +39,8 @@
                   <form action="/allposts" method="GET" class="container">
                     <div class="col-8 mx-auto">
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="search" placeholder="Search..." aria-label="Search..." aria-describedby="button-addon2">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <input type="text" class="form-control" name="search" placeholder="Recherche..." aria-label="Search..." aria-describedby="button-addon2">
+                        <button class="btn btn-primary" type="submit">Recherche</button>
                       </div>
                     </div>
                   </form>
@@ -75,7 +75,7 @@
                     <ul class="pagination pagination-primary  justify-content-center">
                       <% if (currentPage > 1) { %>
                       <li class="page-item">
-                        <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
                       </li>
                       <% } %>
                       <% for (let i = 1; i <= totalPages; i++) { %>
@@ -85,7 +85,7 @@
                       <% } %>
                       <% if (currentPage < totalPages) { %>
                       <li class="page-item">
-                        <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
                       </li>
                       <% } %>
                     </ul>

@@ -38,7 +38,8 @@ router.get('/', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching form data:', error);
-        return res.status(500).send('Internal Server Error');
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 

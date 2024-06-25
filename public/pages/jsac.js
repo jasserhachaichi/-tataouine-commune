@@ -54,5 +54,5 @@ document.getElementById('companyInfoForm').addEventListener('submit', async func
         console.error('An error occurred:', error);
     }
 
-    $('#submit-button').prop('disabled', false).html('Submit');
+    $('#submit-button').prop('disabled', false).html('Sauvegarder');
 });

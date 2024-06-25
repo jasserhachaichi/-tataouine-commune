@@ -37,16 +37,24 @@ function isLoggedIn(req, res, next) {
 }
 
 router.use('/logout', (req, res) => {
-    res.clearCookie('visitor');
+    try {
+        res.clearCookie('visitor');
+        if (req.session && req.session.visitor) {
+            req.session.visitor = null;
+        }
+        return res.redirect("/form");
 
-    if (req.session && req.session.visitor) {
-        req.session.visitor = null;
+    } catch (error) {
+        return res.render("error", { error });
     }
-    return res.redirect("/form");
 });
 
 router.get("/", (req, res) => {
-    return res.redirect("/assistances");
+    try {
+        return res.redirect("/assistances");
+    } catch (error) {
+        return res.render("error", { error });
+    }
 });
 
 
@@ -61,10 +69,11 @@ router.get('/:id', isLoggedIn, async (req, res) => {
         //console.log(visitorCookie);
         const visitor = JSON.parse(decodeURIComponent(visitorCookie));
         res.render('dashboard/form', { formId, visitorName: visitor.name, visitorEmail: visitor.email, nonce });
-    } catch (err) {
+    } catch (error) {
         // Handle errors
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+        console.error(error);
+        //res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 
@@ -77,10 +86,11 @@ router.get('/formdata/:id', isLoggedIn, async (req, res) => {
             return res.status(404).json({ message: 'Form data not found' });
         }
         //console.log("---------------------feilds");
-        res.status(200).json({ Data: formData.attributes });
+        return res.status(200).json({ Data: formData.attributes });
     } catch (error) {
         console.error('Error retrieving form data:', error);
-        res.status(500).send('Internal server error');
+        //res.status(500).send('Internal server error');
+        return res.render("error", { error });
     }
 });
 
@@ -109,7 +119,8 @@ router.get('/delete/:id', async (req, res) => {
         return res.redirect("/assistances");
     } catch (error) {
         console.error('Error deleting form data:', error);
-        return res.redirect("/404"); // Handle error appropriately
+        //return res.redirect("/404"); // Handle error appropriately
+        return res.render("error", { error });
     }
 });
 

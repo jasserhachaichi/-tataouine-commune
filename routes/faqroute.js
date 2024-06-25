@@ -40,7 +40,8 @@ router.get('/', async (req, res) => {
          });
     } catch (error) {
         console.error('Error fetching FAQs:', error);
-        return res.status(500).send('Internal Server Error');
+        //return res.status(500).send('Internal Server Error');
+        return res.render("error", { error });
     }
 });
 

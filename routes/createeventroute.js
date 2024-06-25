@@ -10,7 +10,7 @@ router.use(express.static("public"));
 function getRandomNumber(maxLength) {
     const max = Math.pow(10, maxLength) - 1;
     return Math.floor(Math.random() * max);
-  }
+}
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -30,7 +30,12 @@ const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name
 router.get('/', (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    return res.render("dashboard/createEvent", { isUser ,nonce});
+    try {
+        return res.render("dashboard/createEvent", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
+
 })
 
 router.post('/', async (req, res) => {
@@ -151,7 +156,8 @@ router.post('/', async (req, res) => {
             return res.status(200).send('Event posted successfully');
         } catch (error) {
             console.error(error);
-            return res.status(500).send('Error posting Event');
+            //return res.status(500).send('Error posting Event');
+            return res.render("error", { error });
         }
     });
 });

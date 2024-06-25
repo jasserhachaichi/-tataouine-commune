@@ -9,9 +9,8 @@ router.use(express.static("public"));
 function getRandomNumber(maxLength) {
     const max = Math.pow(10, maxLength) - 1;
     return Math.floor(Math.random() * max);
-  }
+}
 
-/* const ffmpeg = require('fluent-ffmpeg');*/
 const fs = require('fs');
 
 /* function getYoutubeThumbnail(url) {
@@ -48,7 +47,11 @@ const uploady = multer({ storage: storage });
 router.get("/", (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    return res.render("dashboard/addvideo", { isUser ,nonce});
+    try {
+        return res.render("dashboard/addvideo", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
 });
 
 
@@ -121,7 +124,8 @@ router.post('/local', async (req, res) => {
             return res.status(200).json({ message: 'Video added successfully' });
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ errors: 'Internal server error' });
+            //return res.status(500).json({ errors: 'Internal server error' });
+            return res.render("error", { error });
         }
     });
 });
@@ -162,7 +166,8 @@ router.post('/youtube', uploady.single('thumbnail-column'), async (req, res) => 
         return res.json({ message: 'Video uploaded successfully!' });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ errors: 'Internal server error' });
+        //return res.status(500).json({ errors: 'Internal server error' });
+        return res.render("error", { error });
     }
 });
 

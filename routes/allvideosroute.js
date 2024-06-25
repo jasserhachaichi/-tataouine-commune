@@ -40,8 +40,9 @@ router.get("/", async (req, res) => {
             totalPages: Math.ceil(await Videog.countDocuments(query) / perPage),
             search: search, isUser, nonce
         });
-    } catch (err) {
-        return res.redirect("/404");
+    } catch (error) {
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 
@@ -77,9 +78,10 @@ router.get("/delete/:id", async (req, res) => {
         await Videog.findByIdAndDelete(videoId);
 
         return res.redirect("/allvideos");
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Internal server error" });
+    } catch (error) {
+        console.error(error);
+        //return res.status(500).json({ message: "Internal server error" });
+        return res.render("error", { error });
     }
 });
 

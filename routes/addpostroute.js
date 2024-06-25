@@ -34,7 +34,11 @@ const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name
 router.get("/", (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    res.render("dashboard/addpost", { isUser, nonce });
+    try {
+        res.render("dashboard/addpost", { isUser, nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
 });
 
 // POST route for submitting the form
@@ -124,7 +128,8 @@ router.post('/', async (req, res) => {
             return res.status(200).send('Announcement posted successfully');
         } catch (error) {
             console.error(error);
-            return res.status(500).send('Error posting announcement');
+            //return res.status(500).send('Error posting announcement');
+            return res.render("error", { error });
         }
     });
 });

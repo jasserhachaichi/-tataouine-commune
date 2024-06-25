@@ -14,14 +14,14 @@
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
               <h3>Email Details</h3>
-              <p class="text-subtitle text-muted">The default layout.</p>
+             <!--  <p class="text-subtitle text-muted">The default layout.</p> -->
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/emailbox">Mailbox</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Email Details</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Boîte email</li>
+                  <li class="breadcrumb-item active" aria-current="page">Détails de l'e-mail</li>
                 </ol>
               </nav>
             </div>
@@ -33,28 +33,28 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h1 class="card-title"><code><strong>SUBJECT: </strong></code><%= email.subject %></h1>
+                  <h1 class="card-title"><code><strong>SUJET: </strong></code><%= email.subject %></h1>
                 </div>
                 <div class="card-body">
                   <div class="divider">
-                    <div class="divider-text">Email informations</div>
+                    <div class="divider-text">Informations par e-mail</div>
                   </div>
 
                   <div class="container">
                     <div class="row">
                       <div class="col-12">
-                        <h5><code><strong>Full Name: </strong></code><%= email.fullname %></h5>
+                        <h5><code><strong>Nom et prénom: </strong></code><%= email.fullname %></h5>
                       </div>
                       <div class="col-6">
-                        <h5><code><strong>Email: </strong></code><%= email.email %></h5>
+                        <h5><code><strong>E-mail: </strong></code><%= email.email %></h5>
                       </div>
                       <div class="col-6">
-                        <h5><code><strong>Phone Number: </strong></code><%= email.country %> <%= email.tel %></h5>
+                        <h5><code><strong>Numéro de téléphone: </strong></code><%= email.country %> <%= email.tel %></h5>
                       </div>
                     </div>
                   </div>
                   <div class="divider">
-                    <div class="divider-text">Email Message</div>
+                    <div class="divider-text">Message électronique</div>
                   </div>
                   <div class="container">
                     <div class="row">
@@ -65,7 +65,7 @@
                   </div>
 
                   <div class="divider">
-                    <div class="divider-text">Attachments</div>
+                    <div class="divider-text">Pièces jointes</div>
                   </div>
                   <div class="container">
                     <div class="row">

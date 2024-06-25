@@ -44,9 +44,10 @@ router.get("/", async (req, res) => {
       locations, selectedLocation: req.query.location,
       domains,selectedDomain: req.query.domain,nonce
     });
-  } catch (err) {
-    console.error(err);
-    return res.redirect("/404");
+  } catch (error) {
+    console.error(error);
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 

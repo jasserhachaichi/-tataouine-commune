@@ -33,14 +33,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>Add Event</h3>
+              <h3>Ajouter un évènement</h3>
               <p class="text-subtitle text-muted">Create and share event details effortlessly</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Add Event</li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Événement</li>
+                  <li class="breadcrumb-item active" aria-current="page">Ajouter un évènement</li>
                 </ol>
               </nav>
             </div>
@@ -51,13 +52,13 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Event Details</h4>
+                <h4 class="card-title">Détails de l'évènement</h4>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6 col-12">
                     <div class="form-group  mandatory">
-                      <label for="event-title" class="form-label">Event title</label>
+                      <label for="event-title" class="form-label">Titre de l'événement</label>
                       <input type="text" id="event-title" class="form-control" placeholder="Event title" name="event-title">
                     </div>
                   </div>
@@ -65,34 +66,34 @@
                     <label class="form-label">Type</label>
                     <div class="input-group mb-3">
                       <select class="form-select" id="inputGroupSelect01" name="type">
-                        <option value="" selected>Select event type</option>
-                        <option value="organizational">Organizational</option>
-                        <option value="external">External</option>
-                        <option value="technical">Technical</option>
+                        <option value="" selected>Sélectionnez le type d'événement</option>
+                        <option value="organizational">Organisationnel</option>
+                        <option value="external">Externe</option>
+                        <option value="technical">Technique</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="venue">Venue</label>
+                      <label for="venue">Lieu</label>
                       <input type="text" id="venue" class="form-control" placeholder="Venue" name="venue">
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="country">Country</label>
+                      <label for="country">Pays</label>
                       <input type="text" id="country" class="form-control" placeholder="Country" name="country">
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="state">State</label>
+                      <label for="state">État</label>
                       <input type="text" id="state" class="form-control" placeholder="State" name="state">
                     </div>
                   </div>
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="city">City</label>
+                      <label for="city">Ville</label>
                       <input type="text" id="city" class="form-control" placeholder="City" name="city">
                     </div>
                   </div>
@@ -132,27 +133,27 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Schedule</h4>
+                <h4 class="card-title">Calendrier</h4>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6 col-12">
                     <div class="form-group mandatory">
-                      <label for="start-date" class="form-label">Start date</label>
+                      <label for="start-date" class="form-label">Date de début</label>
                       <input type="text" id="start-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="start-date">
                     </div>
                   </div>
 
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="end-date" class="form-label">End date</label>
+                      <label for="end-date" class="form-label">Date de fin</label>
                       <input type="text" id="end-date" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="end-date">
                     </div>
                   </div>
 
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="Reg-dead">Registration deadline</label>
+                      <label for="Reg-dead">Date limite d'inscription</label>
                       <input type="text" id="Reg-dead" class="form-control mb-3 flatpickr-no-config flatpickr-input" placeholder="Select date.." readonly="readonly" name="Reg-dead">
                     </div>
                   </div>
@@ -164,13 +165,13 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Logo & Names</h4>
+                <h4 class="card-title">Logo & Noms</h4>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6 col-12">
                     <div class="form-group">
-                      <label for="organizers">ORGANIZERS</label>
+                      <label for="organizers">LES ORGANISATEURS</label>
                       <!--                       <input type="text" id="organizers" class="form-control" placeholder="ORGANIZERS" name="organizers"> -->
                       <input id="organizers" class="form-control" name="organizers">
                     </div>
@@ -197,7 +198,7 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Photo Cover</h4>
+                <h4 class="card-title">Couverture photo</h4>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -212,7 +213,7 @@
           <section class="section">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Attachements</h4>
+                <h4 class="card-title">Pièces jointes</h4>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -250,7 +251,7 @@
               <div class="card-header">
 
                 <div class="form-group  mandatory">
-                  <h4 class="card-title form-label">About this event</h4>
+                  <h4 class="card-title form-label">À propos de cet événement</h4>
                 </div>
               </div>
               <div class="card-body">
@@ -266,7 +267,7 @@
           </section>
 
           <div class="col-12 d-flex justify-content-end">
-            <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Post</button>
+            <button id="submit-button" type="submit" class="btn btn-primary me-1 mb-1">Sauvegarder</button>
           </div>
 
 

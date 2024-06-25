@@ -69,8 +69,9 @@ router.get("/", async (req, res) => {
             statusFilter: statusFilter,nonce
         });
 
-    } catch (err) {
-        return res.redirect("/404");
+    } catch (error) {
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 // GET route for showing Announcement content by ID
@@ -93,9 +94,10 @@ router.get("/:id", async (req, res) => {
 
         // Render the EJS template with the announcement data
         return res.render("announcement", { announcement,nonce });
-    } catch (err) {
-        console.error(err);
-        return res.redirect("/404");
+    } catch (error) {
+        console.error(error);
+        //return res.redirect("/404");
+        return res.render("error", { error });
     }
 });
 

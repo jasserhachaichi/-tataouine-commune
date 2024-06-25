@@ -45,9 +45,10 @@ router.get("/", async (req, res) => {
       locations, selectedLocation: req.query.location,
       domains,selectedDomain: req.query.domain, isUser,nonce
     });
-  } catch (err) {
-    console.error(err);
-    return res.redirect("/404");
+  } catch (error) {
+    console.error(error);
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 router.get("/delete/:id", async (req, res) => {
@@ -55,9 +56,10 @@ router.get("/delete/:id", async (req, res) => {
     const id = req.params.id;
     await Company.findByIdAndDelete(id);
     return res.redirect("/allcompanies");
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Error deleting company" });
+  } catch (error) {
+    console.error(error);
+    //return res.status(500).json({ message: "Error deleting company" });
+    return res.render("error", { error });
   }
 });
 module.exports = router;

@@ -46,7 +46,8 @@ router.get("/", async (req, res) => {
     return res.render("IMGgallery", { images: resizedImages, currentPage: pageNumber, totalPages,nonce });
   } catch (error) {
     console.error(error);
-    return res.redirect("/404");
+    //return res.redirect("/404");
+    return res.render("error", { error });
   }
 });
 

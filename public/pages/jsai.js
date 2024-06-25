@@ -48,11 +48,11 @@ document.getElementById('imageForm').addEventListener('submit', function (event)
         .then(data => {
             clearFormFields();
             showMessage(data.success, -1, "#4fbe87");
-            $('#submit-button').prop('disabled', false).html('Upload');
+            $('#submit-button').prop('disabled', false).html('Sauvegarder');
         })
         .catch(error => {
             showMessage(error, 3000, "#dc3545");
-            $('#submit-button').prop('disabled', false).html('Upload');
+            $('#submit-button').prop('disabled', false).html('Sauvegarder');
         });
 
 });

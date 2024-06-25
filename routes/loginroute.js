@@ -7,7 +7,11 @@ const jwt = require('jsonwebtoken');
 router.use(express.static("public"));
 router.get("/", (req, res) => {
     const nonce = res.locals.nonce;
-    return res.render("dashboard/login",{nonce});
+    try {
+        return res.render("dashboard/login", { nonce });
+    } catch (error) {
+        return res.render("error", { error });
+    }
 });
 
 router.post("/verif", [
@@ -60,9 +64,10 @@ router.post("/verif", [
         }
 
         return res.json({ message: 'Login successful' });
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).send('Server Error');
+    } catch (error) {
+        //console.error(err.message);
+        //return res.status(500).send('Server Error');
+        return res.render("error", { error });
     }
 });
 

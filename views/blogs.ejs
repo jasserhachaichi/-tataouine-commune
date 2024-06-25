@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include('./commun/head') %>
+<%- include('./commun/head',{nonce, titre: 'Blogs'}) %>
 <style>
   body {
     overflow-x: hidden !important;
@@ -576,7 +574,7 @@
     }
   }
 </style>
-
+</head>
 
 <body class="bg-light">
   <%- include('./partials/navbar') %>
@@ -653,7 +651,7 @@
           <ul class="pagination pagination-primary justify-content-center">
             <% if (currentPage > 1) { %>
             <li class="page-item">
-              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+              <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
             </li>
             <% } %>
             <% for (let i = 1; i <= totalPages; i++) { %>
@@ -663,7 +661,7 @@
             <% } %>
             <% if (currentPage < totalPages) { %>
             <li class="page-item">
-              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+              <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
             </li>
             <% } %>
           </ul>

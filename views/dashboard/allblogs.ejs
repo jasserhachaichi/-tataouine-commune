@@ -51,15 +51,15 @@
         <div class="page-title">
           <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-              <h3>All Blogs</h3>
-              <p class="text-subtitle text-muted">A comprehensive collection of all published blog posts</p>
+              <h3>Tous les blogs</h3>
+              <p class="text-subtitle text-muted">Une collection complète de tous les articles de blog publiés</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
               <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="/dashhome">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">All Blogs
-                  </li>
+                  <li class="breadcrumb-item"><a href="/dashhome">Tableau de bord</a></li>
+                  <li class="breadcrumb-item active">Blog</li>
+                  <li class="breadcrumb-item active" aria-current="page">Tous les blogs</li>
                 </ol>
               </nav>
             </div>
@@ -76,8 +76,8 @@
                   <form action="/allblogs" method="GET" class="container">
                     <div class="col-8 mx-auto">
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="search" placeholder="Search..." aria-label="Search..." aria-describedby="button-addon2" value="<%= search %>">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <input type="text" class="form-control" name="search" placeholder="Recherche..." aria-label="Recherche..." aria-describedby="button-addon2" value="<%= search %>">
+                        <button class="btn btn-primary" type="submit">Recherche</button>
                       </div>
                     </div>
                   </form>
@@ -134,8 +134,8 @@
 
                             <hr>
                             <div class="d-flex justify-content-evenly mt-3">
-                              <a href="/blogs/<%= blog._id %>" class="btn btn-primary">Preview</a>
-                              <a href="/allblogs/delete/<%= blog._id %>" class="btn btn-danger">Delete</a>
+                              <a href="/blogs/<%= blog._id %>" class="btn btn-primary">Aperçu</a>
+                              <a href="/allblogs/delete/<%= blog._id %>" class="btn btn-danger">Supprimer</a>
                             </div>
                           </div>
                         </div>
@@ -152,7 +152,7 @@
                         <ul class="pagination pagination-primary justify-content-center">
                           <% if (currentPage > 1) { %>
                           <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Previous</a>
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>&search=<%= search %>">Précédent</a>
                           </li>
                           <% } %>
                           <% for (let i = 1; i <= totalPages; i++) { %>
@@ -162,7 +162,7 @@
                           <% } %>
                           <% if (currentPage < totalPages) { %>
                           <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Next</a>
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>&search=<%= search %>">Suivant</a>
                           </li>
                           <% } %>
                         </ul>

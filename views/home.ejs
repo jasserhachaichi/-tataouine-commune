@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  
-<%- include('./commun/head',{nonce}) %>
+<%- include('./commun/head',{nonce, titre: 'Home'}) %>
 <link rel="stylesheet" href="plugin/twentytwenty/twentytwenty.css">
+</head>
 
 <body class="bg-light">
   <%- include('./partials/navbar',{nonce}) %>
@@ -110,7 +108,7 @@
 
 
 
-<% if (achievement) { %>
+  <% if (achievement) { %>
   <section class="bg-light py-3 py-md-5">
     <div class="container">
       <div class="row justify-content-md-center">
@@ -129,13 +127,13 @@
     <div class="container">
       <div class="row gy-4 gy-lg-0 align-items-lg-center">
 
-        
+
         <div class="col-12 col-lg-6">
           <% if (achievement.path) { %>
           <img class="img-fluid rounded framed" loading="lazy" src="<%= achievement.path %>" alt="Our Success">
           <% } else { %>
-            <img class="img-fluid rounded framed" loading="lazy" src="/images/Default-thumbnail.png" alt="Our Success">
-            <% } %>
+          <img class="img-fluid rounded framed" loading="lazy" src="/images/Default-thumbnail.png" alt="Our Success">
+          <% } %>
         </div>
 
 
@@ -410,7 +408,7 @@
     }
   </style>
 
-<% if (recentImages && recentImages.length > 0) { %>
+  <% if (recentImages && recentImages.length > 0) { %>
   <section class="ftco-section">
     <div class="container">
       <div class="row justify-content-md-center">
@@ -459,8 +457,6 @@
     </div>
   </section>
   <% } %>
-
-
 
 
 
@@ -618,35 +614,37 @@
 
 
   <%- include('./commun/footer',{nonce}) %>
-  <script nonce="<%= nonce %>" >
+  <script nonce="<%= nonce %>">
     document.getElementById("subscribeForm").addEventListener("submit", async function(event) {
       event.preventDefault();
-  
+
       const formData = new FormData(this);
       const email = formData.get("email");
-  
+
       try {
         const sendButton = document.getElementById('sendbtn');
         sendButton.disabled = true;
         sendButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Subscribing...';
-  
+
         const response = await fetch("/home/subscribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ email })
+          body: JSON.stringify({
+            email
+          })
         });
-  
+
         let data;
         const contentType = response.headers.get("content-type");
-  
+
         if (contentType && contentType.indexOf("application/json") !== -1) {
           data = await response.json();
         } else {
           data = await response.text();
         }
-  
+
         if (response.ok) {
           Toastify({
             text: data.message || "Subscription successful!",
@@ -685,10 +683,10 @@
       }
     });
   </script>
-  
+
   <script nonce="<%= nonce %>" src="plugin/twentytwenty/jquery.event.move.js"></script>
   <script nonce="<%= nonce %>" src="plugin/twentytwenty/jquery.twentytwenty.js"></script>
-  <script nonce="<%= nonce %>" >
+  <script nonce="<%= nonce %>">
     $(function() {
       $(".twentytwenty-container[data-orientation='vertical']").twentytwenty({
         default_offset_pct: 0.5,

@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const authenticatelogin = (req, res, next) => {
     // Get token from cookies or session based on your implementation
-    const token = req.cookies.token || req.session.token;
+    //const token = req.cookies.token || req.session.token;
+    const token = req.cookies.token;
 
     if (token) {
         jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {

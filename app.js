@@ -211,9 +211,9 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token');
 
     // Clear the session token if it exists
-    if (req.session && req.session.token) {
+/*     if (req.session && req.session.token) {
         req.session.token = null;
-    }
+    } */
 
     return res.redirect("/login");
 });

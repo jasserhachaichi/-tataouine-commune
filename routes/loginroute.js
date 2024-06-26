@@ -29,8 +29,9 @@ router.post("/verif", [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
-    const checkboxStatus = req.body.checkbox;
+    const  email= req.body.email;
+    const  password  = req.body.password;
+    const checkboxStatus = req.body.checkboxinput;
 
 
     try {
@@ -60,7 +61,8 @@ router.post("/verif", [
 
         } else {
             // If checkbox is not checked, create session with JWT
-            req.session.token = token;
+            //req.session.token = token;
+            res.cookie('token', token, { httpOnly: true });
         }
 
         return res.json({ message: 'Login successful' });

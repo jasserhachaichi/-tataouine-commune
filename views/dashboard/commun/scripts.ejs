@@ -5,6 +5,15 @@
 
 <script nonce="<%= nonce %>" src="assets/extensions/jquery/jquery.min.js"></script>
 
+<!--   cookie consent plugin -->
+<script nonce="<%= nonce %>" src="/plugin/cookie-consent/bootstrap-cookie-consent-settings.js"></script>
+<script nonce="<%= nonce %>">
+var cookieSettings = new BootstrapCookieConsentSettings({privacyPolicyUrl: "/termsofuse",legalNoticeUrl: "/termsofuse",})
+document.getElementById("editpolicy").addEventListener("click", function() {
+            cookieSettings.showDialog();
+        });
+</script>
+
 <script nonce="<%= nonce %>">
   // Function to create and show the alert
   function showAlert(message, Hclass, iconclass) {

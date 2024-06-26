@@ -18,7 +18,8 @@ const jwt = require('jsonwebtoken');
 router.get("/", async (req, res) => {
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
-    const token = req.cookies.token || req.session.token;
+    //const token = req.cookies.token || req.session.token;
+    const token = req.cookies.token;
     try {
         const decoded = jwt.decode(token);
 

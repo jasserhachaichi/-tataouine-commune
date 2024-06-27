@@ -3,6 +3,7 @@
 
 
 function resetpwd() {
+  document.getElementById('fpwdbtn').setAttribute('disabled', 'disabled');
   $.ajax({
     url: '/users/forgot-password/',
     type: 'POST',
@@ -47,9 +48,26 @@ $(document).ready(function () {
   $('#myform').submit(function (event) {
     event.preventDefault();
     $('#myform #submit-button').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
-    if ($(this).parsley().isValid()) {
+
+    var fname = $('#first-name-column').val().trim();
+    var lname = $('#last-name-column').val().trim();
+    var email = $('#email-id-column').val().trim();
+    var newPwd = $('#password-id-column').val().trim();
+    //var oldPwd = $('#pwdold-id-column').val().trim();
+
+    if (!fname && !lname && !email && !newPwd) {
+      Toastify({
+        text: "Les champs sont vides",
+        duration: 3000,
+        close: true,
+        gravity: "bottom",
+        position: "right",
+        backgroundColor: "#198754",
+      }).showToast();
+      $('#myform #submit-button').prop('disabled', false).html('Mise à jour');
+    } else if ($(this).parsley().isValid()) {
       var formData = $(this).serialize();
-      console.log(formData);
+      //console.log(formData);
       $.ajax({
         url: '/users/updateadmin',
         type: 'POST',
@@ -63,7 +81,6 @@ $(document).ready(function () {
             position: "right",
             backgroundColor: "#198754",
           }).showToast();
-          // Convert the serialized string into an object for easier access to individual fields
           var formDataObject = {};
           formData.split('&').forEach(function (pair) {
             var [key, value] = pair.split('=');
@@ -78,14 +95,9 @@ $(document).ready(function () {
           if (formDataObject['fname-column']) {
             $("#fname").text(formDataObject['fname-column']);
           }
-          $('#myform  #submit-button').prop('disabled', false).html('Mise à jour');
-          // Reset the form
+          $('#myform #submit-button').prop('disabled', false).html('Mise à jour');
           $('#myform').trigger('reset');
         },
-
-
-
-
         error: function (xhr, status, error) {
           console.error(error);
           Toastify({
@@ -98,10 +110,6 @@ $(document).ready(function () {
           }).showToast();
           $('#submit-button').prop('disabled', false).html('Mise à jour');
         }
-
-
-
-
       });
     }
   });

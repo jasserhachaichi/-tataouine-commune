@@ -1,7 +1,10 @@
 const express = require("express");
+const path = require('path');
 const router = express.Router();
 const Blog = require('./../models/Blog');
 const transporter = require('../config/nodemailer');
+const fs = require('fs');
+const ejs = require('ejs');
 
 router.use(express.static("public"));
 
@@ -368,18 +371,103 @@ router.post("/:id/Rcomment", async (req, res) => {
             email_dest = parentComment.principale_comment.email;
             name_dest = parentComment.principale_comment.name;
         }
-        const mailOptions = {
-            from: process.env.sendermail,
-            to: email_dest,
-            subject: 'New Reply on Your Comment',
-            text: `Hello ${name_dest},\n\nSomeone has replied to your comment on our blog. Visit the blog post to view the reply.\n\nThank you.`,
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
+        const blogtitle = blog.title;
+        const destcomment = parentComment.principale_comment.comment;
+
+        const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+        const img2 = path.join(__dirname, '../public/images/ovclogo.png');
+
+        const img3 = path.join(__dirname, '../public/images/email/location.png');
+        const img4 = path.join(__dirname, '../public/images/email/phone.png');
+        const img5 = path.join(__dirname, '../public/images/email/envelope.png');
+
+        const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+        const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+        const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+        const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+        const currentYear = new Date().getFullYear();
+        const baseYear = 2024;
+        const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+        const emailvar = { name_dest,name,blogtitle,destcomment,comment, yearText };
+        const templatePath = path.join(__dirname, '../Emailmodels/answercomment.ejs');
+
+        fs.readFile(templatePath, 'utf8', (error, template) => {
             if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
+                return res.render("error", { error });
             }
+
+            try {
+
+                // Render the template with the variables
+                const htmlContent = ejs.render(template, emailvar); // emailvar
+                //console.log(htmlContent);
+
+                const mailOptions = {
+                    from: process.env.sendermail,
+                    to: email_dest,
+                    subject: 'Nouvelle réponse à votre commentaire',
+                    html: htmlContent,
+                    attachments: [
+                        {
+                            filename: 'image1.png',
+                            path: img1,
+                            cid: 'unique@image.1'
+                        },
+                        {
+                            filename: 'image2.png',
+                            path: img2,
+                            cid: 'unique@image.2'
+                        },
+                        {
+                            filename: 'image3.png',
+                            path: img3,
+                            cid: 'unique@image.3'
+                        },
+                        {
+                            filename: 'image4.png',
+                            path: img4,
+                            cid: 'unique@image.4'
+                        },
+                        {
+                            filename: 'image5.png',
+                            path: img5,
+                            cid: 'unique@image.5'
+                        },
+                        {
+                            filename: 'image6.png',
+                            path: img6,
+                            cid: 'unique@image.6'
+                        },
+                        {
+                            filename: 'image7.png',
+                            path: img7,
+                            cid: 'unique@image.7'
+                        },
+                        {
+                            filename: 'image8.png',
+                            path: img8,
+                            cid: 'unique@image.8'
+                        },
+                        {
+                            filename: 'image9.png',
+                            path: img9,
+                            cid: 'unique@image.9'
+                        }
+                    ]
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ errors: ['Error sending email'] });
+            }
+
         });
 
 

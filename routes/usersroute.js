@@ -1,10 +1,13 @@
 const express = require("express");
+const path = require('path');
 const router = express.Router();
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
 const transporter = require('../config/nodemailer');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const ejs = require('ejs');
 router.use(express.static("public"));
 
 
@@ -96,29 +99,106 @@ router.post('/key/:userId', async (req, res) => {
         await existingUser.save();
 
         const firstname = existingUser.firstname;
-        const lastname = existingUser.lastname;
+        //const lastname = existingUser.lastname;
         const email = existingUser.email;
 
-        const mailOptions = {
-            from: process.env.sendermail,
-            to: email,
-            subject: '(No Reply) Tataouine commune site mot de passe',
-            text: `Hello ${firstname} ${lastname},\n\nThank you for signing up. Your account has been created successfully.\n\nYour login credentials:\nEmail: ${email}\nPassword: ${passwordIdColumn}\n\nBest regards,\nTataouine commune`
-        };
 
-        transporter.sendMail(mailOptions, (error, info) => {
+        const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+        const img2 = path.join(__dirname, '../public/images/ovclogo.png');
+
+        const img3 = path.join(__dirname, '../public/images/email/location.png');
+        const img4 = path.join(__dirname, '../public/images/email/phone.png');
+        const img5 = path.join(__dirname, '../public/images/email/envelope.png');
+
+        const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+        const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+        const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+        const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+        const currentYear = new Date().getFullYear();
+        const baseYear = 2024;
+        const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+        const emailvar = { passwordIdColumn, yearText }
+        const templatePath = path.join(__dirname, '../Emailmodels/userpwd.ejs');
+        fs.readFile(templatePath, 'utf8', (error, template) => {
             if (error) {
-                console.error(error);
-                return res.status(500).json({ message: "Error sending email" });
-            } else {
-                console.log('Email sent: ' + info.response);
-                return res.status(201).json({ message: `Password updated and sent to ${firstname} in email successfully.` });
+                return res.render("error", { error });
             }
+
+            try {
+
+                // Render the template with the variables
+                const htmlContent = ejs.render(template, emailvar); // emailvar
+                //console.log(htmlContent);
+
+                const mailOptions = {
+                    from: process.env.sendermail,
+                    to: email,
+                    subject: "Mise à jour de votre mot de passe",
+                    html: htmlContent,
+                    attachments: [
+                        {
+                            filename: 'image1.png',
+                            path: img1,
+                            cid: 'unique@image.1'
+                        },
+                        {
+                            filename: 'image2.png',
+                            path: img2,
+                            cid: 'unique@image.2'
+                        },
+                        {
+                            filename: 'image3.png',
+                            path: img3,
+                            cid: 'unique@image.3'
+                        },
+                        {
+                            filename: 'image4.png',
+                            path: img4,
+                            cid: 'unique@image.4'
+                        },
+                        {
+                            filename: 'image5.png',
+                            path: img5,
+                            cid: 'unique@image.5'
+                        },
+                        {
+                            filename: 'image6.png',
+                            path: img6,
+                            cid: 'unique@image.6'
+                        },
+                        {
+                            filename: 'image7.png',
+                            path: img7,
+                            cid: 'unique@image.7'
+                        },
+                        {
+                            filename: 'image8.png',
+                            path: img8,
+                            cid: 'unique@image.8'
+                        },
+                        {
+                            filename: 'image9.png',
+                            path: img9,
+                            cid: 'unique@image.9'
+                        }
+                    ]
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({ message: "Error sending email" });
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        return res.status(201).json({ message: `Password updated and sent to ${firstname} in email successfully.` });
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ errors: ['Error sending email'] });
+            }
+
         });
-
-
-
-
     } catch (error) {
         console.error(error);
         //return res.status(500).send('Internal Server Error');
@@ -148,16 +228,104 @@ router.post("/forgot-password", async (req, res) => {
 
         await adminUser.save();
 
-        const mailOptions = {
-            from: process.env.sendermail,
-            to: adminUser.email, // Adresse e-mail de l'administrateur
-            subject: '(No Replay) Demande de réinitialisation de mot de passe',
-            text: `Un utilisateur a demandé la réinitialisation de son mot de passe. Voici votre nouveau mot de passe généré automatiquement: ${password}  \n\nVous avez la possibilité de le changer manuellement sur le site.`
-        };
+        const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+        const img2 = path.join(__dirname, '../public/images/ovclogo.png');
 
-        await transporter.sendMail(mailOptions);
+        const img3 = path.join(__dirname, '../public/images/email/location.png');
+        const img4 = path.join(__dirname, '../public/images/email/phone.png');
+        const img5 = path.join(__dirname, '../public/images/email/envelope.png');
 
-        return res.status(200).json({ message: "Un e-mail de réinitialisation de mot de passe a été envoyé à l'administrateur" });
+        const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+        const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+        const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+        const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+        const currentYear = new Date().getFullYear();
+        const baseYear = 2024;
+        const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+        const emailvar = { password, yearText }
+        const templatePath = path.join(__dirname, '../Emailmodels/adminpwd.ejs');
+
+        fs.readFile(templatePath, 'utf8', (error, template) => {
+            if (error) {
+                return res.render("error", { error });
+            }
+
+            try {
+
+                // Render the template with the variables
+                const htmlContent = ejs.render(template, emailvar); // emailvar
+                //console.log(htmlContent);
+
+                const mailOptions = {
+                    from: process.env.sendermail,
+                    to: adminUser.email,
+                    subject: "Demande de réinitialisation de mot de passe",
+                    html: htmlContent,
+                    attachments: [
+                        {
+                            filename: 'image1.png',
+                            path: img1,
+                            cid: 'unique@image.1'
+                        },
+                        {
+                            filename: 'image2.png',
+                            path: img2,
+                            cid: 'unique@image.2'
+                        },
+                        {
+                            filename: 'image3.png',
+                            path: img3,
+                            cid: 'unique@image.3'
+                        },
+                        {
+                            filename: 'image4.png',
+                            path: img4,
+                            cid: 'unique@image.4'
+                        },
+                        {
+                            filename: 'image5.png',
+                            path: img5,
+                            cid: 'unique@image.5'
+                        },
+                        {
+                            filename: 'image6.png',
+                            path: img6,
+                            cid: 'unique@image.6'
+                        },
+                        {
+                            filename: 'image7.png',
+                            path: img7,
+                            cid: 'unique@image.7'
+                        },
+                        {
+                            filename: 'image8.png',
+                            path: img8,
+                            cid: 'unique@image.8'
+                        },
+                        {
+                            filename: 'image9.png',
+                            path: img9,
+                            cid: 'unique@image.9'
+                        }
+                    ]
+                };
+
+                transporter.sendMail(mailOptions);
+
+                return res.status(200).json({ message: "Un e-mail de réinitialisation de mot de passe a été envoyé à l'administrateur" });
+
+
+
+
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ errors: ['Error sending email'] });
+            }
+
+        });
+
+
     } catch (error) {
         console.error(error);
         //return res.status(500).json({ message: "Erreur interne du serveur" });
@@ -175,53 +343,130 @@ router.post('/updateadmin', async (req, res) => {
             const isMatch = await bcrypt.compare(pwdoldIdColumn, existingUser.password);
             //console.log(isMatch);
             if (isMatch) {
-                const destemail = existingUser.email;
-                let text = `Hello ${fname},\n\nDear user. Your account informations has been updated successfully.\n\n`;
-
+                let destemail = existingUser.email;
                 if (fnameColumn && fnameColumn.length > 1) {
                     existingUser.firstname = fnameColumn;
-                    text += `First Name: ${fnameColumn}\n`;
                 }
                 if (lnameColumn && lnameColumn.length > 1) {
                     existingUser.lastname = lnameColumn;
-                    text += `Last Name: ${lnameColumn}\n`;
                 }
                 if (emailIdColumn && emailIdColumn.length > 6) {
                     existingUser.email = emailIdColumn;
                     destemail = emailIdColumn;
-                    text += `Email: ${destemail}\n`;
                 }
                 if (validatePassword(passwordIdColumn) && (passwordIdColumn > 7) && passwordIdColumn) {
                     const saltRounds = 10;
                     existingUser.password = await bcrypt.hash(passwordIdColumn, saltRounds);
-                    //console.log('Password is valid.');
-                    text += `Password: ${passwordIdColumn}`;
                 }
+
                 await existingUser.save();
 
-                text += `\n\nBest regards,\nTatouine commune`;
 
-                const mailOptions = {
-                    from: process.env.sendermail,
-                    to: destemail,
-                    subject: '(No Reply) Tataouine commune Platform',
-                    text: text
-                };
-                transporter.sendMail(mailOptions, (error, info) => {
+                const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+                const img2 = path.join(__dirname, '../public/images/ovclogo.png');
+
+                const img3 = path.join(__dirname, '../public/images/email/location.png');
+                const img4 = path.join(__dirname, '../public/images/email/phone.png');
+                const img5 = path.join(__dirname, '../public/images/email/envelope.png');
+
+                const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+                const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+                const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+                const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+                const currentYear = new Date().getFullYear();
+                const baseYear = 2024;
+                const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+                const emailvar = { fnameColumn, lnameColumn, emailIdColumn, passwordIdColumn, yearText };
+                const templatePath = path.join(__dirname, '../Emailmodels/admininfo.ejs');
+
+                fs.readFile(templatePath, 'utf8', (error, template) => {
                     if (error) {
-                        //console.error(error);
-                        return res.status(500).json({ message: "Error sending email" });
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                        return res.status(201).json({ message: "Admin information updated successfully" });
+                        return res.render("error", { error });
                     }
+
+                    try {
+
+                        // Render the template with the variables
+                        const htmlContent = ejs.render(template, emailvar); // emailvar
+                        //console.log(htmlContent);
+
+                        const mailOptions = {
+                            from: process.env.sendermail,
+                            to: destemail,
+                            subject: "Mise à jour de vos informations",
+                            html: htmlContent,
+                            attachments: [
+                                {
+                                    filename: 'image1.png',
+                                    path: img1,
+                                    cid: 'unique@image.1'
+                                },
+                                {
+                                    filename: 'image2.png',
+                                    path: img2,
+                                    cid: 'unique@image.2'
+                                },
+                                {
+                                    filename: 'image3.png',
+                                    path: img3,
+                                    cid: 'unique@image.3'
+                                },
+                                {
+                                    filename: 'image4.png',
+                                    path: img4,
+                                    cid: 'unique@image.4'
+                                },
+                                {
+                                    filename: 'image5.png',
+                                    path: img5,
+                                    cid: 'unique@image.5'
+                                },
+                                {
+                                    filename: 'image6.png',
+                                    path: img6,
+                                    cid: 'unique@image.6'
+                                },
+                                {
+                                    filename: 'image7.png',
+                                    path: img7,
+                                    cid: 'unique@image.7'
+                                },
+                                {
+                                    filename: 'image8.png',
+                                    path: img8,
+                                    cid: 'unique@image.8'
+                                },
+                                {
+                                    filename: 'image9.png',
+                                    path: img9,
+                                    cid: 'unique@image.9'
+                                }
+                            ]
+                        };
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                //console.error(error);
+                                return res.status(500).json({ message: "Error sending email" });
+                            } else {
+                                console.log('Email sent: ' + info.response);
+                                return res.status(201).json({ message: "Admin information updated successfully" });
+                            }
+                        });
+                    } catch (error) {
+                        console.error(error);
+                        return res.status(500).json({ errors: ['Error sending email'] });
+                    }
+
                 });
+
+                
             } else {
                 return res.status(400).json({ errors: 'Old password incorrect' });
             }
-
-
         }
+
+
     } catch (error) {
         console.error(error);
         //return res.status(500).json({ message: "Internal server error" });

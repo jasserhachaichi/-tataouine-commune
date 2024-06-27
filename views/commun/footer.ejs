@@ -192,7 +192,7 @@
       <div class="row">
         <div class="col">
           <div class="footer-copyright-wrapper text-center">
-            &copy; 2024. Tous droits réservés. <a href="/termsofuse" class="link-primary primary-color-1">Conditions d'utilisation</a>, <a id="editpolicy" class="link-primary primary-color-1" >paramètres des cookies</a>
+            &copy; <span id="year-text"></span>. Tous droits réservés. <a href="/termsofuse" class="link-primary primary-color-1">Conditions d'utilisation</a>, <a id="editpolicy" class="link-primary primary-color-1">paramètres des cookies</a>
           </div>
           <div class="credits text-secondary text-center mt-2 fs-6">
             Designed & Developed By <a href="https://www.linkedin.com/in/jasser-hachaichi-85b469204/" class="link-secondary text-decoration-none primary-color-1 fw-bold">Jasser Hachaichi</a></span>
@@ -204,7 +204,18 @@
 
 </footer>
 
+<script nonce="<%= nonce %>">
+  // Fonction pour mettre à jour l'année
+  function updateYear() {
+    const currentYear = new Date().getFullYear();
+    const baseYear = 2024;
+    const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+    document.getElementById('year-text').innerText = `${yearText}`;
+  }
 
+  // Appel de la fonction pour mettre à jour l'année lors du chargement de la page
+  updateYear();
+</script>
 
 
 
@@ -229,7 +240,7 @@
 <!--  here old place of code javascript of loader -->
 
 <script nonce="<%= nonce %>" src="/sliderhome/owl.carousel.min.js"></script>
-  <!-- Slider Images -->
+<!-- Slider Images -->
 <script nonce="<%= nonce %>">
   (function($) {
 
@@ -278,8 +289,11 @@
 <!--   cookie consent plugin -->
 <script nonce="<%= nonce %>" src="/plugin/cookie-consent/bootstrap-cookie-consent-settings.js"></script>
 <script nonce="<%= nonce %>">
-var cookieSettings = new BootstrapCookieConsentSettings({privacyPolicyUrl: "/termsofuse",legalNoticeUrl: "/termsofuse",})
-document.getElementById("editpolicy").addEventListener("click", function() {
-            cookieSettings.showDialog();
-        });
+  var cookieSettings = new BootstrapCookieConsentSettings({
+    privacyPolicyUrl: "/termsofuse",
+    legalNoticeUrl: "/termsofuse",
+  })
+  document.getElementById("editpolicy").addEventListener("click", function() {
+    cookieSettings.showDialog();
+  });
 </script>

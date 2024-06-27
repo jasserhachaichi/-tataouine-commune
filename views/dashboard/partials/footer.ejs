@@ -1,12 +1,23 @@
 <footer>
-    <div class="footer clearfix mb-0 text-muted">
-        <div class="float-start">
-            <p>2024 &copy; Tous droits réservés</p>
-        </div>
-        <div class="float-end">
-            <p>Développé</span>
-                par <a href="https://www.linkedin.com/in/jasser-hachaichi-85b469204/">Jasser Hachaichi </a><span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></p>
-        </div> 
+  <div class="footer clearfix mb-0 text-muted">
+    <div class="float-start">
+      <p>&copy;<span id="year-text"></span> Tous droits réservés</p>
     </div>
+    <div class="float-end">
+      <p>Développé</span>
+        par <a href="https://www.linkedin.com/in/jasser-hachaichi-85b469204/">Jasser Hachaichi </a><span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></p>
+    </div>
+  </div>
 </footer>
+<script nonce="<%= nonce %>">
+  // Fonction pour mettre à jour l'année
+  function updateYear() {
+    const currentYear = new Date().getFullYear();
+    const baseYear = 2024;
+    const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+    document.getElementById('year-text').innerText = `${yearText}`;
+  }
 
+  // Appel de la fonction pour mettre à jour l'année lors du chargement de la page
+  updateYear();
+</script>

@@ -1,8 +1,10 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const Email = require('./../models/Email');
 const methodOverride = require('method-override');
 const fs = require('fs');
+const ejs = require('ejs');
 const multer = require('multer');
 const transporter = require('../config/nodemailer');
 const followerModel = require('./../models/Follower');
@@ -157,30 +159,125 @@ router.post('/emailcreator', upload.array('filepond'), async (req, res) => {
         // Retrieve followers' emails from MongoDB
         const followers = await followerModel.find({}, { email: 1, _id: 0 });
 
-        // Construct email message
-        const mailOptions = {
-            from: process.env.sendermail,
-            bcc: followers.map(follower => follower.email),
-            subject: subject,
-            html: summernote,
-            attachments: files.map(file => ({
-                filename: file.originalname,
-                content: file.buffer,
-            })),
-        };
+        const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+        const img2 = path.join(__dirname, '../public/images/ovclogo.png');
 
-        // Send email
-        transporter.sendMail(mailOptions, (error, info) => {
+        const img3 = path.join(__dirname, '../public/images/email/location.png');
+        const img4 = path.join(__dirname, '../public/images/email/phone.png');
+        const img5 = path.join(__dirname, '../public/images/email/envelope.png');
+
+        const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+        const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+        const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+        const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+
+        const currentYear = new Date().getFullYear();
+        const baseYear = 2024;
+        const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+        //console.log(logoimgPath);
+        const emailvar = { summernote, yearText }
+        const templatePath = path.join(__dirname, '../Emailmodels/followers.ejs');
+
+
+
+
+        fs.readFile(templatePath, 'utf8', (error, template) => {
             if (error) {
-                console.error(error);
-                return res.status(500).send('Error sending email');
-            } else {
-                console.log('Email sent: ' + info.response);
-                return res.status(200).send('Emails sent successfully');
+                if (req.files && req.files.length > 0) {
+                    req.files.map(file => fs.unlinkSync(file.path));
+                }
+                return res.status(500).json({ error: 'Error reading email template' });
             }
+
+            try {
+
+                // Render the template with the variables
+                const htmlContent = ejs.render(template, emailvar); // emailvar
+                //console.log(htmlContent);
+
+                const mailOptions = {
+                    from: process.env.sendermail,
+                    to: followers.map(follower => follower.email),
+                    subject: subject,
+                    html: htmlContent,
+                    attachments: [
+                        ...files.map(file => ({
+                            filename: file.originalname,
+                            path: file.path
+                        })),
+                        {
+                            filename: 'image1.png',
+                            path: img1,
+                            cid: 'unique@image.1'
+                        },
+                        {
+                            filename: 'image2.png',
+                            path: img2,
+                            cid: 'unique@image.2'
+                        },
+                        {
+                            filename: 'image3.png',
+                            path: img3,
+                            cid: 'unique@image.3'
+                        },
+                        {
+                            filename: 'image4.png',
+                            path: img4,
+                            cid: 'unique@image.4'
+                        },
+                        {
+                            filename: 'image5.png',
+                            path: img5,
+                            cid: 'unique@image.5'
+                        },
+                        {
+                            filename: 'image6.png',
+                            path: img6,
+                            cid: 'unique@image.6'
+                        },
+                        {
+                            filename: 'image7.png',
+                            path: img7,
+                            cid: 'unique@image.7'
+                        },
+                        {
+                            filename: 'image8.png',
+                            path: img8,
+                            cid: 'unique@image.8'
+                        },
+                        {
+                            filename: 'image9.png',
+                            path: img9,
+                            cid: 'unique@image.9'
+                        }
+                    ]
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).send('Error sending email');
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        return res.status(200).send('Emails sent successfully');
+                    }
+                });
+            } catch (error) {
+                if (req.files && req.files.length > 0) {
+                    req.files.map(file => fs.unlinkSync(file.path));
+                }
+                console.error(error);
+                return res.status(500).json({ errors: ['Error sending email'] });
+            }
+
+
         });
+
     } catch (error) {
         console.error(error);
+        if (req.files && req.files.length > 0) {
+            req.files.map(file => fs.unlinkSync(file.path));
+        }
         //return res.status(500).send('Error retrieving followers or sending email');
         return res.render("error", { error });
     }

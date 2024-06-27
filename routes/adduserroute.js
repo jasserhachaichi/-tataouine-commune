@@ -1,10 +1,13 @@
 const express = require("express");
+const path = require('path');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const User = require('./../models/User');
 const nodemailer = require('nodemailer');
 const transporter = require('../config/nodemailer');
+const fs = require('fs');
+const ejs = require('ejs');
 router.use(express.static("public"));
 
 router.get("/", (req, res) => {
@@ -40,20 +43,14 @@ router.post('/addNewuser', [
     try {
         // Extract data from request body
         const { 'fname-column': fnameColumn, 'lname-column': lnameColumn, 'email-id-column': emailIdColumn, 'password-id-column': passwordIdColumn } = req.body;
-
         // Check if user already exists
         const existingUser = await User.findOne({ email: emailIdColumn });
         if (existingUser) {
             return res.status(400).json({ message: "Email already exists" });
         }
-
-
-
         // Encrypt the password
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(passwordIdColumn, saltRounds);
-
-
         // Create a new user object
         const newUser = new User({
             email: emailIdColumn,
@@ -62,25 +59,106 @@ router.post('/addNewuser', [
             firstname: fnameColumn
         });
         console.log(newUser);
-        // Save the user to the database
         await newUser.save();
 
+        const img1 = path.join(__dirname, '../public/images/CTlogo.png');
+        const img2 = path.join(__dirname, '../public/images/ovclogo.png');
 
-        const mailOptions = {
-            from: process.env.sendermail,
-            to: emailIdColumn,
-            subject: '(No Reply) Welcome to Tataouine commune Platform',
-            text: `Hello ${fnameColumn},\n\nThank you for signing up. Your account has been created successfully.\n\nYour login credentials:\nEmail: ${emailIdColumn}\nPassword: ${passwordIdColumn}\n\nBest regards,\nYour Company`
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
+        const img3 = path.join(__dirname, '../public/images/email/location.png');
+        const img4 = path.join(__dirname, '../public/images/email/phone.png');
+        const img5 = path.join(__dirname, '../public/images/email/envelope.png');
+
+        const img6 = path.join(__dirname, '../public/images/email/facebook_31.png');
+        const img7 = path.join(__dirname, '../public/images/email/twitter_32.png');
+        const img8 = path.join(__dirname, '../public/images/email/google_33.png');
+        const img9 = path.join(__dirname, '../public/images/email/youtube_34.png');
+        const currentYear = new Date().getFullYear();
+        const baseYear = 2024;
+        const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
+
+        const emailvar = { fnameColumn,lnameColumn,emailIdColumn,passwordIdColumn, yearText }
+        const templatePath = path.join(__dirname, '../Emailmodels/newuser.ejs');
+
+        fs.readFile(templatePath, 'utf8', (error, template) => {
             if (error) {
-                console.error(error);
-                //return res.status(500).json({ message: "Error sending email" });
                 return res.render("error", { error });
-            } else {
-                console.log('Email sent: ' + info.response);
-                return res.status(201).json({ message: "User created successfully and email sent" });
             }
+
+            try {
+
+                // Render the template with the variables
+                const htmlContent = ejs.render(template, emailvar); // emailvar
+                //console.log(htmlContent);
+
+                const mailOptions = {
+                    from: process.env.sendermail,
+                    to: emailIdColumn,
+                    subject: 'Bienvenue à notre nouveau membre',
+                    html: htmlContent,
+                    attachments: [
+                        {
+                            filename: 'image1.png',
+                            path: img1,
+                            cid: 'unique@image.1'
+                        },
+                        {
+                            filename: 'image2.png',
+                            path: img2,
+                            cid: 'unique@image.2'
+                        },
+                        {
+                            filename: 'image3.png',
+                            path: img3,
+                            cid: 'unique@image.3'
+                        },
+                        {
+                            filename: 'image4.png',
+                            path: img4,
+                            cid: 'unique@image.4'
+                        },
+                        {
+                            filename: 'image5.png',
+                            path: img5,
+                            cid: 'unique@image.5'
+                        },
+                        {
+                            filename: 'image6.png',
+                            path: img6,
+                            cid: 'unique@image.6'
+                        },
+                        {
+                            filename: 'image7.png',
+                            path: img7,
+                            cid: 'unique@image.7'
+                        },
+                        {
+                            filename: 'image8.png',
+                            path: img8,
+                            cid: 'unique@image.8'
+                        },
+                        {
+                            filename: 'image9.png',
+                            path: img9,
+                            cid: 'unique@image.9'
+                        }
+                    ]
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.error(error);
+                        //return res.status(500).json({ message: "Error sending email" });
+                        return res.render("error", { error });
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        return res.status(201).json({ message: "User created successfully and email sent" });
+                    }
+                });
+
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ errors: ['Error sending email'] });
+            }
+
         });
         // Respond with success message
         //return res.status(201).json({ message: "User created successfully" });

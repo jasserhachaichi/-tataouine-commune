@@ -111,6 +111,8 @@ app.use((req, res, next) => {
     next();
 });
 
+//Weekly Newsletter
+require("./config/weeklyNewsletter.js");
 
 
 // url Routes

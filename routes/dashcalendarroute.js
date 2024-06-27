@@ -117,7 +117,7 @@ router.delete("/deleteevents/:id2", async (req, res) => {
 
 router.get("/events", async (req, res) => {
   try {
-    let events = await Event.find({}, { __v: 0 }).select("_id title className allDay venue country state city description start end organizers sponsors").lean();
+    let events = await Event.find().select("_id title className allDay venue country state city description start end organizers sponsors").lean();
 
     events = events.map(event => {
         const locationComponents = [];

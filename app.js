@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const crypto = require("crypto");
 const path = require("path");
+const cron = require('node-cron');
 // Init App
 const app = express();
 
@@ -31,7 +32,8 @@ app.use(
                 , "https://formbuilder.online",
                 "https://accounts.google.com",
                 "https://apis.google.com",
-                "https://www.gstatic.com"
+                "https://www.gstatic.com",
+                "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
 
             ],
             frameSrc: ["'self'", "https://www.google.com", "www.youtube.com", "https://accounts.google.com",], // Allow framing from Google
@@ -112,8 +114,26 @@ app.use((req, res, next) => {
 });
 
 //Weekly Newsletter
-require("./config/weeklyNewsletter.js");
+const followerModel = require('./models/Follower');
+const sendNewsletter = require("./config/weeklyNewsletter.js");
+// Schedule task to send newsletter every Friday at 6 PM
+cron.schedule('0 18 * * 5', async () => {
+    try {
+        const followers = await followerModel.find({}, { email: 1, _id: 0 }).exec();
+        if (!Array.isArray(followers)) {
+            throw new Error('Followers is not an array');
+            // Call the function to send the newsletter
+            await sendNewsletter([followers]);
+        } else {
+            // Call the function to send the newsletter
+            await sendNewsletter(followers);
+        }
 
+        console.log('Newsletter sent successfully!');
+    } catch (error) {
+        console.error('Error sending newsletter:', error);
+    }
+});
 
 // url Routes
 app.get('/', (req, res) => {
@@ -213,9 +233,9 @@ app.get('/logout', (req, res) => {
     res.clearCookie('token');
 
     // Clear the session token if it exists
-/*     if (req.session && req.session.token) {
-        req.session.token = null;
-    } */
+    /*     if (req.session && req.session.token) {
+            req.session.token = null;
+        } */
 
     return res.redirect("/login");
 });
@@ -235,7 +255,7 @@ app.use("/failure", require("./routes/failureroute"));
 
 app.get('/error', (req, res) => {
     var error = "test";
-    return res.render("error", {error});
+    return res.render("error", { error });
 })
 
 

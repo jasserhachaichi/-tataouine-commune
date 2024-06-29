@@ -5,6 +5,8 @@ const followerModel = require('./../models/Follower');
 const Blog = require('./../models/Blog');
 const Image = require('./../models/Image');
 const Achievement = require('./../models/Achievement');
+//Weekly Newsletter
+const sendNewsletter= require("./../config/weeklyNewsletter.js");
 
 router.use(express.static("public"));
 
@@ -96,10 +98,9 @@ router.post("/subscribe", async (req, res) => {
 
     // Check if the email already exists in the database
     const existingFollower = await followerModel.findOne({ email });
-
     if (existingFollower) {
-      //console.log("Email already exists");
-      return res.status(400).send("Email already exists");
+      console.log(`Email ${email} already subscribed.`);
+      return res.send({ message: "This email is already subscribed!" });
     }
 
     // Create a new follower instance with the email
@@ -109,11 +110,13 @@ router.post("/subscribe", async (req, res) => {
     await newFollower.save();
     console.log(`New subscription: ${email}`);
 
-    // Send a successful subscription response
+    // Send a welcome newsletter
+    await sendNewsletter([newFollower]);
+    console.log('Welcome newsletter sent successfully!');
+
     return res.send({ message: "Subscription successful!" });
   } catch (error) {
-    console.error("Error occurred during subscription:", error);
-    //return res.status(500).send("Internal Server Error");
+    console.error('Error during subscription:', error);
     return res.render("error", { error });
   }
 });

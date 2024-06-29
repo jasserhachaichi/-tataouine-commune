@@ -4,9 +4,9 @@ const ejs = require('ejs');
 const nodemailer = require('nodemailer');
 const transporter = require('./nodemailer');
 const sharp = require('sharp');
-const cron = require('node-cron');
 
-const followerModel = require('./../models/Follower');
+
+
 const Image = require('./../models/Image');
 const Blogmodel = require('./../models/Blog');
 const Annoncemodel = require('./../models/Announcement');
@@ -21,9 +21,9 @@ function truncateString(str, num) {
 }
 
 // Function to send newsletter
-async function sendNewsletter() {
+async function sendNewsletter(followers) {
     try {
-        const followers = await followerModel.find({}, { email: 1, _id: 0 }).exec();
+        
         const emailVars = {}; // Assuming you have some variables to pass to the template
         const templatePath = path.join(__dirname, '../Emailmodels/newsletters.ejs');
 
@@ -223,23 +223,26 @@ async function sendNewsletter() {
     }
 }
 
-// Clean up resized images
 async function cleanUpImages(attachments) {
     try {
-        const deletePromises = attachments.map(img => fs.unlink(img.path));
+        const deletePromises = attachments.map(async (img) => {
+            try {
+                await fs.unlink(img.path);
+            } catch (error) {
+                if (error.code === 'ENOENT') {
+                    console.warn(`File not found, skipping: ${img.path}`);
+                } else {
+                    throw error;
+                }
+            }
+        });
         await Promise.all(deletePromises);
     } catch (error) {
         console.error("Error cleaning up images:", error);
     }
 }
 
-// Schedule task to send newsletter every Friday at 6 PM
-cron.schedule('0 18 * * 5', () => {
-    console.log('Sending weekly newsletter...');
-    // Call the function to send the newsletter
-    sendNewsletter()
-    .then(() => console.log('Newsletter sent successfully!'))
-    .catch(error => console.error('Error sending newsletter:', error));
-});
 
 
+
+module.exports = sendNewsletter;

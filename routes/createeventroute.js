@@ -24,6 +24,14 @@ const storage = multer.diskStorage({
     }
 
 });
+const classNames = [
+    'text-success',
+    'text-secondary',
+    'text-primary',
+    'text-danger',
+    'text-info',
+    'text-warning'
+];
 
 const upload = multer({ storage: storage }).fields([{ name: 'filepond' }, { name: 'filepond2' }, { name: 'filepond3' }, { name: 'filepond4' }]);
 
@@ -124,13 +132,16 @@ router.post('/', async (req, res) => {
                     path: file.path.replace(/\\/g, '/').replace('attachments/', '/'),
                 }));
             }
-            //console.log(formattedAttachments)
+            //console.log(formattedAttachments);
+
+            // Select a random className
+            const randomClassName = classNames[Math.floor(Math.random() * classNames.length)];
 
 
 
             const newEvent = new Event({
                 title: title,
-                className: "text-success",
+                className: randomClassName,
                 allDay: true,
                 type: eventData.type,
                 participation: eventData.participation,

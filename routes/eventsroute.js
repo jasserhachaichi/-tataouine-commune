@@ -6,25 +6,38 @@ const Event = require("./../models/Event");
 
 router.get("/allevents", async (req, res) => {
     try {
-        let events = await Event.find({}, { __v: 0 }).select("_id title className allDay venue country state city description start end organizers sponsors").lean();
-
-        events = events.map(event => {
-            const locationComponents = [];
-            if (event.venue) locationComponents.push(event.venue);
-            if (event.country) locationComponents.push(event.country);
-            if (event.state) locationComponents.push(event.state);
-            if (event.city) locationComponents.push(event.city);
-            event.location = locationComponents.join(', ');
-            return event;
-        });
-
-        console.log(events);
-        return res.status(200).json({ events });
+      let events = await Event.find().select("_id title className allDay venue country state city description start end organizers sponsors").lean();
+  
+      // Combine location fields into a single string and map to desired format
+      events = events.map(event => {
+        const locationComponents = [];
+        if (event.venue) locationComponents.push(event.venue);
+        if (event.country) locationComponents.push(event.country);
+        if (event.state) locationComponents.push(event.state);
+        if (event.city) locationComponents.push(event.city);
+        const location = locationComponents.join(', ');
+  
+        return {
+          id: event._id,
+          title: event.title,
+          start: event.start,
+          end: event.end,
+          description: event.description,
+          className: event.className,
+          location: location,
+          organizers: event.organizers,
+          sponsors: event.sponsors
+        };
+      });
+  
+      //console.log(events);
+      return res.status(200).json({ events });
     } catch (error) {
-        //return res.status(500).json({ message: "Failed to fetch events", error: error.message });
-        return res.render("error", { error });
+      console.error("Error fetching events:", error);
+      return res.status(500).json({ message: "Failed to fetch events", error: error.message });
     }
-});
+  });
+  
 router.get('/', (req, res) => {
     const nonce = res.locals.nonce;
     try {

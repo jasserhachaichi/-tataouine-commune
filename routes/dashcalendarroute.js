@@ -83,6 +83,12 @@ router.delete("/deleteevents/:id2", async (req, res) => {
 
     // Find the event by ID
     const event = await Event.findById(eventId2);
+
+    // Check if the event is found
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
     // Remove associated files
     const filesToDelete = [
       ...event.slogospath,
@@ -92,7 +98,7 @@ router.delete("/deleteevents/:id2", async (req, res) => {
     ];
 
     filesToDelete.forEach(filePath => {
-      if (filePath != "/images/BgEvent-default.jpg") {
+      if (filePath !== "/images/BgEvent-default.jpg") {
         const fullPath = path.join(__dirname, '..', 'attachments', filePath);
         fs.unlink(fullPath, (err) => {
           if (err) {
@@ -104,13 +110,11 @@ router.delete("/deleteevents/:id2", async (req, res) => {
       }
     });
 
-
     await event.deleteOne(); // Use deleteOne instead of remove
 
     return res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.log(error);
-    //return res.status(500).json({ message: "Failed to delete event", error: error.message });
     return res.render("error", { error });
   }
 });

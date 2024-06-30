@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     $('#loginForm').submit(function (event) {
         event.preventDefault(); // Prevent the form from submitting normally
@@ -10,28 +9,28 @@ $(document).ready(function () {
         // Send an AJAX request
         $.ajax({
             type: 'POST',
-            url: '/login/verif', // Update the URL based on your server route
+            url: '/login/verif',
             data: formData,
             success: function (response) {
                 // Handle success response
-                //console.log(response);
-                // Call the showAlert function with the message
                 showAlert(response.message, 'alert-success', 'bi-check-circle');
                 window.location.href = '/dashhome';
             },
             error: function (xhr, status, error) {
                 // Handle error response
-                var errors = xhr.responseJSON.errors;
-                if (errors) {
-                    // Display validation errors
-                    //console.log(errors);
-                    errors.forEach(function (errorItem) {
-                        showAlert(errorItem.message, 'alert-danger', 'bi-file-excel');
-                    });
-                } else {
-                    // Display general error message
-                    var message = xhr.responseJSON.message || 'An error occurred';
+                if (xhr.status === 429) {
+                    var message =  "Too many login attempts from this IP, please try again after 15 minutes";
                     showAlert(message, 'alert-danger', 'bi-file-excel');
+                } else {
+                    var errorResponse = xhr.responseJSON;
+                    if (errorResponse && errorResponse.errors) {
+                        errorResponse.errors.forEach(function (errorItem) {
+                            showAlert(errorItem.message, 'alert-danger', 'bi-file-excel');
+                        });
+                    } else {
+                        var message = errorResponse && errorResponse.message ? errorResponse.message : 'An error occurred';
+                        showAlert(message, 'alert-danger', 'bi-file-excel');
+                    }
                 }
             },
             complete: function () {

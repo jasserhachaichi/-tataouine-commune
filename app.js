@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const crypto = require("crypto");
 const path = require("path");
 const cron = require('node-cron');
+const rateLimit = require("express-rate-limit");
 // Init App
 const app = express();
 
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString("base64"); // Generate nonce
     next();
 });
+
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -134,6 +136,15 @@ cron.schedule('0 18 * * 5', async () => {
         console.error('Error sending newsletter:', error);
     }
 });
+// Define rate limiter
+const loginLimiter = rateLimit({
+    windowMs: 15* 60 * 1000, // 15 minutes * 60
+    max: 10, // Limit each IP to 10 login requests per `window` (here, per 15 minutes)
+    message: "Too many login attempts from this IP, please try again after 15 minutes",
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+app.use("/login/verif", loginLimiter);
 
 // url Routes
 app.get('/', (req, res) => {

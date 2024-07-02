@@ -1,4 +1,4 @@
-<%- include('./commun/head',{nonce, titre: 'Event'}) %>
+<%- include('./commun/head',{nonce, titre: 'Event',pageTags: event && event.tags != null ?  event.tags :''}) %>
 <!-- <script nonce="<%= nonce %>"  0="./plugin/calendar/simplebar.min.js"></script>
 <script nonce="<%= nonce %>"  src="./plugin/calendar/config.js"></script> -->
 
@@ -917,7 +917,7 @@ h3,
                       </span></p>
                     <% } %>
                     <p class="fs-9  fw-bold mb-1">
-                      <svg class="svg-inline--fa fa-clock text-body-secondary me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                      <svg class="svg-inline--fa fa-clock text-body-secondary me-1" width="16px" height="16px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
                         <path fill="currentColor" d="M256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512zM232 256C232 264 236 271.5 242.7 275.1L338.7 339.1C349.7 347.3 364.6 344.3 371.1 333.3C379.3 322.3 376.3 307.4 365.3 300L280 243.2V120C280 106.7 269.3 96 255.1 96C242.7 96 231.1 106.7 231.1 120L232 256z">
                         </path>
                       </svg>
@@ -929,7 +929,7 @@ h3,
 
                     <% if (levent.venue || levent.country || levent.state || levent.city) { %>
                     <p class="fs-9  fw-bold mb-0">
-                      <svg class="svg-inline--fa fa-location-dot text-body-secondary me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
+                      <svg class="svg-inline--fa fa-location-dot text-body-secondary me-1" width="16px" height="16px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
                         <path fill="currentColor" d="M168.3 499.2C116.1 435 0 279.4 0 192C0 85.96 85.96 0 192 0C298 0 384 85.96 384 192C384 279.4 267 435 215.7 499.2C203.4 514.5 180.6 514.5 168.3 499.2H168.3zM192 256C227.3 256 256 227.3 256 192C256 156.7 227.3 128 192 128C156.7 128 128 156.7 128 192C128 227.3 156.7 256 192 256z">
                         </path>
                       </svg>

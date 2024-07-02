@@ -3,6 +3,7 @@ const router = express.Router();
 const Blog = require('./../models/Blog');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
 
 router.use(express.static("public"));
 
@@ -106,10 +107,13 @@ router.get("/delete/:id", async (req, res) => {
     }
 });
 router.get('/:id', async (req, res) => {
+    const blogId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+        return res.redirect("/404");
+      }
     const isUser = req.userRole;
     const nonce = res.locals.nonce;
     try {
-        const blogId = req.params.id;
         //let query = {};
         var { search, page } = req.query;
         const perPage = 6;
@@ -128,7 +132,8 @@ router.get('/:id', async (req, res) => {
 
         const blog = await Blog.findById(blogId).select('-attachments -autor -subtitle -coverIMGpath -nb_views -details -tags').exec();
         if (!blog) {
-            return res.status(404).send('Blog post not found');
+            //return res.status(404).send('Blog post not found');
+            return res.redirect("/404");
         }
 
         let filteredComments = blog.comments;

@@ -5,6 +5,7 @@ const Blog = require('./../models/Blog');
 const transporter = require('../config/nodemailer');
 const fs = require('fs');
 const ejs = require('ejs');
+const mongoose = require('mongoose');
 
 router.use(express.static("public"));
 
@@ -51,7 +52,7 @@ router.get("/", async (req, res) => {
         const skip = (pageNumber - 1) * perPage;
 
         var blogs = await Blog.find(query)
-        .sort({ createdAt: -1 })
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(perPage); // Limit number of results per page
 
@@ -60,7 +61,7 @@ router.get("/", async (req, res) => {
             currentPage: pageNumber,
             totalPages: Math.ceil(await Blog.countDocuments(query) / perPage),
             search: search,
-            isNewBlog: isNewBlog,nonce
+            isNewBlog: isNewBlog, nonce
         });
     } catch (error) {
         console.error(error);
@@ -70,6 +71,9 @@ router.get("/", async (req, res) => {
 });
 router.get('/:id', async (req, res) => {
     const blogId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(blogId)) {
+        return res.redirect("/404");
+    }
     const limit = 2;
 
     const nonce = res.locals.nonce;
@@ -77,12 +81,12 @@ router.get('/:id', async (req, res) => {
     try {
         //const blog = await Blog.findById(blogId).select('-comments');
         var blog = await Blog.findByIdAndUpdate(blogId, { $inc: { nb_views: 1 } }, { new: true }).select('-comments');
-        blog.attachments.forEach(att => {
-            att.path = att.path.replace(/\\/g, '/').replace('attachments/', '/');
-        });
         if (!blog) {
             return res.redirect("/404");
         }
+        blog.attachments.forEach(att => {
+            att.path = att.path.replace(/\\/g, '/').replace('attachments/', '/');
+        });
         // Find the blog by ID
         const blogAllc = await Blog.findById(blogId);
         const mainComments = blogAllc.comments.slice(0, limit);
@@ -106,7 +110,7 @@ router.get('/:id', async (req, res) => {
         const nextBlog = await Blog.findOne({ _id: { $gt: blogId } }).select('title _id').sort({ _id: 1 });
         const prevBlog = await Blog.findOne({ _id: { $lt: blogId } }).select('title _id').sort({ _id: -1 });
 
-        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments,nonce });
+        return res.render("blog", { blog: blog, mainComments: mainComments, nextBlog: nextBlog, prevBlog: prevBlog, totalComments: totalComments, limit: limit, totalccm: totalmainCommentsComments, nonce });
     } catch (error) {
         console.error(error);
         //return res.status(500).send('Internal Server Error');
@@ -389,7 +393,7 @@ router.post("/:id/Rcomment", async (req, res) => {
         const baseYear = 2024;
         const yearText = currentYear === baseYear ? baseYear : `${baseYear}-${currentYear}`;
 
-        const emailvar = { name_dest,name,blogtitle,destcomment,comment, yearText };
+        const emailvar = { name_dest, name, blogtitle, destcomment, comment, yearText };
         const templatePath = path.join(__dirname, '../Emailmodels/answercomment.ejs');
 
         fs.readFile(templatePath, 'utf8', (error, template) => {

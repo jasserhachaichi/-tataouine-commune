@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 router.use(express.static("public"));
 const Event = require("./../models/Event");
+const mongoose = require('mongoose');
 
 
 router.get("/allevents", async (req, res) => {
@@ -48,9 +49,17 @@ router.get('/', (req, res) => {
 })
 router.get('/:id', async (req, res) => {
     const nonce = res.locals.nonce;
+    const eventId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.redirect("/404");
+    }
+
     try {
-        const eventId = req.params.id;
+        
         var event = await Event.findById(eventId);
+        if (!event){
+          return res.redirect("/404");
+        }
 
         // Current date
         const now = new Date();

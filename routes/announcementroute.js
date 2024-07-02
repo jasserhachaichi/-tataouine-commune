@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Announcement = require('../models/Announcement');
 const fs = require('fs');
+const mongoose = require('mongoose');
 
 router.use(express.static("public"));
 
@@ -53,9 +54,9 @@ router.get("/", async (req, res) => {
             .skip(skip)
             .limit(perPage); // Limit number of results per page
 
-            announcements.forEach(announce => {
-                announce.path =announce.path;
-              });
+        announcements.forEach(announce => {
+            announce.path = announce.path;
+        });
 
 
 
@@ -66,7 +67,7 @@ router.get("/", async (req, res) => {
             totalPages: Math.ceil(await Announcement.countDocuments(query) / perPage),
             search: search,
             sortOrder: sortOrder,
-            statusFilter: statusFilter,nonce
+            statusFilter: statusFilter, nonce
         });
 
     } catch (error) {
@@ -76,24 +77,27 @@ router.get("/", async (req, res) => {
 });
 // GET route for showing Announcement content by ID
 router.get("/:id", async (req, res) => {
+    const announcementId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(announcementId)) {
+        return res.redirect("/404");
+    }
     const nonce = res.locals.nonce;
     try {
-        const announcementId = req.params.id; // Get the announcement ID from the request parameters
 
         // Find the Announcement by ID in the database
         const announcement = await Announcement.findById(announcementId);
-
-        announcement.attachments.forEach(att => {
-            att.path =  att.path.replace(/\\/g, '/').replace('attachments/', '/');
-        });
-
         if (!announcement) {
             // If no announcement is found, redirect to a 404 page or handle the error appropriately
             return res.redirect("/404");
         }
 
+        announcement.attachments.forEach(att => {
+            att.path = att.path.replace(/\\/g, '/').replace('attachments/', '/');
+        });
+
+
         // Render the EJS template with the announcement data
-        return res.render("announcement", { announcement,nonce });
+        return res.render("announcement", { announcement, nonce });
     } catch (error) {
         console.error(error);
         //return res.redirect("/404");

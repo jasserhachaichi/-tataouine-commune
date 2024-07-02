@@ -4,6 +4,7 @@ const router = express.Router();
 const FormData = require('../models/FormData');
 const { authorize, uploadFile, appendToSheet, deleteFolder } = require('./../config/googledrive');
 const fs = require('fs');
+const mongoose = require('mongoose');
 router.use(express.static("public"));
 
 const multer = require('multer');
@@ -62,10 +63,16 @@ router.get("/", (req, res) => {
 // Assuming you're rendering an EJS file, pass the data to it
 router.get('/:id', isLoggedIn, async (req, res) => {
     const formId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(formId)) {
+        return res.redirect("/404");
+    }
     const nonce = res.locals.nonce;
     const visitorCookie = req.cookies.visitor;
     try {
-
+        var document = await FormData.findById(formId);
+        if (!document) {
+            return res.redirect("/404");
+        }
         //console.log(visitorCookie);
         const visitor = JSON.parse(decodeURIComponent(visitorCookie));
         res.render('dashboard/form', { formId, visitorName: visitor.name, visitorEmail: visitor.email, nonce });
@@ -126,6 +133,9 @@ router.get('/delete/:id', async (req, res) => {
 
 router.post('/answer/:id', isLoggedIn, upload.any(), async (req, res) => {
     const formDataId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(formDataId)) {
+        return res.redirect("/404");
+      }
     const bodyValues = req.body;
     const visitorCookie = req.cookies.visitor;
     try {

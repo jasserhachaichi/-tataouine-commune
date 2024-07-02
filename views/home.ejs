@@ -1,4 +1,4 @@
-<%- include('./commun/head',{nonce, titre: 'Home'}) %>
+<%- include('./commun/head',{nonce, titre: 'Home',pageTags:''}) %>
 <link rel="stylesheet" href="plugin/twentytwenty/twentytwenty.css">
 </head>
 
@@ -654,6 +654,8 @@
             position: "right",
             backgroundColor: "#198754",
           }).showToast();
+          $('#subscribeForm').trigger('reset');
+
         } else if (response.status === 400) {
           Toastify({
             text: data.message || "Email already exists",

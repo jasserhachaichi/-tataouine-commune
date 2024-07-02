@@ -8,6 +8,7 @@ const ejs = require('ejs');
 const multer = require('multer');
 const transporter = require('../config/nodemailer');
 const followerModel = require('./../models/Follower');
+const mongoose = require('mongoose');
 
 router.use(express.static('public'));
 
@@ -95,10 +96,13 @@ router.get('/follower/:id', async (req, res) => {
 
 
 router.get("/:id", async (req, res) => {
+    const emailId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(emailId)) {
+        return res.redirect("/404");
+      }
     const nonce = res.locals.nonce;
     try {
         const isUser = req.userRole;
-        const emailId = req.params.id;
         const email = await Email.findById(emailId);
 
         if (!email) {

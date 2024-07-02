@@ -82,26 +82,26 @@
                         <div class="col-md-6 col-12">
                           <div class="form-group">
                             <label for="email-id-column" class="form-label">E-mail</label>
-                            <input type="email" id="email-id-column" class="form-control" name="email-id-column" placeholder="Email" data-parsley-trigger="change" />
+                            <input type="email" id="email-id-column" class="form-control" name="email-id-column" placeholder="Email" />
                           </div>
                         </div>
 
                         <div class="col-md-6 col-12">
                           <div class="form-group mandatory">
                             <label for="pwdold-id-column" class="form-label">Ancien mot de passe</label>
-                            <input type="text" id="pwdold-id-column" class="form-control" name="pwdold-id-column" placeholder="Old Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                            <input type="text" id="pwdold-id-column" class="form-control" name="pwdold-id-column" placeholder="Old Password" />
                           </div>
                         </div>
                         <div class="col-md-6 col-12">
                           <div class="form-group">
                             <label for="password-id-column" class="form-label">Nouveau mot de passe</label>
-                            <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="New Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." />
+                            <input type="text" id="password-id-column" class="form-control" name="password-id-column" placeholder="New Password" />
                           </div>
                         </div>
                         <div class="col-md-6 col-12">
                           <div class="form-group">
                             <label for="cpassword-id-column" class="form-label">Confirmer nouveau mot de passe</label>
-                            <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirm New Password" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-equalto="#password-id-column" data-parsley-error-message="Passwords must match." />
+                            <input type="text" id="cpassword-id-column" class="form-control" name="cpassword-id-column" placeholder="Confirm New Password"  />
                           </div>
                         </div>
 
@@ -136,8 +136,8 @@
 
 
 
-  <script nonce="<%= nonce %>" src="assets/extensions/parsleyjs/parsley.min.js"></script>
-  <script nonce="<%= nonce %>" src="assets/static/js/pages/parsley.js"></script>
+<!--   <script nonce="<%= nonce %>" src="assets/extensions/parsleyjs/parsley.min.js"></script> -->
+<!--   <script nonce="<%= nonce %>" src="assets/static/js/pages/parsley.js"></script> -->
   <script nonce="<%= nonce %>" src="assets/extensions/toastify-js/src/toastify.js"></script>
   <script nonce="<%= nonce %>" src="pages/jsa.js"></script>
 

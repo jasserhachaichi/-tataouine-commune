@@ -26,8 +26,8 @@ router.post('/addNewuser', [
     // Validate and sanitize fields
     body('lname-column').notEmpty().withMessage('Last name is required'),
     body('password-id-column').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
-        .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$/)
-        .withMessage('Password must contain at least one letter, one digit, and one of the following special characters: @#$%^&+='),
+        .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#%^&+=])[^$]{8,}$/)
+        .withMessage('Password must contain at least one letter, one digit, and one of the following special characters: @#%^&+='),
     body('fname-column').notEmpty().withMessage('First name is required'),
     body('email-id-column').notEmpty().withMessage('Email is required').isEmail().withMessage('Invalid email address')
 ], async (req, res) => {

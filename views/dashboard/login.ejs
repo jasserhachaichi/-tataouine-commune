@@ -33,7 +33,7 @@
 
 
             <div class="form-group position-relative has-icon-left mb-4">
-              <input type="password" name="password" class="form-control form-control-xl" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#$%^&+= ." placeholder="Password">
+              <input type="password" name="password" class="form-control form-control-xl" data-parsley-trigger="change" data-parsley-minlength="8" data-parsley-required="true" data-parsley-pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#%^&+=])[^$]{8,}$" data-parsley-error-message="Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une lettre et un caractère spécial @#%^&+= ." placeholder="Password">
               <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
               </div>

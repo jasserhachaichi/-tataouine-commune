@@ -54,64 +54,92 @@ $(document).ready(function () {
     var email = $('#email-id-column').val().trim();
     var newPwd = $('#password-id-column').val().trim();
     //var oldPwd = $('#pwdold-id-column').val().trim();
-
-    if (!fname && !lname && !email && !newPwd) {
-      Toastify({
-        text: "Les champs sont vides",
-        duration: 3000,
-        close: true,
-        gravity: "bottom",
-        position: "right",
-        backgroundColor: "#198754",
-      }).showToast();
-      $('#myform #submit-button').prop('disabled', false).html('Mise à jour');
-    } else if ($(this).parsley().isValid()) {
-      var formData = $(this).serialize();
-      //console.log(formData);
-      $.ajax({
-        url: '/users/updateadmin',
-        type: 'POST',
-        data: formData,
-        success: function (response) {
+    /* 
+        if (!fname && !lname && !email && !newPwd) {
           Toastify({
-            text: response.message,
+            text: "Les champs sont vides",
             duration: 3000,
             close: true,
             gravity: "bottom",
             position: "right",
             backgroundColor: "#198754",
           }).showToast();
-          var formDataObject = {};
-          formData.split('&').forEach(function (pair) {
-            var [key, value] = pair.split('=');
-            formDataObject[decodeURIComponent(key)] = decodeURIComponent(value);
-          });
-          if (formDataObject['email-id-column']) {
-            $("#email").text(formDataObject['email-id-column']);
-          }
-          if (formDataObject['lname-column']) {
-            $("#lname").text(formDataObject['lname-column']);
-          }
-          if (formDataObject['fname-column']) {
-            $("#fname").text(formDataObject['fname-column']);
-          }
           $('#myform #submit-button').prop('disabled', false).html('Mise à jour');
-          $('#myform').trigger('reset');
-        },
-        error: function (xhr, status, error) {
-          console.error(error);
+        } else if ($(this).parsley().isValid()) { */
+    var formData = $(this).serialize();
+
+
+
+
+
+
+    //console.log(formData);
+    $.ajax({
+      url: '/users/updateadmin',
+      type: 'POST',
+      data: formData,
+      success: function (response) {
+        Toastify({
+          text: response.message,
+          duration: 3000,
+          close: true,
+          gravity: "bottom",
+          position: "right",
+          backgroundColor: "#198754",
+        }).showToast();
+        var formDataObject = {};
+        formData.split('&').forEach(function (pair) {
+          var [key, value] = pair.split('=');
+          formDataObject[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+
+        if (formDataObject['email-id-column']) {
+          $("#email").text(formDataObject['email-id-column']);
+        }
+        if (formDataObject['lname-column']) {
+          $("#lname").text(formDataObject['lname-column']);
+        }
+        if (formDataObject['fname-column']) {
+          $("#fname").text(formDataObject['fname-column']);
+        }
+        $('#myform #submit-button').prop('disabled', false).html('Mise à jour');
+        $('#myform').trigger('reset');
+      },
+      error: function (xhr, status, error) {
+        var response = xhr.responseJSON;
+        if (Array.isArray(response.error)) {
+          if (response && response.error) {
+            response.error.forEach(function (err) {
+              Toastify({
+                text: err.msg,
+                duration: -1,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#dc3545",
+              }).showToast();
+            });
+          }
+        }else{
           Toastify({
-            text: xhr.responseJSON.errors || 'An error occurred',
-            duration: 5000,
+            text: response.error,
+            duration: -1,
             close: true,
             gravity: "bottom",
             position: "right",
             backgroundColor: "#dc3545",
           }).showToast();
-          $('#submit-button').prop('disabled', false).html('Mise à jour');
         }
-      });
-    }
+
+
+        $('#submit-button').prop('disabled', false).html('Mise à jour');
+      }
+
+
+
+
+    });
+    /* } */
   });
 
   $('#reset-button').click(function () {

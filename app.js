@@ -115,6 +115,25 @@ app.use((req, res, next) => {
     next();
 });
 
+//sanitizes user-supplied data to prevent MongoDB Operator Injection.
+const mongoSanitize = require('express-mongo-sanitize');
+app.use(
+    mongoSanitize({
+        replaceWith: '_',
+        onSanitize: ({ req, key }) => {
+            console.warn(`This request[${key}] is sanitized`, req);
+        },
+    }),
+);
+// xss-filters
+const xss = require('xss-clean');
+app.use(xss())
+const clean = require('xss-clean/lib/xss').clean
+const cleaned = clean('<script></script>')
+// will return "&lt;script>&lt;/script>"
+
+
+
 //Weekly Newsletter
 const followerModel = require('./models/Follower');
 const sendNewsletter = require("./config/weeklyNewsletter.js");
@@ -138,7 +157,7 @@ cron.schedule('0 18 * * 5', async () => {
 });
 // Define rate limiter
 const loginLimiter = rateLimit({
-    windowMs: 15* 60 * 1000, // 15 minutes * 60
+    windowMs: 15 * 60 * 1000, // 15 minutes * 60
     max: 10, // Limit each IP to 10 login requests per `window` (here, per 15 minutes)
     message: "Too many login attempts from this IP, please try again after 15 minutes",
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers

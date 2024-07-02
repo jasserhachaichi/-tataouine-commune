@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const ejs = require('ejs');
+const { body, validationResult } = require('express-validator');
 router.use(express.static("public"));
 
 
@@ -215,7 +216,7 @@ router.post("/forgot-password", async (req, res) => {
         if (!adminUser) {
             return res.status(404).json({ message: "Utilisateur non trouvé" });
         }
-        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&+=";
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#%^&+=";
         let password = "";
         for (let i = 0; i < 15; i++) {
             const randomIndex = Math.floor(Math.random() * charset.length);
@@ -332,7 +333,14 @@ router.post("/forgot-password", async (req, res) => {
         return res.render("error", { error });
     }
 });
-router.post('/updateadmin', async (req, res) => {
+router.post('/updateadmin', [
+    body('pwdold-id-column').notEmpty().matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#%^&+=])[^$]{8,}$/).withMessage('Old Password required and must contain at least one letter, one digit, and one of the following special characters: @#%^&+='),
+], async (req, res) => {
+    const errorsval = validationResult(req);
+    console.log(errorsval)
+    if (!errorsval.isEmpty()) {
+        return res.status(400).json({ error: errorsval.array() });
+    }
     try {
         //console.log(req.body);
         const { 'fname-column': fnameColumn, 'lname-column': lnameColumn, 'email-id-column': emailIdColumn, 'password-id-column': passwordIdColumn, 'pwdold-id-column': pwdoldIdColumn } = req.body;
@@ -351,16 +359,26 @@ router.post('/updateadmin', async (req, res) => {
                     existingUser.lastname = lnameColumn;
                 }
                 if (emailIdColumn && emailIdColumn.length > 6) {
+                    // Function to validate email format
+                    const isValidEmail = (email) => {
+                        // Basic email format check using regex
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        return emailRegex.test(email);
+                    };
+                    if (!isValidEmail(emailIdColumn)) {
+                        return res.status(400).json({ error: 'Invalid email address' });
+                    }
+
                     existingUser.email = emailIdColumn;
                     destemail = emailIdColumn;
                 }
-                if (validatePassword(passwordIdColumn) && (passwordIdColumn > 7) && passwordIdColumn) {
+                if (validatePassword(passwordIdColumn) && (passwordIdColumn.length > 7) && passwordIdColumn) {
                     const saltRounds = 10;
                     existingUser.password = await bcrypt.hash(passwordIdColumn, saltRounds);
+                } else if (!validatePassword(passwordIdColumn) && (passwordIdColumn.length > 1)) {
+                    return res.status(400).json({ error: 'Password invalid' });
                 }
-
                 await existingUser.save();
-
 
                 const img1 = path.join(__dirname, '../public/images/CTlogo.png');
                 const img2 = path.join(__dirname, '../public/images/ovclogo.png');
@@ -455,18 +473,16 @@ router.post('/updateadmin', async (req, res) => {
                         });
                     } catch (error) {
                         console.error(error);
-                        return res.status(500).json({ errors: ['Error sending email'] });
+                        return res.status(500).json({ error: ['Error sending email'] });
                     }
 
                 });
 
-                
             } else {
-                return res.status(400).json({ errors: 'Old password incorrect' });
+                return res.status(400).json({ error: 'Old password incorrect' });
             }
+
         }
-
-
     } catch (error) {
         console.error(error);
         //return res.status(500).json({ message: "Internal server error" });
